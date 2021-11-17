@@ -18,7 +18,8 @@
     "types": [
 
 			"node",
-			"http-status"
+			"qs",
+			"http-methods"
 
 		],
     "allowSyntheticDefaultImports": true,
@@ -29,7 +30,7 @@
 
 	"files": [
 
-		"src/http-status.ts"
+		"src/index.ts"
 
 	],
 	"exclude": [
