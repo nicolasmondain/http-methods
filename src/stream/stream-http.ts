@@ -1,3 +1,7 @@
+import {eventEngineMedia} from '../@types/event-engine/eventEngineMedia';
+import {greenScreen} from '../@types/event-engine/greenScreen';
+import {mediaStream} from '../@types/event-engine/mediaStream';
+
 import axios from 'axios';
 import qs from 'qs';
 
@@ -7,23 +11,23 @@ const CONFIG = {headers: {'content-type': 'application/x-www-form-urlencoded'}};
 
 export default {
 
-	getLivefeedAsImage(server, camera){
+	getLivefeedAsImage(url: string, camera: mediaStream): string{
 
-		return`${server}/getLivefeedAsImage/byName/${camera.name}?nocache=${new Date().getTime()}`;
+		return`${url}/getLivefeedAsImage/byName/${camera.name}?nocache=${new Date().getTime()}`;
 
 	},
 
-	startLiveView(server, camera){
+	startLiveView(url: string, camera: mediaStream): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${server}/startLiveView/ByName/${camera.name}`)
+			.get(`${url}/startLiveView/ByName/${camera.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve();
 
 				}else{
 
@@ -42,17 +46,17 @@ export default {
 
 	},
 
-	stopLiveView(server, camera){
+	stopLiveView(url: string, camera: mediaStream): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${server}/stopLiveView/ByName/${camera.name}`)
+			.get(`${url}/stopLiveView/ByName/${camera.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve();
 
 				}else{
 
@@ -71,12 +75,12 @@ export default {
 
 	},
 
-	getLivefeedStatus(server, camera){
+	getLivefeedStatus(url: string, camera: mediaStream): Promise<string>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${server}/getLivefeedStatus/ByName/${camera.name}`)
+			.get(`${url}/getLivefeedStatus/ByName/${camera.name}`)
 			.then((response) => {
 
 				resolve(response.data);
@@ -92,12 +96,12 @@ export default {
 
 	},
 
-	getLastShootErrorMessage(server, camera){
+	getLastShootErrorMessage(url: string, camera: mediaStream): Promise<string>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${server}/getLastShootErrorMessage/ByName/${camera.name}`)
+			.get(`${url}/getLastShootErrorMessage/ByName/${camera.name}`)
 			.then((response) => {
 
 				resolve(response.data);
@@ -113,17 +117,17 @@ export default {
 
 	},
 
-	cancelPending(server, camera){
+	cancelPending(url: string, camera: mediaStream): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${server}/cancelPending/ByName/${camera.name}`)
+			.get(`${url}/cancelPending/ByName/${camera.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve();
 
 				}else{
 
@@ -142,17 +146,17 @@ export default {
 
 	},
 
-	shootAndWait(server, camera, file){
+	shootAndWait(url: string, camera: mediaStream, file: eventEngineMedia): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${server}/shootAndWait/ByName/${camera.name}/${file.name}`)
+			.get(`${url}/shootAndWait/ByName/${camera.name}/${file.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve();
 
 				}else{
 
@@ -171,17 +175,17 @@ export default {
 
 	},
 
-	writePictureStreamToFile(server, camera, file){
+	writePictureStreamToFile(url: string, camera: mediaStream, file: eventEngineMedia): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${server}/writePictureStreamToFile/ByName/${camera.name}/${file.name}`)
+			.get(`${url}/writePictureStreamToFile/ByName/${camera.name}/${file.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve();
 
 				}else{
 
@@ -200,12 +204,12 @@ export default {
 
 	},
 
-	getAvailableFilestreamCount(server, camera){
+	getAvailableFilestreamCount(url: string, camera: mediaStream): Promise<number>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${server}/getAvailableFilestreamCount/ByName/${camera.name}`)
+			.get(`${url}/getAvailableFilestreamCount/ByName/${camera.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -234,17 +238,17 @@ export default {
 
 	},
 
-	deleteFile(server, file){
+	deleteFile(url: string, file: eventEngineMedia): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${server}/deleteFile/${file.name}`)
+			.get(`${url}/deleteFile/${file.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve();
 
 				}else{
 
@@ -263,12 +267,12 @@ export default {
 
 	},
 
-	getFile(server, file){
+	getFile(url: string, file: eventEngineMedia): Promise<string>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${server}/getFile/${file.name}`)
+			.get(`${url}/getFile/${file.name}`)
 			.then((response) => {
 
 				resolve(response.data);
@@ -284,12 +288,12 @@ export default {
 
 	},
 
-	greenscreenOn(server, greenscreen){
+	greenscreenOn(url: string, greenscreen: greenScreen): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${server}/greenscreen/on/`, qs.stringify({
+			.post(`${url}/greenscreen/on/`, qs.stringify({
 
 				F: greenscreen.background,
 				R: greenscreen.R,
@@ -303,7 +307,7 @@ export default {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve();
 
 				}else{
 
@@ -322,17 +326,17 @@ export default {
 
 	},
 
-	greenscreenOff(server){
+	greenscreenOff(url: string): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${server}/greenscreen/off/`)
+			.get(`${url}/greenscreen/off/`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve();
 
 				}else{
 
@@ -351,17 +355,17 @@ export default {
 
 	},
 
-	backgroundGreenScreenArray(server, files){
+	backgroundGreenScreenArray(url: string, files: string): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${server}/backgroundGreenScreenArray/`, qs.stringify({files}), CONFIG)
+			.post(`${url}/backgroundGreenScreenArray/`, qs.stringify({files}), CONFIG)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve();
 
 				}else{
 
@@ -380,17 +384,17 @@ export default {
 
 	},
 
-	updateGreenscreen(server, file){
+	updateGreenscreen(url: string, file: string): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${server}/updateGreenscreen/`, qs.stringify({file}), CONFIG)
+			.post(`${url}/updateGreenscreen/`, qs.stringify({file}), CONFIG)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve();
 
 				}else{
 

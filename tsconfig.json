@@ -19,13 +19,15 @@
 
 			"node",
 			"qs",
-			"http-methods"
+			"http-methods",
+			"event-engine"
 
 		],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+		"removeComments": true
   },
 
 	"files": [

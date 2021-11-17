@@ -1,8 +1,4 @@
-import {
-
-	httpURL
-
-} from './@types/http-methods/index';
+import {eventEngineMedia} from '../@types/event-engine/eventEngineMedia';
 
 import axios from 'axios';
 import qs from 'qs';
@@ -14,7 +10,7 @@ const PARAM_DEBUG_PRINT_SERVER = 0;
 
 export default {
 
-	numberOfLeftPrintSheets(url: httpURL){
+	numberOfLeftPrintSheets(url: string){
 
 		return new Promise((resolve, reject) => {
 
@@ -48,14 +44,14 @@ export default {
 
 	},
 
-	morePrints(server: string, file, copies){
+	morePrints(url: string, file: eventEngineMedia, copies: number): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			const {idFTPevent} = file.meta.current;
 
 			axios
-			.post(`${server}/morePrints/`, qs.stringify({
+			.post(`${url}/morePrints/`, qs.stringify({
 
 				idevent: idFTPevent,
 				copies
@@ -84,12 +80,12 @@ export default {
 
 	},
 
-	print(server: string, file, copies, simulate){
+	print(url: string, file: eventEngineMedia, copies: number, simulate: boolean): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${server}/print/`, qs.stringify({
+			.post(`${url}/print/`, qs.stringify({
 
 				file    : file.path,
 				nbcopies: copies,
