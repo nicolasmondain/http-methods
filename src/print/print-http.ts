@@ -1,4 +1,5 @@
 import {eventEngineMedia} from '../@types/event-engine/eventEngineMedia';
+import {httpMethodsModule} from '../@types/http-methods';
 
 import axios from 'axios';
 import qs from 'qs';
@@ -8,7 +9,7 @@ import httpStatus from '@sharingbox/http-status/dist/browser';
 const CONFIG                   = {headers: {'content-type': 'application/x-www-form-urlencoded'}};
 const PARAM_DEBUG_PRINT_SERVER = 0;
 
-export default {
+const printHttp: httpMethodsModule = {
 
 	numberOfLeftPrintSheets(url: string){
 
@@ -58,6 +59,8 @@ export default {
 
 			}), CONFIG)
 			.then((response) => {
+
+				console.log(response);
 
 				if(httpStatus.isOK(response.status)){
 
@@ -117,3 +120,5 @@ export default {
 	}
 
 };
+
+export default printHttp;

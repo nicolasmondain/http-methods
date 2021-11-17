@@ -8,7 +8,7 @@
   },
   "scripts": {
     "clean": "rimraf ./dist && mkdir dist",
-    "test": "mocha --reporter progress test/*.test.js",
+    "test": "mocha -r ts-node/register test/*.test.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "webpack": "node webpack/build.js"
   },

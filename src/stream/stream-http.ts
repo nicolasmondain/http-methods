@@ -1,5 +1,6 @@
 import {eventEngineMedia} from '../@types/event-engine/eventEngineMedia';
 import {greenScreen} from '../@types/event-engine/greenScreen';
+import {httpMethodsModule} from '../@types/http-methods';
 import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
@@ -9,7 +10,7 @@ import httpStatus from '@sharingbox/http-status/dist/browser';
 
 const CONFIG = {headers: {'content-type': 'application/x-www-form-urlencoded'}};
 
-export default {
+const streamHttp: httpMethodsModule = {
 
 	getLivefeedAsImage(url: string, camera: mediaStream): string{
 
@@ -414,3 +415,5 @@ export default {
 	}
 
 };
+
+export default streamHttp;
