@@ -12,18 +12,18 @@ const CONFIG = {headers: {'content-type': 'application/x-www-form-urlencoded'}};
 
 const streamHttp: httpMethodsModule = {
 
-	getLivefeedAsImage(url: string, camera: mediaStream): string{
+	getLivefeedAsImage(camera: mediaStream): string{
 
-		return`${url}/getLivefeedAsImage/byName/${camera.name}?nocache=${new Date().getTime()}`;
+		return`${camera.url}/getLivefeedAsImage/byName/${camera.name}?nocache=${new Date().getTime()}`;
 
 	},
 
-	startLiveView(url: string, camera: mediaStream): Promise<void>{
+	startLiveView(camera: mediaStream): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${url}/startLiveView/ByName/${camera.name}`)
+			.get(`${camera.url}/startLiveView/ByName/${camera.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -47,12 +47,12 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	stopLiveView(url: string, camera: mediaStream): Promise<void>{
+	stopLiveView(camera: mediaStream): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${url}/stopLiveView/ByName/${camera.name}`)
+			.get(`${camera.url}/stopLiveView/ByName/${camera.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -76,12 +76,41 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	getLivefeedStatus(url: string, camera: mediaStream): Promise<string>{
+	getLivefeedStatus(camera: mediaStream): Promise<string>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${url}/getLivefeedStatus/ByName/${camera.name}`)
+			.get(`${camera.url}/getLivefeedStatus/ByName/${camera.name}`)
+			.then((response) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					resolve(response.data);
+
+				}else{
+
+					reject(new Error(JSON.stringify(response)));
+
+				}
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	getLastShootErrorMessage(camera: mediaStream): Promise<string>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.get(`${camera.url}/getLastShootErrorMessage/ByName/${camera.name}`)
 			.then((response) => {
 
 				resolve(response.data);
@@ -97,33 +126,12 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	getLastShootErrorMessage(url: string, camera: mediaStream): Promise<string>{
+	cancelPending(camera: mediaStream): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${url}/getLastShootErrorMessage/ByName/${camera.name}`)
-			.then((response) => {
-
-				resolve(response.data);
-
-			})
-			.catch((error) => {
-
-				reject(error);
-
-			});
-
-		});
-
-	},
-
-	cancelPending(url: string, camera: mediaStream): Promise<void>{
-
-		return new Promise((resolve, reject) => {
-
-			axios
-			.get(`${url}/cancelPending/ByName/${camera.name}`)
+			.get(`${camera.url}/cancelPending/ByName/${camera.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -147,12 +155,12 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	shootAndWait(url: string, camera: mediaStream, file: eventEngineMedia): Promise<void>{
+	shootAndWait(camera: mediaStream, file: eventEngineMedia): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${url}/shootAndWait/ByName/${camera.name}/${file.name}`)
+			.get(`${camera.url}/shootAndWait/ByName/${camera.name}/${file.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -176,12 +184,12 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	writePictureStreamToFile(url: string, camera: mediaStream, file: eventEngineMedia): Promise<void>{
+	writePictureStreamToFile(camera: mediaStream, file: eventEngineMedia): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${url}/writePictureStreamToFile/ByName/${camera.name}/${file.name}`)
+			.get(`${camera.url}/writePictureStreamToFile/ByName/${camera.name}/${file.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -205,12 +213,12 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	getAvailableFilestreamCount(url: string, camera: mediaStream): Promise<number>{
+	getAvailableFilestreamCount(camera: mediaStream): Promise<number>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${url}/getAvailableFilestreamCount/ByName/${camera.name}`)
+			.get(`${camera.url}/getAvailableFilestreamCount/ByName/${camera.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -239,12 +247,12 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	deleteFile(url: string, file: eventEngineMedia): Promise<void>{
+	deleteFile(camera: mediaStream, file: eventEngineMedia): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${url}/deleteFile/${file.name}`)
+			.get(`${camera.url}/deleteFile/${file.name}`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -268,12 +276,12 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	getFile(url: string, file: eventEngineMedia): Promise<string>{
+	getFile(camera: mediaStream, file: eventEngineMedia): Promise<string>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${url}/getFile/${file.name}`)
+			.get(`${camera.url}/getFile/${file.name}`)
 			.then((response) => {
 
 				resolve(response.data);
@@ -289,12 +297,12 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	greenscreenOn(url: string, greenscreen: greenScreen): Promise<void>{
+	greenscreenOn(camera: mediaStream, greenscreen: greenScreen): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${url}/greenscreen/on/`, qs.stringify({
+			.post(`${camera.url}/greenscreen/on/`, qs.stringify({
 
 				F: greenscreen.background,
 				R: greenscreen.R,
@@ -327,12 +335,12 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	greenscreenOff(url: string): Promise<void>{
+	greenscreenOff(camera: mediaStream): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${url}/greenscreen/off/`)
+			.get(`${camera.url}/greenscreen/off/`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -356,12 +364,12 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	backgroundGreenScreenArray(url: string, files: string): Promise<void>{
+	backgroundGreenScreenArray(camera: mediaStream, files: string): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${url}/backgroundGreenScreenArray/`, qs.stringify({files}), CONFIG)
+			.post(`${camera.url}/backgroundGreenScreenArray/`, qs.stringify({files}), CONFIG)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -385,12 +393,12 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	updateGreenscreen(url: string, file: string): Promise<void>{
+	updateGreenscreen(camera: mediaStream, file: string): Promise<void>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${url}/updateGreenscreen/`, qs.stringify({file}), CONFIG)
+			.post(`${camera.url}/updateGreenscreen/`, qs.stringify({file}), CONFIG)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){

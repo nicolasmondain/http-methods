@@ -6,7 +6,7 @@ webpack(configuration, (error, stats) => {
 
 	if(error){
 
-		return 1;
+		return error;
 
 	}
 
@@ -14,19 +14,15 @@ webpack(configuration, (error, stats) => {
 
 	if(jsonStats.errorsCount){
 
-		console.log('Webpack generated the following errors:');
 		return jsonStats.errors.map((stat) => console.log(stat));
 
 	}
 
 	if(jsonStats.warningsCount){
 
-		console.log('Webpack generated the following warnings:');
 		return jsonStats.warnings.map((stat) => console.log(stat));
 
 	}
-
-	console.log(`Your app has been built for ${process.env.TARGET}`);
 
 	return 0;
 

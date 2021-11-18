@@ -2,11 +2,10 @@ const path = require('path');
 
 const configuration = {
 
-	entry  : [path.resolve(__dirname, '../src/index.ts')],
-	mode   : 'production',
-	devtool: 'inline-source-map',
-	target : 'web',
-	output : {
+	entry : [path.resolve(__dirname, '../src/index.ts')],
+	mode  : 'production',
+	target: 'web',
+	output: {
 
 		path          : path.resolve(__dirname, '../dist'),
 		filename      : 'index.js',

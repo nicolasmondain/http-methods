@@ -75,6 +75,8 @@ const printHttp: httpMethodsModule = {
 			})
 			.catch((error) => {
 
+				console.log(error);
+
 				reject(error);
 
 			});
