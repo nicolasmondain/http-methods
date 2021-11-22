@@ -1,13 +1,13 @@
 import {httpMethodsModule} from '../@types/http-methods';
+import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
-
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 const streamHttpSettings: httpMethodsModule = {
 
-	changeOrientation(camera: mediaStream, orientation: string): Promise<void>{
+	changeOrientation(camera: mediaStream, orientation: string): Promise<httpResponse>{
 
 		const options = ['Default', 'Flip right', 'Flip left', 'Upside down'];
 
@@ -19,7 +19,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -38,7 +38,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 	},
 
-	getAvailableIso(camera: mediaStream): Promise<number>{
+	getAvailableIso(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -53,7 +53,7 @@ const streamHttpSettings: httpMethodsModule = {
 					iso = Number.parseInt(response.data, 10);
 					iso = Number.isNaN(iso) ? 0 : iso;
 
-					resolve(iso);
+					resolve(httpStatus.formatResponse(response.status, response.statusText, iso));
 
 				}else{
 
@@ -72,7 +72,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 	},
 
-	getAvailableWb(camera: mediaStream): Promise<string>{
+	getAvailableWb(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -82,7 +82,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -101,7 +101,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 	},
 
-	getAvailableTv(camera: mediaStream): Promise<string>{
+	getAvailableTv(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -111,7 +111,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -130,7 +130,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 	},
 
-	getFrameSizes(camera: mediaStream): Promise<string>{
+	getFrameSizes(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -140,7 +140,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -158,8 +158,6 @@ const streamHttpSettings: httpMethodsModule = {
 		});
 
 	}
-
-	// saveServices(){}
 
 };
 

@@ -1,18 +1,11 @@
-import {
-
-	getCameraListResponse,
-	httpMethodsModule
-
-} from '../@types/http-methods';
-
+import {httpMethodsModule} from '../@types/http-methods';
+import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
-
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 import streamHttpGreenscreen from './stream-http-greenscreen';
-import streamHttpLivefeed from './stream-http-livefeed';
 import streamHttpLiveview from './stream-http-liveview';
 import streamHttpRecord from './stream-http-record';
 import streamHttpSettings from './stream-http-settings';
@@ -20,7 +13,7 @@ import streamHttpShoot from './stream-http-shoot';
 
 const streamHttp: httpMethodsModule = {
 
-	version(camera: mediaStream): Promise<string>{
+	version(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -30,7 +23,7 @@ const streamHttp: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -60,7 +53,7 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	areYouHere(camera: mediaStream): Promise<void>{
+	areYouHere(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -70,7 +63,7 @@ const streamHttp: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -89,7 +82,7 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	getCameraList(camera: mediaStream): Promise<getCameraListResponse>{
+	getCameraList(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -99,7 +92,7 @@ const streamHttp: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve(response.data);
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -124,7 +117,6 @@ export default Object.assign(
 
 	streamHttp,
 	streamHttpGreenscreen,
-	streamHttpLivefeed,
 	streamHttpLiveview,
 	streamHttpRecord,
 	streamHttpSettings,

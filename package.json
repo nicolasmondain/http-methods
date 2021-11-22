@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "rimraf ./dist && mkdir dist",
     "test:print": "mocha -r ts-node/register test/print.test.ts",
-    "test:stream": "mocha -r ts-node/register test/stream-livefeed.test.ts",
+    "test:stream": "mocha -r ts-node/register test/stream*.test.ts",
     "test": "mocha -r ts-node/register test/*.test.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "webpack": "node webpack/build.js"

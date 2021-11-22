@@ -1,14 +1,14 @@
 import {eventEngineMedia} from '../@types/event-engine/eventEngineMedia';
 import {httpMethodsModule} from '../@types/http-methods';
+import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
-
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 const streamHttpShoot: httpMethodsModule = {
 
-	shootAndWait(camera: mediaStream, file: eventEngineMedia): Promise<void>{
+	shootAndWait(camera: mediaStream, file: eventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -18,7 +18,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -37,7 +37,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	getLastShootErrorMessage(camera: mediaStream): Promise<string>{
+	getLastShootErrorMessage(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -45,7 +45,7 @@ const streamHttpShoot: httpMethodsModule = {
 			.get(`${camera.url}/getLastShootErrorMessage/ByName/${camera.name}`)
 			.then((response) => {
 
-				resolve(response.data);
+				resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 			})
 			.catch((error) => {
@@ -58,7 +58,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	cancelPending(camera: mediaStream): Promise<void>{
+	cancelPending(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -68,7 +68,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -87,7 +87,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	stopMulticamAutoDownload(camera: mediaStream): Promise<void>{
+	stopMulticamAutoDownload(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -97,7 +97,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -116,7 +116,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	writePictureStreamToFile(camera: mediaStream, file: eventEngineMedia): Promise<void>{
+	writePictureStreamToFile(camera: mediaStream, file: eventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -126,7 +126,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -145,7 +145,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	getAvailableFilestreamCount(camera: mediaStream): Promise<number>{
+	getAvailableFilestreamCount(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -160,7 +160,7 @@ const streamHttpShoot: httpMethodsModule = {
 					count = Number.parseInt(response.data, 10);
 					count = Number.isNaN(count) ? 0 : count;
 
-					resolve(count);
+					resolve(httpStatus.formatResponse(response.status, response.statusText, count));
 
 				}else{
 
@@ -179,7 +179,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	deleteFile(camera: mediaStream, file: eventEngineMedia): Promise<void>{
+	deleteFile(camera: mediaStream, file: eventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -189,7 +189,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -208,7 +208,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	getFile(camera: mediaStream, file: eventEngineMedia): Promise<string>{
+	getFile(camera: mediaStream, file: eventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -216,7 +216,7 @@ const streamHttpShoot: httpMethodsModule = {
 			.get(`${camera.url}/getFile/${file.name}`)
 			.then((response) => {
 
-				resolve(response.data);
+				resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 			})
 			.catch((error) => {
@@ -228,8 +228,6 @@ const streamHttpShoot: httpMethodsModule = {
 		});
 
 	}
-
-	// getShootAsImage(){}
 
 };
 

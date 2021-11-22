@@ -1,17 +1,17 @@
 import {eventEngineMedia} from '../@types/event-engine/eventEngineMedia';
 import {httpMethodsModule} from '../@types/http-methods';
+import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
-import qs from 'qs';
-
 import httpStatus from '@sharingbox/http-status/dist/browser';
+import qs from 'qs';
 
 const CONFIG = {headers: {'content-type': 'application/x-www-form-urlencoded'}};
 
 const streamHttpRecord: httpMethodsModule = {
 
-	startRecording(camera: mediaStream, folder: string, file: eventEngineMedia): Promise<void>{
+	startRecording(camera: mediaStream, folder: string, file: eventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -26,7 +26,7 @@ const streamHttpRecord: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -45,7 +45,7 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	startRecordingWithPicture(camera: mediaStream, folder: string, file: eventEngineMedia, preview: eventEngineMedia): Promise<void>{
+	startRecordingWithPicture(camera: mediaStream, folder: string, file: eventEngineMedia, preview: eventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -61,7 +61,7 @@ const streamHttpRecord: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -80,7 +80,7 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	stopRecording(camera: mediaStream): Promise<void>{
+	stopRecording(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -90,7 +90,7 @@ const streamHttpRecord: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -109,7 +109,7 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	saveRecording(camera: mediaStream): Promise<void>{
+	saveRecording(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -119,7 +119,7 @@ const streamHttpRecord: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -137,8 +137,6 @@ const streamHttpRecord: httpMethodsModule = {
 		});
 
 	}
-
-	// cleanRecording(){}
 
 };
 

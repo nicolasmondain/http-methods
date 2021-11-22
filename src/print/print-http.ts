@@ -1,5 +1,6 @@
 import {eventEngineMedia} from '../@types/event-engine/eventEngineMedia';
 import {httpMethodsModule} from '../@types/http-methods';
+import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
 import axios from 'axios';
 import qs from 'qs';
@@ -11,7 +12,7 @@ const PARAM_DEBUG_PRINT_SERVER = 0;
 
 const printHttp: httpMethodsModule = {
 
-	numberOfLeftPrintSheets(url: string){
+	numberOfLeftPrintSheets(url: string): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -26,7 +27,7 @@ const printHttp: httpMethodsModule = {
 					number = Number.parseInt(response.data, 10);
 					number = Number.isNaN(number) ? 0 : number;
 
-					resolve(number);
+					resolve(httpStatus.formatResponse(response.status, response.statusText, number));
 
 				}else{
 
@@ -45,7 +46,7 @@ const printHttp: httpMethodsModule = {
 
 	},
 
-	morePrints(url: string, file: eventEngineMedia, copies: number): Promise<void>{
+	morePrints(url: string, file: eventEngineMedia, copies: number): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -60,11 +61,9 @@ const printHttp: httpMethodsModule = {
 			}), CONFIG)
 			.then((response) => {
 
-				console.log(response);
-
 				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
@@ -75,8 +74,6 @@ const printHttp: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				console.log(error);
-
 				reject(error);
 
 			});
@@ -85,7 +82,7 @@ const printHttp: httpMethodsModule = {
 
 	},
 
-	print(url: string, file: eventEngineMedia, copies: number, simulate: boolean): Promise<void>{
+	print(url: string, file: eventEngineMedia, copies: number, simulate: boolean): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -102,7 +99,7 @@ const printHttp: httpMethodsModule = {
 
 				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
 				}else{
 
