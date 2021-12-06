@@ -15,7 +15,7 @@ const streamHttpLiveview: httpMethodsModule = {
 			.get(`${camera.url}/startLiveView/ByName/${camera.name}`)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
+				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
 
 					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
@@ -44,7 +44,7 @@ const streamHttpLiveview: httpMethodsModule = {
 			.get(`${camera.url}/stopLiveView/ByName/${camera.name}`)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
+				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
 
 					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 

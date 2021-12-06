@@ -9,8 +9,8 @@
   "scripts": {
     "clean": "rimraf ./dist && mkdir dist",
     "test:print": "mocha -p false  -r ts-node/register test/print.test.ts",
-		"test:stream:webcam": "env CAMERA=WEBCAM mocha -p false -r ts-node/register test/stream-shoot.test.ts",
-    "test:stream:eos": "env CAMERA=EOS mocha -p false -r ts-node/register test/stream-shoot.test.ts",
+		"test:stream:webcam": "env CAMERA=WEBCAM mocha -p false -r ts-node/register test/stream*.test.ts",
+    "test:stream:eos": "env CAMERA=EOS mocha -p false -r ts-node/register test/stream*.test.ts",
 		"test:stream": "npm run test:stream:webcam & npm run test:stream:eos",
     "test": "mocha -p false -r ts-node/register test/*.test.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",

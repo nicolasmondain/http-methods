@@ -117,7 +117,7 @@ const streamHttpRecord: httpMethodsModule = {
 			.get(`${camera.url}/cleanRecording/`)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
+				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
 
 					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 

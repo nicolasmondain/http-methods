@@ -21,7 +21,7 @@ const streamHttp: httpMethodsModule = {
 			.get(`${camera.url}/version/`)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
+				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
 
 					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
@@ -90,7 +90,7 @@ const streamHttp: httpMethodsModule = {
 			.get(`${camera.url}/getCameraList/`)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
+				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
 
 					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 

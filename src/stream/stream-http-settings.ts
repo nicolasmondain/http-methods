@@ -17,7 +17,7 @@ const streamHttpSettings: httpMethodsModule = {
 			.post(`${camera.url}/changeOrientation/${options.includes(orientation) ? orientation : options[0]}`)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
+				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
 
 					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
@@ -138,7 +138,7 @@ const streamHttpSettings: httpMethodsModule = {
 			.get(`${camera.url}/getFrameSizes/ByName/${camera.name}`)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
+				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
 
 					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
 
