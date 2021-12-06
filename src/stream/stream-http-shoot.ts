@@ -87,35 +87,6 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	stopMulticamAutoDownload(camera: mediaStream): Promise<httpResponse>{
-
-		return new Promise((resolve, reject) => {
-
-			axios
-			.get(`${camera.url}/stopMulticamAutoDownload/ByName/${camera.name}`)
-			.then((response) => {
-
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
-
-			})
-			.catch((error) => {
-
-				reject(error);
-
-			});
-
-		});
-
-	},
-
 	writePictureStreamToFile(camera: mediaStream, file: eventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {

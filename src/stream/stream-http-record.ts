@@ -109,12 +109,12 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	saveRecording(camera: mediaStream): Promise<httpResponse>{
+	cleanRecording(camera: mediaStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/saveRecording/ByName/${camera.name}`)
+			.get(`${camera.url}/cleanRecording/`)
 			.then((response) => {
 
 				if(httpStatus.isOK(response.status)){
