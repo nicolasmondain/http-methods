@@ -4,6 +4,7 @@ import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index
 import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
+import axiosConfig from '../mixins/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 const streamHttpShoot: httpMethodsModule = {
@@ -13,18 +14,10 @@ const streamHttpShoot: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/shootAndWait/ByName/${camera.name}/${file.name}`)
+			.get(`${camera.url}/shootAndWait/ByName/${camera.name}/${file.name}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -42,10 +35,10 @@ const streamHttpShoot: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/getLastShootErrorMessage/ByName/${camera.name}`)
+			.get(`${camera.url}/getLastShootErrorMessage/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -63,18 +56,10 @@ const streamHttpShoot: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/cancelPending/ByName/${camera.name}`)
+			.get(`${camera.url}/cancelPending/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -92,18 +77,10 @@ const streamHttpShoot: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/writePictureStreamToFile/ByName/${camera.name}/${file.name}`)
+			.get(`${camera.url}/writePictureStreamToFile/ByName/${camera.name}/${file.name}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -121,23 +98,15 @@ const streamHttpShoot: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/getAvailableFilestreamCount/ByName/${camera.name}`)
+			.get(`${camera.url}/getAvailableFilestreamCount/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
+				let count = 0;
 
-					let count = 0;
+				count = Number.parseInt(response.data, 10);
+				count = Number.isNaN(count) ? 0 : count;
 
-					count = Number.parseInt(response.data, 10);
-					count = Number.isNaN(count) ? 0 : count;
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, count));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, count));
 
 			})
 			.catch((error) => {
@@ -155,18 +124,10 @@ const streamHttpShoot: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/deleteFile/${file.name}`)
+			.get(`${camera.url}/deleteFile/${file.name}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -184,10 +145,10 @@ const streamHttpShoot: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/getFile/${file.name}`)
+			.get(`${camera.url}/getFile/${file.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {

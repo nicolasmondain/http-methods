@@ -4,10 +4,9 @@ import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index
 import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
+import axiosConfig from '../mixins/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 import qs from 'qs';
-
-const CONFIG = {headers: {'content-type': 'application/x-www-form-urlencoded'}};
 
 const streamHttpRecord: httpMethodsModule = {
 
@@ -21,18 +20,10 @@ const streamHttpRecord: httpMethodsModule = {
 				folder,
 				filename: file.name
 
-			}), CONFIG)
+			}), axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -56,18 +47,10 @@ const streamHttpRecord: httpMethodsModule = {
 				file   : file.name,
 				preview: preview.name
 
-			}), CONFIG)
+			}), axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -85,18 +68,10 @@ const streamHttpRecord: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/stopRecording/ByName/${camera.name}`)
+			.get(`${camera.url}/stopRecording/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -114,18 +89,10 @@ const streamHttpRecord: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/cleanRecording/`)
+			.get(`${camera.url}/cleanRecording/`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {

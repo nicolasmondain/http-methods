@@ -4,10 +4,9 @@ import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index
 import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
+import axiosConfig from '../mixins/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 import qs from 'qs';
-
-const CONFIG = {headers: {'content-type': 'application/x-www-form-urlencoded'}};
 
 const streamHttpGreenscreen: httpMethodsModule = {
 
@@ -25,18 +24,10 @@ const streamHttpGreenscreen: httpMethodsModule = {
 				A: greenscreen.angle,
 				N: greenscreen.noise
 
-			}), CONFIG)
+			}), axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -54,18 +45,10 @@ const streamHttpGreenscreen: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/greenscreen/off/`)
+			.get(`${camera.url}/greenscreen/off/`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -83,18 +66,10 @@ const streamHttpGreenscreen: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${camera.url}/backgroundGreenScreenArray/`, qs.stringify({files}), CONFIG)
+			.post(`${camera.url}/backgroundGreenScreenArray/`, qs.stringify({files}), axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -112,18 +87,10 @@ const streamHttpGreenscreen: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${camera.url}/updateGreenscreen/`, qs.stringify({file}), CONFIG)
+			.post(`${camera.url}/updateGreenscreen/`, qs.stringify({file}), axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {

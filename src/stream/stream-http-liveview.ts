@@ -3,6 +3,7 @@ import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index
 import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
+import axiosConfig from '../mixins/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 const streamHttpLiveview: httpMethodsModule = {
@@ -12,18 +13,10 @@ const streamHttpLiveview: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/startLiveView/ByName/${camera.name}`)
+			.get(`${camera.url}/startLiveView/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -41,18 +34,10 @@ const streamHttpLiveview: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/stopLiveView/ByName/${camera.name}`)
+			.get(`${camera.url}/stopLiveView/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -76,18 +61,10 @@ const streamHttpLiveview: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/getLivefeedStatus/ByName/${camera.name}`)
+			.get(`${camera.url}/getLivefeedStatus/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {

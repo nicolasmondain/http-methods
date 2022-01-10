@@ -3,6 +3,7 @@ import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index
 import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
+import axiosConfig from '../mixins/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 import streamHttpGreenscreen from './stream-http-greenscreen';
@@ -18,18 +19,10 @@ const streamHttp: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/version/`)
+			.get(`${camera.url}/version/`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -46,7 +39,7 @@ const streamHttp: httpMethodsModule = {
 
 		return new Promise((resolve) => {
 
-			axios.get(`${camera.url}/quit/`);
+			axios.get(`${camera.url}/quit/`, axiosConfig);
 			resolve();
 
 		});
@@ -58,18 +51,10 @@ const streamHttp: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/areYouHere/`)
+			.get(`${camera.url}/areYouHere/`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -87,18 +72,10 @@ const streamHttp: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/getCameraList/`)
+			.get(`${camera.url}/getCameraList/`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {

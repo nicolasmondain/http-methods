@@ -3,6 +3,7 @@ import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index
 import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
+import axiosConfig from '../mixins/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 const streamHttpSettings: httpMethodsModule = {
@@ -14,18 +15,10 @@ const streamHttpSettings: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${camera.url}/changeOrientation/${options.includes(orientation) ? orientation : options[0]}`)
+			.post(`${camera.url}/changeOrientation/${options.includes(orientation) ? orientation : options[0]}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -43,23 +36,15 @@ const streamHttpSettings: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/getAvailableIso/ByName/${camera.name}`)
+			.get(`${camera.url}/getAvailableIso/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
+				let iso = 0;
 
-					let iso = 0;
+				iso = Number.parseInt(response.data, 10);
+				iso = Number.isNaN(iso) ? 0 : iso;
 
-					iso = Number.parseInt(response.data, 10);
-					iso = Number.isNaN(iso) ? 0 : iso;
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, iso));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, iso));
 
 			})
 			.catch((error) => {
@@ -77,18 +62,10 @@ const streamHttpSettings: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/getAvailableWb/ByName/${camera.name}`)
+			.get(`${camera.url}/getAvailableWb/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -106,18 +83,10 @@ const streamHttpSettings: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/getAvailableTv/ByName/${camera.name}`)
+			.get(`${camera.url}/getAvailableTv/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
@@ -135,18 +104,10 @@ const streamHttpSettings: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/getFrameSizes/ByName/${camera.name}`)
+			.get(`${camera.url}/getFrameSizes/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				if(httpStatus.isOK(response.status) || httpStatus.isImateapot(response.status)){
-
-					resolve(httpStatus.formatResponse(response.status, response.statusText, response.data));
-
-				}else{
-
-					reject(new Error(JSON.stringify(response)));
-
-				}
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
 			})
 			.catch((error) => {
