@@ -1,6 +1,9 @@
+import {httpResponse} from '@sharingbox/http-status/src/@types/http-status';
+
 import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import httpPrint from '../src/print/print-http';
+import httpStatus from '@sharingbox/http-status/dist/browser';
 
 import 'mocha';
 
@@ -15,8 +18,36 @@ describe('print', function print(){
 
 	context('standard HTTP calls with the correct parameters', () => {
 
-		it('morePrints should be fulfilled (httpStatus.isOK)', () => httpPrint.morePrints(SERVER).should.be.fulfilled);
-		it('numberOfLeftPrintSheets should be fulfilled (httpStatus.isOK) & return a number', () => httpPrint.numberOfLeftPrintSheets(SERVER).should.eventually.be.a('number'));
+		it('morePrints should be fulfilled (httpStatus.isOK)', (done) => {
+
+			httpPrint.morePrints(SERVER)
+			.then((response: httpResponse) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					done();
+
+				}
+
+			});
+
+		});
+
+
+		it('numberOfLeftPrintSheets should be fulfilled (httpStatus.isOK) & return a number', () => {
+
+			httpPrint.numberOfLeftPrintSheets(SERVER)
+			.then((response: httpResponse) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					response.data.should.be.a('number');
+
+				}
+
+			});
+
+		});
 
 	});
 

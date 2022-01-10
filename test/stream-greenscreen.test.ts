@@ -1,6 +1,9 @@
+import {httpResponse} from '@sharingbox/http-status/src/@types/http-status';
+
 import * as chai from 'chai';
 import cameras from './cameras.test';
 import chaiAsPromised from 'chai-as-promised';
+import httpStatus from '@sharingbox/http-status/dist/browser';
 import httpStream from '../src/stream/stream-http';
 
 import 'mocha';
@@ -17,7 +20,20 @@ describe(`stream-greenscreen ${CAMERA_TYPE}`, function streamGreenscreen(){
 
 	context(`standard HTTP calls with the correct parameters ${CAMERA_TYPE}`, () => {
 
-		it('greenscreenOff should be fulfilled (httpStatus.isOK)', () => httpStream.greenscreenOff(CAMERA).should.be.fulfilled);
+		it('greenscreenOff should be fulfilled (httpStatus.isOK)', (done) => {
+
+			httpStream.greenscreenOff(CAMERA)
+			.then((response: httpResponse) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					done();
+
+				}
+
+			});
+
+		});
 
 	});
 

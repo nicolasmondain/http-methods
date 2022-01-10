@@ -30,15 +30,61 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 
 	context(`standard HTTP calls with the correct parameters ${CAMERA_TYPE}`, () => {
 
-		it('startLiveView should be fulfilled (httpStatus.isOK)', () => httpStream.startLiveView(CAMERA).should.be.fulfilled);
-		it('stopLiveView should be fulfilled (httpStatus.isOK)', () => httpStream.stopLiveView(CAMERA).should.be.fulfilled);
-		it('cancelPending should be fulfilled (httpStatus.isOK)', () => httpStream.cancelPending(CAMERA).should.be.fulfilled);
+		it('startLiveView should be fulfilled (httpStatus.isOK)', (done) => {
+
+			httpStream.startLiveView(CAMERA)
+			.then((response: httpResponse) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					done();
+
+				}
+
+			});
+
+		});
+
+		it('stopLiveView should be fulfilled (httpStatus.isOK)', (done) => {
+
+			httpStream.stopLiveView(CAMERA)
+			.then((response: httpResponse) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					done();
+
+				}
+
+			});
+
+		});
+
+		it('cancelPending should be fulfilled (httpStatus.isOK)', (done) => {
+
+			httpStream.cancelPending(CAMERA)
+			.then((response: httpResponse) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					done();
+
+				}
+
+			});
+
+		});
+
 		it('getAvailableFilestreamCount should return a number', () => {
 
 			httpStream.getAvailableFilestreamCount(CAMERA)
 			.then((response: httpResponse) => {
 
-				chai.expect(response.data).to.be.a('number');
+				if(httpStatus.isOK(response.status)){
+
+					chai.expect(response.data).to.be.a('number');
+
+				}
 
 			});
 
@@ -49,7 +95,11 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 			httpStream.getLastShootErrorMessage(CAMERA)
 			.then((response: httpResponse) => {
 
-				chai.expect(response.data).to.be.an('object');
+				if(httpStatus.isOK(response.status)){
+
+					chai.expect(response.data).to.be.an('object');
+
+				}
 
 			});
 
@@ -62,16 +112,41 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 		it('startLiveView > shootAndWait > getAvailableFilestreamCount > writePictureStreamToFile > deleteFile > stopLiveView', (done) => {
 
 			httpStream.startLiveView(CAMERA)
-			.then(() => new Promise<void>((resolve) => {
+			.then((response: httpResponse) => new Promise<void>((resolve, reject) => {
 
-				setTimeout(() => {
+				if(httpStatus.isOK(response.status)){
 
-					resolve();
+					setTimeout(() => {
 
-				}, DELAY_BETWEEN_STARTLIVEVIEW_AND_SHOOT);
+						resolve();
+
+					}, DELAY_BETWEEN_STARTLIVEVIEW_AND_SHOOT);
+
+				}else{
+
+					reject(new Error(JSON.stringify(response)));
+
+				}
 
 			}))
-			.then(() => httpStream.shootAndWait(CAMERA, file))
+			.then(() => new Promise<void>((resolve, reject) => {
+
+				httpStream.shootAndWait(CAMERA, file)
+				.then((response: httpResponse) => {
+
+					if(httpStatus.isOK(response.status)){
+
+						resolve();
+
+					}else{
+
+						reject(new Error(JSON.stringify(response)));
+
+					}
+
+				});
+
+			}))
 			.then(() => new Promise<void>((resolve) => {
 
 				setTimeout(() => {
@@ -81,21 +156,80 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 				}, DELAY_BETWEEN_SHOOT_AND_GETAVAILABLESTREAMCOUNT);
 
 			}))
-			.then(() => httpStream.getAvailableFilestreamCount(CAMERA))
-			.then((_getAvailableFilestreamCount: httpResponse) => {
+			.then(() => new Promise<void>((resolve, reject) => {
 
-				chai.expect(_getAvailableFilestreamCount.data).to.equal(1);
+				httpStream.getAvailableFilestreamCount(CAMERA)
+				.then((response: httpResponse) => {
 
-			})
+					if(httpStatus.isOK(response.status) && typeof response.data === 'number'){
 
-			.then(() => httpStream.writePictureStreamToFile(CAMERA, file))
-			.then(() => httpStream.stopLiveView(CAMERA))
-			.then(() => httpStream.deleteFile(CAMERA, file))
-			.then(() => {
+						chai.expect(response.data).to.equal(1);
 
-				done();
+						resolve();
 
-			})
+					}else{
+
+						reject(new Error(JSON.stringify(response)));
+
+					}
+
+				});
+
+			}))
+			.then(() => new Promise<void>((resolve, reject) => {
+
+				httpStream.writePictureStreamToFile(CAMERA, file)
+				.then((response: httpResponse) => {
+
+					if(httpStatus.isOK(response.status)){
+
+						resolve();
+
+					}else{
+
+						reject(new Error(JSON.stringify(response)));
+
+					}
+
+				});
+
+			}))
+			.then(() => new Promise<void>((resolve, reject) => {
+
+				httpStream.stopLiveView(CAMERA)
+				.then((response: httpResponse) => {
+
+					if(httpStatus.isOK(response.status)){
+
+						resolve();
+
+					}else{
+
+						reject(new Error(JSON.stringify(response)));
+
+					}
+
+				});
+
+			}))
+			.then(() => new Promise<void>((resolve, reject) => {
+
+				httpStream.deleteFile(CAMERA, file)
+				.then((response: httpResponse) => {
+
+					if(httpStatus.isOK(response.status)){
+
+						done();
+
+					}else{
+
+						reject(new Error(JSON.stringify(response)));
+
+					}
+
+				});
+
+			}))
 			.catch((e: AxiosError) => {
 
 				let error = e;

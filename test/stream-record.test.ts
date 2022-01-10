@@ -1,6 +1,9 @@
+import {httpResponse} from '@sharingbox/http-status/src/@types/http-status';
+
 import * as chai from 'chai';
 import cameras from './cameras.test';
 import chaiAsPromised from 'chai-as-promised';
+import httpStatus from '@sharingbox/http-status/dist/browser';
 import httpStream from '../src/stream/stream-http';
 
 import 'mocha';
@@ -17,7 +20,20 @@ describe(`stream-record ${CAMERA_TYPE}`, function streamRecord(){
 
 	context(`standard HTTP calls with the correct parameters ${CAMERA_TYPE}`, () => {
 
-		it('stopRecording should be fulfilled (httpStatus.isOK)', () => httpStream.stopRecording(CAMERA).should.be.fulfilled);
+		it('stopRecording should be fulfilled (httpStatus.isOK)', (done) => {
+
+			httpStream.stopRecording(CAMERA)
+			.then((response: httpResponse) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					done();
+
+				}
+
+			});
+
+		});
 
 	});
 

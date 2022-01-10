@@ -1,4 +1,4 @@
-import {AxiosRequestConfig} from 'axios/index';
+import {AxiosRequestConfig} from 'axios';
 
 const MIN_STATUS_CODE = 500;
 
