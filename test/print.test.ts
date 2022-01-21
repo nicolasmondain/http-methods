@@ -2,6 +2,7 @@ import {httpResponse} from '@sharingbox/http-status/src/@types/http-status';
 
 import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
+import file from './file.test';
 import httpPrint from '../src/print/print-http';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
@@ -20,7 +21,7 @@ describe('print', function print(){
 
 		it('morePrints should be fulfilled (httpStatus.isOK)', (done) => {
 
-			httpPrint.morePrints(SERVER)
+			httpPrint.morePrints(SERVER, file, 1)
 			.then((response: httpResponse) => {
 
 				if(httpStatus.isOK(response.status)){
