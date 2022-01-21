@@ -1,6 +1,6 @@
 {
   "name": "@sharingbox/http-methods",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "HTTP (JavaScript) methods to communicate with the eventManager by sharingbox servers",
   "main": "src/index.js",
   "directories": {
@@ -12,7 +12,7 @@
     "test:stream:webcam": "env CAMERA=WEBCAM mocha -p false -r ts-node/register test/stream*.test.ts",
     "test:stream:eos": "env CAMERA=EOS mocha -p false -r ts-node/register test/stream*.test.ts",
     "test:stream": "npm run test:stream:webcam & npm run test:stream:eos",
-    "test": "mocha -p false -r ts-node/register test/*.test.ts",
+    "test": "npm run test:print & npm run test:stream",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "webpack": "node webpack/build.js"
   },
@@ -58,7 +58,7 @@
     "webpack-node-externals": "3.0.0"
   },
   "dependencies": {
-    "@sharingbox/http-status": "1.0.2",
+    "@sharingbox/http-status": "1.0.6",
     "axios": "0.24.0",
     "qs": "6.10.1"
   }

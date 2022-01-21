@@ -55,18 +55,11 @@ describe(`stream-liveview ${CAMERA_TYPE}`, function streamLiveview(){ // eslint-
 
 		});
 
-		it('getLivefeedAsImage should return a string', (done) => {
+		it('getLivefeedAsImage should return a string', () => {
 
-			httpStream.getLivefeedAsImage(CAMERA)
-			.then((response: httpResponse) => {
+			const livefeedURL = httpStream.getLivefeedAsImage(CAMERA);
 
-				if(httpStatus.isOK(response.status)){
-
-					done();
-
-				}
-
-			});
+			chai.expect(livefeedURL).to.be.a('string');
 
 		});
 

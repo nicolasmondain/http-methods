@@ -20,7 +20,7 @@ describe(`stream ${CAMERA_TYPE}`, function stream(){
 
 	context(`standard HTTP calls with the correct parameters ${CAMERA_TYPE}`, () => {
 
-		it('areYouHere should be fulfilled (httpStatus.isOK)', (done) => new Promise(() => {
+		it('areYouHere should be fulfilled (httpStatus.isOK)', (done) => {
 
 			httpStream.areYouHere(CAMERA)
 			.then((response: httpResponse) => {
@@ -33,7 +33,7 @@ describe(`stream ${CAMERA_TYPE}`, function stream(){
 
 			});
 
-		}));
+		});
 
 		it('version should return a specific string', () => {
 
