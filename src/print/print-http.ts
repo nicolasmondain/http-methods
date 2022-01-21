@@ -45,8 +45,6 @@ const printHttp: httpMethodsModule = {
 
 			const {idFTPevent} = file.meta.current;
 
-			console.log(`${url}/morePrints/`);
-
 			axios
 			.post(`${url}/morePrints/`, qs.stringify({
 
