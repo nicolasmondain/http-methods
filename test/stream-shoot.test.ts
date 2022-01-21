@@ -240,7 +240,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 
 				}
 
-				console.log(error);
+				console.log(error); // eslint-disable-line no-console
 
 			});
 

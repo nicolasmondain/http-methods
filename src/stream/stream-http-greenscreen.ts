@@ -1,16 +1,15 @@
-import {greenScreen} from '../@types/event-engine/greenScreen';
+import {EventEngineGreenscreen, EventEngineStream} from '../@types/event-engine';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
-import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
-import axiosConfig from '../mixins/axios.config';
+import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 import qs from 'qs';
 
 const streamHttpGreenscreen: httpMethodsModule = {
 
-	greenscreenOn(camera: mediaStream, greenscreen: greenScreen): Promise<httpResponse>{
+	greenscreenOn(camera: EventEngineStream, greenscreen: EventEngineGreenscreen): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -40,7 +39,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 
 	},
 
-	greenscreenOff(camera: mediaStream): Promise<httpResponse>{
+	greenscreenOff(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -61,7 +60,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 
 	},
 
-	backgroundGreenScreenArray(camera: mediaStream, files: string): Promise<httpResponse>{
+	backgroundGreenscreenArray(camera: EventEngineStream, files: string): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -82,7 +81,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 
 	},
 
-	updateGreenscreen(camera: mediaStream, file: string): Promise<httpResponse>{
+	updateGreenscreen(camera: EventEngineStream, file: string): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 

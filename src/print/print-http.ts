@@ -1,9 +1,9 @@
-import {eventEngineMedia} from '../@types/event-engine/eventEngineMedia';
+import {EventEngineMedia, EventEnginePrinter} from '../@types/event-engine';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
 import axios from 'axios';
-import axiosConfig from '../mixins/axios.config';
+import axiosConfig from '../config/axios.config';
 import qs from 'qs';
 
 import httpStatus from '@sharingbox/http-status/dist/browser';
@@ -12,12 +12,12 @@ const PARAM_DEBUG_PRINT_SERVER = 0;
 
 const printHttp: httpMethodsModule = {
 
-	numberOfLeftPrintSheets(url: string): Promise<httpResponse>{
+	numberOfLeftPrintSheets(printer: EventEnginePrinter): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${url}/numberOfLeftPrintSheets/`, axiosConfig)
+			.get(`${printer.url}/numberOfLeftPrintSheets/`, axiosConfig)
 			.then((response) => {
 
 				let number = 0;
@@ -39,14 +39,14 @@ const printHttp: httpMethodsModule = {
 
 	},
 
-	morePrints(url: string, file: eventEngineMedia, copies: number): Promise<httpResponse>{
+	morePrints(printer: EventEnginePrinter, file: EventEngineMedia, copies: number): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			const {idFTPevent} = file.meta.current;
 
 			axios
-			.post(`${url}/morePrints/`, qs.stringify({
+			.post(`${printer.url}/morePrints/`, qs.stringify({
 
 				idevent: idFTPevent,
 				copies
@@ -67,12 +67,12 @@ const printHttp: httpMethodsModule = {
 
 	},
 
-	print(url: string, file: eventEngineMedia, copies: number, simulate: boolean): Promise<httpResponse>{
+	print(printer: EventEnginePrinter, file: EventEngineMedia, copies: number, simulate: boolean): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${url}/print/`, qs.stringify({
+			.post(`${printer.url}/print/`, qs.stringify({
 
 				file    : file.path,
 				nbcopies: copies,

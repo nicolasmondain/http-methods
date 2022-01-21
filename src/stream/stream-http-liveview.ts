@@ -1,14 +1,14 @@
+import {EventEngineStream} from '../@types/event-engine';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
-import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
-import axiosConfig from '../mixins/axios.config';
+import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 const streamHttpLiveview: httpMethodsModule = {
 
-	startLiveView(camera: mediaStream): Promise<httpResponse>{
+	startLiveView(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -29,7 +29,7 @@ const streamHttpLiveview: httpMethodsModule = {
 
 	},
 
-	stopLiveView(camera: mediaStream): Promise<httpResponse>{
+	stopLiveView(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -50,13 +50,13 @@ const streamHttpLiveview: httpMethodsModule = {
 
 	},
 
-	getLivefeedAsImage(camera: mediaStream): string{
+	getLivefeedAsImage(camera: EventEngineStream): string{
 
 		return`${camera.url}/getLivefeedAsImage/byName/${camera.name}?nocache=${new Date().getTime()}`;
 
 	},
 
-	getLivefeedStatus(camera: mediaStream): Promise<httpResponse>{
+	getLivefeedStatus(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 

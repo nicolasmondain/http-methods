@@ -1,6 +1,6 @@
-import {eventEngineMedia} from '../src/@types/event-engine/eventEngineMedia';
+import {EventEngineMedia} from '../src/@types/event-engine';
 
-const FILE:eventEngineMedia = {
+const FILE:EventEngineMedia = {
 
 	name : 'SHOOT-Y221_20190215_001_3631_20211123204338929-u0-r0-i0.jpg',
 	user : 0,

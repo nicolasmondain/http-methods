@@ -1,14 +1,14 @@
+import {EventEngineStream} from '../@types/event-engine';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
-import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
-import axiosConfig from '../mixins/axios.config';
+import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 const streamHttpSettings: httpMethodsModule = {
 
-	changeOrientation(camera: mediaStream, orientation: string): Promise<httpResponse>{
+	changeOrientation(camera: EventEngineStream, orientation: string): Promise<httpResponse>{
 
 		const options = ['Default', 'Flip right', 'Flip left', 'Upside down'];
 
@@ -31,7 +31,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 	},
 
-	getAvailableIso(camera: mediaStream): Promise<httpResponse>{
+	getAvailableIso(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -57,7 +57,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 	},
 
-	getAvailableWb(camera: mediaStream): Promise<httpResponse>{
+	getAvailableWb(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -78,7 +78,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 	},
 
-	getAvailableTv(camera: mediaStream): Promise<httpResponse>{
+	getAvailableTv(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -99,7 +99,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 	},
 
-	getFrameSizes(camera: mediaStream): Promise<httpResponse>{
+	getFrameSizes(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 

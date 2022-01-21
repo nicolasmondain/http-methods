@@ -1,6 +1,6 @@
-import {mediaStream} from '../src/@types/event-engine/mediaStream';
+import {EventEngineStream} from '../src/@types/event-engine';
 
-const CAMERA:mediaStream = {
+const CAMERA:EventEngineStream = {
 
 	who     : 'localhost',
 	port    : 8097,

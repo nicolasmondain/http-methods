@@ -1,9 +1,9 @@
+import {EventEngineStream} from '../@types/event-engine';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
-import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
-import axiosConfig from '../mixins/axios.config';
+import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 import streamHttpGreenscreen from './stream-http-greenscreen';
@@ -14,7 +14,7 @@ import streamHttpShoot from './stream-http-shoot';
 
 const streamHttp: httpMethodsModule = {
 
-	version(camera: mediaStream): Promise<httpResponse>{
+	version(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -35,7 +35,7 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	quit(camera: mediaStream): Promise<void>{
+	quit(camera: EventEngineStream): Promise<void>{
 
 		return new Promise((resolve) => {
 
@@ -46,7 +46,7 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	areYouHere(camera: mediaStream): Promise<httpResponse>{
+	areYouHere(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -67,7 +67,7 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	getCameraList(camera: mediaStream): Promise<httpResponse>{
+	getCameraList(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 

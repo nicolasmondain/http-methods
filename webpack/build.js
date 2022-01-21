@@ -1,6 +1,7 @@
+/* eslint-disable */
 
-const webpack       = require('webpack'); // eslint-disable-line
-const configuration = require('./webpack.common.js'); // eslint-disable-line
+const webpack       = require('webpack');
+const configuration = require('./webpack.common.js');
 
 webpack(configuration, (error, stats) => {
 

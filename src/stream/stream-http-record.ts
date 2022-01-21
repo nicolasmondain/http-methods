@@ -1,16 +1,15 @@
-import {eventEngineMedia} from '../@types/event-engine/eventEngineMedia';
+import {EventEngineMedia, EventEngineStream} from '../@types/event-engine';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
-import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
-import axiosConfig from '../mixins/axios.config';
+import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 import qs from 'qs';
 
 const streamHttpRecord: httpMethodsModule = {
 
-	startRecording(camera: mediaStream, folder: string, file: eventEngineMedia): Promise<httpResponse>{
+	startRecording(camera: EventEngineStream, folder: string, file: EventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -36,7 +35,7 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	startRecordingWithPicture(camera: mediaStream, folder: string, file: eventEngineMedia, preview: eventEngineMedia): Promise<httpResponse>{
+	startRecordingWithPicture(camera: EventEngineStream, folder: string, file: EventEngineMedia, preview: EventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -63,7 +62,7 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	stopRecording(camera: mediaStream): Promise<httpResponse>{
+	stopRecording(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -84,7 +83,7 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	cleanRecording(camera: mediaStream): Promise<httpResponse>{
+	cleanRecording(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 

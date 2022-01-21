@@ -1,15 +1,14 @@
-import {eventEngineMedia} from '../@types/event-engine/eventEngineMedia';
+import {EventEngineMedia, EventEngineStream} from '../@types/event-engine';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
-import {mediaStream} from '../@types/event-engine/mediaStream';
 
 import axios from 'axios';
-import axiosConfig from '../mixins/axios.config';
+import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 const streamHttpShoot: httpMethodsModule = {
 
-	shootAndWait(camera: mediaStream, file: eventEngineMedia): Promise<httpResponse>{
+	shootAndWait(camera: EventEngineStream, file: EventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -30,7 +29,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	getLastShootErrorMessage(camera: mediaStream): Promise<httpResponse>{
+	getLastShootErrorMessage(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -51,7 +50,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	cancelPending(camera: mediaStream): Promise<httpResponse>{
+	cancelPending(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -72,7 +71,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	writePictureStreamToFile(camera: mediaStream, file: eventEngineMedia): Promise<httpResponse>{
+	writePictureStreamToFile(camera: EventEngineStream, file: EventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -93,7 +92,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	getAvailableFilestreamCount(camera: mediaStream): Promise<httpResponse>{
+	getAvailableFilestreamCount(camera: EventEngineStream): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -119,7 +118,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	deleteFile(camera: mediaStream, file: eventEngineMedia): Promise<httpResponse>{
+	deleteFile(camera: EventEngineStream, file: EventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -140,7 +139,7 @@ const streamHttpShoot: httpMethodsModule = {
 
 	},
 
-	getFile(camera: mediaStream, file: eventEngineMedia): Promise<httpResponse>{
+	getFile(camera: EventEngineStream, file: EventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 

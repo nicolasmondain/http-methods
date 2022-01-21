@@ -1,12 +1,12 @@
-import printHttp from './print/print-http';
-import streamHttp from './stream/stream-http';
-import webHttp from './web/web-http';
+import printHttpMethods from './print/print-http';
+import streamHttpMethods from './stream/stream-http';
+import webHttpMethods from './web/web-http';
 
 const httpMethods = {
 
-	printHttp,
-	streamHttp,
-	webHttp
+	printHttpMethods,
+	streamHttpMethods,
+	webHttpMethods
 
 };
 

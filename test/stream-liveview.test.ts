@@ -161,7 +161,7 @@ describe(`stream-liveview ${CAMERA_TYPE}`, function streamLiveview(){ // eslint-
 
 				}
 
-				console.log(error);
+				console.log(error); // eslint-disable-line no-console
 
 			});
 
