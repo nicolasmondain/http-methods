@@ -2,7 +2,7 @@ import {EventEngineStream} from '../src/@types/event-engine';
 
 const CAMERA:EventEngineStream = {
 
-	who     : 'localhost',
+	server  : 'localhost',
 	port    : 8084,
 	protocol: 'http',
 	url     : 'http://localhost:8084',

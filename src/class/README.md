@@ -1,4 +1,7 @@
+# Generate class methods from module
 
+
+```javascript
 import {EventEngineGreenscreen, EventEngineMedia, EventEnginePrinter, EventEngineStream} from '../@types/event-engine';
 import {httpMethodsModule} from '../@types/http-methods';
 
@@ -27,3 +30,4 @@ export class Hardware {
 	}
 
 }
+```

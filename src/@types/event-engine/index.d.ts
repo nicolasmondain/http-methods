@@ -9,29 +9,59 @@ export interface EventEngineGreenscreen {
 
 }
 
-export interface EventEngineStream {
-
-	who     : string;
-	port    : number;
-	protocol: string;
-	url     : string;
-
-	name        : string;
-	rank        : number;
-	orientation : string;
-	frame       : {height: number, width: number};
-	focus       : {setTo: string, value: string};
-	exposure    : {setTo: string, duration: number, iso: string, bias: string};
-	whiteBalance: {setTo: string, temperature: string, tint: string};
-
-}
-
-export interface EventEnginePrinter {
+export interface EventEngineServer {
 
 	server  : string;
 	port    : number;
 	protocol: string;
 	url     : string;
+
+}
+
+export interface EventEngineStreamFrame {
+
+	height: number;
+	width : number;
+
+}
+
+export interface EventEngineFocus {
+
+	setTo: string;
+	value: string;
+
+}
+
+export interface EventEngineExposure {
+
+	setTo   : string;
+	duration: number;
+	iso     : string;
+	bias    : string;
+
+}
+
+export interface EventEngineWhiteBalance {
+
+	setTo      : string;
+	temperature: string;
+	tint       : string;
+
+}
+
+export interface EventEngineStream extends EventEngineServer {
+
+	name        : string;
+	rank        : number;
+	orientation : string;
+	frame       : EventEngineStreamFrame;
+	focus       : EventEngineFocus;
+	exposure    : EventEngineExposure;
+	whiteBalance: EventEngineWhiteBalance;
+
+}
+
+export interface EventEnginePrinter extends EventEngineServer {
 
 	simulate: boolean;
 	off     : boolean;

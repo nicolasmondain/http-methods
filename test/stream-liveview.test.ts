@@ -2,10 +2,10 @@ import {httpResponse} from '@sharingbox/http-status/src/@types/http-status';
 
 import * as chai from 'chai';
 import {AxiosError} from 'axios';
+import {Camera} from '../src/class/camera';
 import cameras from './cameras.test';
 import chaiAsPromised from 'chai-as-promised';
 import httpStatus from '@sharingbox/http-status/dist/browser';
-import httpStream from '../src/stream/stream-http';
 
 import 'mocha';
 
@@ -23,11 +23,13 @@ describe(`stream-liveview ${CAMERA_TYPE}`, function streamLiveview(){ // eslint-
 	this.slow(0); // eslint-disable-line no-invalid-this
 	this.timeout(DELAY_MAX_FOR_LIVEFEED_ANALYSIS); // eslint-disable-line no-invalid-this
 
+	const camera:Camera = new Camera(CAMERA);
+
 	context(`standard HTTP calls with the correct parameters ${CAMERA_TYPE}`, () => {
 
 		it('startLiveView should be fulfilled (httpStatus.isOK)', (done) => {
 
-			httpStream.startLiveView(CAMERA)
+			camera.startLiveView()
 			.then((response: httpResponse) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -42,7 +44,7 @@ describe(`stream-liveview ${CAMERA_TYPE}`, function streamLiveview(){ // eslint-
 
 		it('stopLiveView should be fulfilled (httpStatus.isOK)', (done) => {
 
-			httpStream.stopLiveView(CAMERA)
+			camera.stopLiveView()
 			.then((response: httpResponse) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -57,7 +59,7 @@ describe(`stream-liveview ${CAMERA_TYPE}`, function streamLiveview(){ // eslint-
 
 		it('getLivefeedAsImage should return a string', () => {
 
-			const livefeedURL = httpStream.getLivefeedAsImage(CAMERA);
+			const livefeedURL = camera.getLivefeedAsImage();
 
 			chai.expect(livefeedURL).to.be.a('string');
 
@@ -69,7 +71,7 @@ describe(`stream-liveview ${CAMERA_TYPE}`, function streamLiveview(){ // eslint-
 
 		it('getLivefeedStatus should be rejected if livefeed is off', (done) => {
 
-			httpStream.stopLiveView(CAMERA)
+			camera.stopLiveView()
 			.then((response: httpResponse)  => new Promise<void>((resolve, reject) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -85,7 +87,7 @@ describe(`stream-liveview ${CAMERA_TYPE}`, function streamLiveview(){ // eslint-
 			}))
 			.then(() => new Promise<void>((resolve, reject) => {
 
-				httpStream.getLivefeedStatus(CAMERA)
+				camera.getLivefeedStatus()
 				.then((response: httpResponse) => {
 
 					if(httpStatus.isOK(response.status) === false){
@@ -111,7 +113,7 @@ describe(`stream-liveview ${CAMERA_TYPE}`, function streamLiveview(){ // eslint-
 
 		it('getLivefeedStatus should return an object (status: "success") if livefeed is on', (done) => {
 
-			httpStream.startLiveView(CAMERA)
+			camera.startLiveView()
 			.then((response: httpResponse) => new Promise<void>((resolve, reject) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -131,12 +133,12 @@ describe(`stream-liveview ${CAMERA_TYPE}`, function streamLiveview(){ // eslint-
 			}))
 			.then(() => new Promise<void>((resolve, reject) => {
 
-				httpStream.getLivefeedStatus(CAMERA)
+				camera.getLivefeedStatus()
 				.then((response: httpResponse) => {
 
 					if(httpStatus.isOK(response.status)){
 
-						httpStream.stopLiveView(CAMERA).then(() => {
+						camera.stopLiveView().then(() => {
 
 							done();
 

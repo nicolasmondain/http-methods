@@ -4,11 +4,11 @@ import {httpResponse} from '@sharingbox/http-status/src/@types/http-status';
 
 import * as chai from 'chai';
 import {AxiosError} from 'axios';
+import {Camera} from '../src/class/camera';
 import cameras from './cameras.test';
 import chaiAsPromised from 'chai-as-promised';
 import file from './file.test';
 import httpStatus from '@sharingbox/http-status/dist/browser';
-import httpStream from '../src/stream/stream-http';
 
 import 'mocha';
 
@@ -28,11 +28,13 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 	this.slow(0); // eslint-disable-line no-invalid-this
 	this.timeout(DELAY_MAX_FOR_COMPLETE_SHOOT_PROCESS); // eslint-disable-line no-invalid-this
 
+	const camera:Camera = new Camera(CAMERA);
+
 	context(`standard HTTP calls with the correct parameters ${CAMERA_TYPE}`, () => {
 
 		it('startLiveView should be fulfilled (httpStatus.isOK)', (done) => {
 
-			httpStream.startLiveView(CAMERA)
+			camera.startLiveView()
 			.then((response: httpResponse) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -47,7 +49,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 
 		it('stopLiveView should be fulfilled (httpStatus.isOK)', (done) => {
 
-			httpStream.stopLiveView(CAMERA)
+			camera.stopLiveView()
 			.then((response: httpResponse) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -62,7 +64,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 
 		it('cancelPending should be fulfilled (httpStatus.isOK)', (done) => {
 
-			httpStream.cancelPending(CAMERA)
+			camera.cancelPending()
 			.then((response: httpResponse) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -77,7 +79,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 
 		it('getAvailableFilestreamCount should return a number', () => {
 
-			httpStream.getAvailableFilestreamCount(CAMERA)
+			camera.getAvailableFileStreamCount()
 			.then((response: httpResponse) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -92,7 +94,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 
 		it('getLastShootErrorMessage should return a object', () => {
 
-			httpStream.getLastShootErrorMessage(CAMERA)
+			camera.getLastShootErrorMessage()
 			.then((response: httpResponse) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -111,7 +113,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 
 		it('startLiveView > shootAndWait > getAvailableFilestreamCount > writePictureStreamToFile > deleteFile > stopLiveView', (done) => {
 
-			httpStream.startLiveView(CAMERA)
+			camera.startLiveView()
 			.then((response: httpResponse) => new Promise<void>((resolve, reject) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -131,7 +133,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 			}))
 			.then(() => new Promise<void>((resolve, reject) => {
 
-				httpStream.shootAndWait(CAMERA, file)
+				camera.shootAndWait(file)
 				.then((response: httpResponse) => {
 
 					if(httpStatus.isOK(response.status)){
@@ -158,7 +160,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 			}))
 			.then(() => new Promise<void>((resolve, reject) => {
 
-				httpStream.getAvailableFilestreamCount(CAMERA)
+				camera.getAvailableFileStreamCount()
 				.then((response: httpResponse) => {
 
 					if(httpStatus.isOK(response.status) && typeof response.data === 'number'){
@@ -178,7 +180,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 			}))
 			.then(() => new Promise<void>((resolve, reject) => {
 
-				httpStream.writePictureStreamToFile(CAMERA, file)
+				camera.writePictureStreamToFile(file)
 				.then((response: httpResponse) => {
 
 					if(httpStatus.isOK(response.status)){
@@ -196,7 +198,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 			}))
 			.then(() => new Promise<void>((resolve, reject) => {
 
-				httpStream.stopLiveView(CAMERA)
+				camera.stopLiveView()
 				.then((response: httpResponse) => {
 
 					if(httpStatus.isOK(response.status)){
@@ -214,7 +216,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 			}))
 			.then(() => new Promise<void>((resolve, reject) => {
 
-				httpStream.deleteFile(CAMERA, file)
+				camera.deleteFile(file)
 				.then((response: httpResponse) => {
 
 					if(httpStatus.isOK(response.status)){
