@@ -1,6 +1,6 @@
 {
   "name": "@sharingbox/http-methods",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "HTTP (JavaScript) methods to communicate with the eventManager by sharingbox servers",
   "main": "src/index.js",
   "directories": {
