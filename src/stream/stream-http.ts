@@ -1,4 +1,4 @@
-import {EventEngineStream} from '../@types/event-engine';
+import {Camera} from '../class/camera';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
@@ -14,7 +14,7 @@ import streamHttpShoot from './stream-http-shoot';
 
 const streamHttp: httpMethodsModule = {
 
-	version(camera: EventEngineStream): Promise<httpResponse>{
+	version(camera: Camera): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -35,7 +35,7 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	quit(camera: EventEngineStream): Promise<void>{
+	quit(camera: Camera): Promise<void>{
 
 		return new Promise((resolve) => {
 
@@ -46,7 +46,7 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	areYouHere(camera: EventEngineStream): Promise<httpResponse>{
+	areYouHere(camera: Camera): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -67,7 +67,7 @@ const streamHttp: httpMethodsModule = {
 
 	},
 
-	getCameraList(camera: EventEngineStream): Promise<httpResponse>{
+	getCameraList(camera: Camera): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 

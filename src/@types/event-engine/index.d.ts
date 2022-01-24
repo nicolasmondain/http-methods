@@ -14,7 +14,6 @@ export interface EventEngineServer {
 	server  : string;
 	port    : number;
 	protocol: string;
-	url     : string;
 
 }
 
@@ -22,17 +21,18 @@ export interface EventEngineStreamFrame {
 
 	height: number;
 	width : number;
+	ratio : number;
 
 }
 
-export interface EventEngineFocus {
+export interface EventEngineStreamFocus {
 
 	setTo: string;
 	value: string;
 
 }
 
-export interface EventEngineExposure {
+export interface EventEngineStreamExposure {
 
 	setTo   : string;
 	duration: number;
@@ -41,7 +41,7 @@ export interface EventEngineExposure {
 
 }
 
-export interface EventEngineWhiteBalance {
+export interface EventEngineStreamWhiteBalance {
 
 	setTo      : string;
 	temperature: string;
@@ -49,19 +49,19 @@ export interface EventEngineWhiteBalance {
 
 }
 
-export interface EventEngineStream extends EventEngineServer {
+export interface EventEngineStream {
 
 	name        : string;
 	rank        : number;
 	orientation : string;
 	frame       : EventEngineStreamFrame;
-	focus       : EventEngineFocus;
-	exposure    : EventEngineExposure;
-	whiteBalance: EventEngineWhiteBalance;
+	focus       : EventEngineStreamFocus;
+	exposure    : EventEngineStreamExposure;
+	whiteBalance: EventEngineStreamWhiteBalance;
 
 }
 
-export interface EventEnginePrinter extends EventEngineServer {
+export interface EventEnginePrinter {
 
 	simulate: boolean;
 	off     : boolean;
@@ -70,7 +70,7 @@ export interface EventEnginePrinter extends EventEngineServer {
 
 }
 
-type mediaMetaData = {
+type EventEngineMediaMetaData = {
 
 	file      : string;
 	type      : string;
@@ -126,8 +126,8 @@ export interface EventEngineMedia {
 
 	meta: {
 
-		origin : mediaMetaData;
-		current: mediaMetaData;
+		origin : EventEngineMediaMetaData;
+		current: EventEngineMediaMetaData;
 
 	};
 

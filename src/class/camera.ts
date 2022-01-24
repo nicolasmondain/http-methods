@@ -1,109 +1,137 @@
 import {
 
-	EventEngineExposure,
-	EventEngineFocus,
 	EventEngineGreenscreen,
 	EventEngineMedia,
+	EventEngineServer,
 	EventEngineStream,
+	EventEngineStreamExposure,
+	EventEngineStreamFocus,
 	EventEngineStreamFrame,
-	EventEngineWhiteBalance
+	EventEngineStreamWhiteBalance
 
 } from '../@types/event-engine';
 
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
+import {Server} from './server';
 import streamHttpMethods from '../stream/stream-http';
 
-export class Camera {
-
-	server  : string;
-	port    : number;
-	protocol: string;
-	url     : string;
+export class Camera extends Server{
 
 	name        : string;
 	rank        : number;
 	orientation : string;
 	frame       : EventEngineStreamFrame;
-	focus       : EventEngineFocus;
-	exposure    : EventEngineExposure;
-	whiteBalance: EventEngineWhiteBalance;
+	focus       : EventEngineStreamFocus;
+	exposure    : EventEngineStreamExposure;
+	whiteBalance: EventEngineStreamWhiteBalance;
 
-	constructor(options: EventEngineStream){
+	constructor(server: EventEngineServer, camera: EventEngineStream){
 
-		this.server   = options.server;
-		this.port     = options.port;
-		this.protocol = options.protocol;
-		this.url      = options.url;
+		super(server);
 
-		this.name         = options.name;
-		this.rank         = options.rank;
-		this.orientation  = options.orientation;
-		this.frame        = options.frame;
-		this.focus        = options.focus;
-		this.exposure     = options.exposure;
-		this.whiteBalance = options.whiteBalance;
+		this.name         = camera.name;
+		this.rank         = camera.rank;
+		this.orientation  = camera.orientation;
+		this.frame        = camera.frame;
+		this.focus        = camera.focus;
+		this.exposure     = camera.exposure;
+		this.whiteBalance = camera.whiteBalance;
 
 	}
 
-	version(): Promise<httpResponse>{
+	updateCameraFrame(): Promise<EventEngineStreamFrame>{
 
-		const version = streamHttpMethods.version(this);
+		return new Promise((resolve, reject) => {
+
+			const image = new Image();
+
+			image.onerror = (error) => {
+
+				reject(error);
+
+			};
+
+			image.onload = () => {
+
+				const cameraFrame = {
+
+					height: image.height,
+					width : image.width,
+					ratio : image.height / image.width
+
+				};
+
+				this.frame = cameraFrame;
+
+				resolve(cameraFrame);
+
+			};
+
+			image.src = this.getLivefeedAsImage();
+
+		});
+
+	}
+
+	async version(): Promise<httpResponse>{
+
+		const version = await streamHttpMethods.version(this);
 
 		return version;
 
 	}
 
-	quit(): Promise<httpResponse>{
+	async quit(): Promise<httpResponse>{
 
-		const quit = streamHttpMethods.quit(this);
+		const quit = await streamHttpMethods.quit(this);
 
 		return quit;
 
 	}
 
-	areYouHere(): Promise<httpResponse>{
+	async areYouHere(): Promise<httpResponse>{
 
-		const areYouHere = streamHttpMethods.areYouHere(this);
+		const areYouHere = await streamHttpMethods.areYouHere(this);
 
 		return areYouHere;
 
 	}
 
-	getCameraList(): Promise<httpResponse>{
+	async getCameraList(): Promise<httpResponse>{
 
-		const getCameraList = streamHttpMethods.getCameraList(this);
+		const getCameraList = await streamHttpMethods.getCameraList(this);
 
 		return getCameraList;
 
 	}
 
-	shootAndWait(file: EventEngineMedia): Promise<httpResponse>{
+	async shootAndWait(file: EventEngineMedia): Promise<httpResponse>{
 
-		const shootAndWait = streamHttpMethods.shootAndWait(this, file);
+		const shootAndWait = await streamHttpMethods.shootAndWait(this, file);
 
 		return shootAndWait;
 
 	}
 
-	getLastShootErrorMessage(): Promise<httpResponse>{
+	async getLastShootErrorMessage(): Promise<httpResponse>{
 
-		const getLastShootErrorMessage = streamHttpMethods.getLastShootErrorMessage(this);
+		const getLastShootErrorMessage = await streamHttpMethods.getLastShootErrorMessage(this);
 
 		return getLastShootErrorMessage;
 
 	}
 
-	cancelPending(): Promise<httpResponse>{
+	async cancelPending(): Promise<httpResponse>{
 
-		const cancelPending = streamHttpMethods.cancelPending(this);
+		const cancelPending = await streamHttpMethods.cancelPending(this);
 
 		return cancelPending;
 
 	}
 
-	writePictureStreamToFile(file: EventEngineMedia): Promise<httpResponse>{
+	async writePictureStreamToFile(file: EventEngineMedia): Promise<httpResponse>{
 
-		const writePictureStreamToFile = streamHttpMethods.writePictureStreamToFile(this, file);
+		const writePictureStreamToFile = await streamHttpMethods.writePictureStreamToFile(this, file);
 
 		return writePictureStreamToFile;
 
@@ -111,114 +139,165 @@ export class Camera {
 
 	getAvailableFileStreamCount(): Promise<httpResponse>{
 
-		const getAvailableFileStreamCount = streamHttpMethods.getAvailableFileStreamCount(this);
+		return new Promise((resolve, reject) => {
 
-		return getAvailableFileStreamCount;
+			const MAX      = 100;
+			const DELAY    = 50;
+			const INIT     = 0;
+			const ASK      = 1;
+			const ANSWERED = 2;
+
+			let status   = INIT;
+			let attempts = 0;
+
+			const interval = setInterval(() => {
+
+				if(status === ANSWERED || status === INIT){
+
+					status    = ASK;
+					attempts += 1;
+
+					try{
+
+						streamHttpMethods
+						.getAvailableFilestreamCount(this)
+						.then((response: httpResponse) => {
+
+							if(response.data){
+
+								window.clearInterval(interval);
+								resolve(response);
+
+							}else{
+
+								status = ANSWERED;
+
+								if(attempts > MAX){
+
+									reject(new Error(JSON.stringify(response)));
+
+								}
+
+							}
+
+						});
+
+					}catch(error){
+
+						reject(error);
+
+					}
+
+				}
+
+			}, DELAY);
+
+		});
 
 	}
 
-	deleteFile(file: EventEngineMedia): Promise<httpResponse>{
+	async deleteFile(file: EventEngineMedia): Promise<httpResponse>{
 
-		const deleteFile = streamHttpMethods.deleteFile(this, file);
+		const deleteFile = await streamHttpMethods.deleteFile(this, file);
 
 		return deleteFile;
 
 	}
 
-	getFile(file: EventEngineMedia): Promise<httpResponse>{
+	async getFile(file: EventEngineMedia): Promise<httpResponse>{
 
-		const getFile = streamHttpMethods.getFile(this, file);
+		const getFile = await streamHttpMethods.getFile(this, file);
 
 		return getFile;
 
 	}
 
 
-	changeOrientation(orientation: string): Promise<httpResponse>{
+	async changeOrientation(orientation: string): Promise<httpResponse>{
 
-		const changeOrientation = streamHttpMethods.changeOrientation(this, orientation);
+		const changeOrientation = await streamHttpMethods.changeOrientation(this, orientation);
 
 		return changeOrientation;
 
 	}
 
-	getAvailableIso(): Promise<httpResponse>{
+	async getAvailableIso(): Promise<httpResponse>{
 
-		const getAvailableIso = streamHttpMethods.getAvailableIso(this);
+		const getAvailableIso = await streamHttpMethods.getAvailableIso(this);
 
 		return getAvailableIso;
 
 	}
 
-	getAvailableWb(): Promise<httpResponse>{
+	async getAvailableWb(): Promise<httpResponse>{
 
-		const getAvailableWb = streamHttpMethods.getAvailableWb(this);
+		const getAvailableWb = await streamHttpMethods.getAvailableWb(this);
 
 		return getAvailableWb;
 
 	}
 
-	getAvailableTv(): Promise<httpResponse>{
+	async getAvailableTv(): Promise<httpResponse>{
 
-		const getAvailableTv = streamHttpMethods.getAvailableTv(this);
+		const getAvailableTv = await streamHttpMethods.getAvailableTv(this);
 
 		return getAvailableTv;
 
 	}
 
-	getFrameSizes(): Promise<httpResponse>{
+	async getFrameSizes(): Promise<httpResponse>{
 
-		const getFrameSizes = streamHttpMethods.getFrameSizes(this);
+		const getFrameSizes = await streamHttpMethods.getFrameSizes(this);
 
 		return getFrameSizes;
 
 	}
 
 
-	startRecording(folder: string, file: EventEngineMedia): Promise<httpResponse>{
+	async startRecording(folder: string, file: EventEngineMedia): Promise<httpResponse>{
 
-		const startRecording = streamHttpMethods.startRecording(this, folder, file);
+		const startRecording = await streamHttpMethods.startRecording(this, folder, file);
 
 		return startRecording;
 
 	}
 
-	startRecordingWithPicture(folder: string, file: EventEngineMedia, preview: EventEngineMedia): Promise<httpResponse>{
+	async startRecordingWithPicture(folder: string, file: EventEngineMedia, preview: EventEngineMedia): Promise<httpResponse>{
 
-		const startRecordingWithPicture = streamHttpMethods.startRecordingWithPicture(this, folder, file, preview);
+		const startRecordingWithPicture = await streamHttpMethods.startRecordingWithPicture(this, folder, file, preview);
 
 		return startRecordingWithPicture;
 
 	}
 
-	stopRecording(): Promise<httpResponse>{
+	async stopRecording(): Promise<httpResponse>{
 
-		const stopRecording = streamHttpMethods.stopRecording(this);
+		const stopRecording = await streamHttpMethods.stopRecording(this);
 
 		return stopRecording;
 
 	}
 
-	cleanRecording(): Promise<httpResponse>{
+	async cleanRecording(): Promise<httpResponse>{
 
-		const cleanRecording = streamHttpMethods.cleanRecording(this);
+		const cleanRecording = await streamHttpMethods.cleanRecording(this);
 
 		return cleanRecording;
 
 	}
 
 
-	startLiveView(): Promise<httpResponse>{
+	async startLiveView(): Promise<httpResponse>{
 
-		const startLiveView = streamHttpMethods.startLiveView(this);
+		const startLiveView = await streamHttpMethods.startLiveView(this);
 
 		return startLiveView;
 
 	}
 
-	stopLiveView(): Promise<httpResponse>{
+	async stopLiveView(): Promise<httpResponse>{
 
-		const stopLiveView = streamHttpMethods.stopLiveView(this);
+		const stopLiveView = await streamHttpMethods.stopLiveView(this);
 
 		return stopLiveView;
 
@@ -232,42 +311,42 @@ export class Camera {
 
 	}
 
-	getLivefeedStatus(): Promise<httpResponse>{
+	async getLivefeedStatus(): Promise<httpResponse>{
 
-		const getLivefeedStatus = streamHttpMethods.getLivefeedStatus(this);
+		const getLivefeedStatus = await streamHttpMethods.getLivefeedStatus(this);
 
 		return getLivefeedStatus;
 
 	}
 
-	greenscreenOn(greenscreen: EventEngineGreenscreen): Promise<httpResponse>{
+	async greenscreenOn(greenscreen: EventEngineGreenscreen): Promise<httpResponse>{
 
-		const greenscreenOn = streamHttpMethods.greenscreenOn(this, greenscreen);
+		const greenscreenOn = await streamHttpMethods.greenscreenOn(this, greenscreen);
 
 		return greenscreenOn;
 
 	}
 
-	greenscreenOff(): Promise<httpResponse>{
+	async greenscreenOff(): Promise<httpResponse>{
 
-		const greenscreenOff = streamHttpMethods.greenscreenOff(this);
+		const greenscreenOff = await streamHttpMethods.greenscreenOff(this);
 
 		return greenscreenOff;
 
 	}
 
-	backgroundGreenscreenArray(files: string): Promise<httpResponse>{
+	async backgroundGreenscreenArray(files: string): Promise<httpResponse>{
 
-		const backgroundGreenscreenArray = streamHttpMethods.backgroundGreenscreenArray(this, files);
+		const backgroundGreenscreenArray = await streamHttpMethods.backgroundGreenscreenArray(this, files);
 
 		return backgroundGreenscreenArray;
 
 
 	}
 
-	updateGreenscreen(file: string): Promise<httpResponse>{
+	async updateGreenscreen(file: string): Promise<httpResponse>{
 
-		const updateGreenscreen = streamHttpMethods.updateGreenscreen(this, file);
+		const updateGreenscreen = await streamHttpMethods.updateGreenscreen(this, file);
 
 		return updateGreenscreen;
 

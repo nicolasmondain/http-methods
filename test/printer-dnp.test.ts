@@ -1,11 +1,16 @@
-import {EventEnginePrinter} from '../src/@types/event-engine';
+import {EventEnginePrinter, EventEngineServer} from '../src/@types/event-engine';
+import {PrinterClassParams} from '../src/@types/http-methods';
 
-const PRINTER:EventEnginePrinter = {
+const SERVER: EventEngineServer = {
 
 	server  : 'localhost',
 	port    : 8080,
-	protocol: 'http',
-	url     : 'http://localhost:8080',
+	protocol: 'http'
+
+};
+
+const OPTIONS: EventEnginePrinter = {
+
 	simulate: false,
 	off     : false,
 	on      : true,
@@ -13,4 +18,11 @@ const PRINTER:EventEnginePrinter = {
 
 };
 
-export default PRINTER;
+const PARAMS:PrinterClassParams = {
+
+	SERVER,
+	OPTIONS
+
+};
+
+export default PARAMS;

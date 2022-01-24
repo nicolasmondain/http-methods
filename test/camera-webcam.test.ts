@@ -1,20 +1,34 @@
-import {EventEngineStream} from '../src/@types/event-engine';
+import {EventEngineServer, EventEngineStream} from '../src/@types/event-engine';
+import {CameraClassParams} from '../src/@types/http-methods';
 
-const CAMERA:EventEngineStream = {
+const FRAME_HEIGHT = 1080;
+const FRAME_WIDTH  = 720;
+
+const SERVER: EventEngineServer = {
 
 	server  : 'localhost',
 	port    : 8097,
-	protocol: 'http',
-	url     : 'http://localhost:8097',
+	protocol: 'http'
+
+};
+
+const OPTIONS:EventEngineStream = {
 
 	name        : 'c922 Pro Stream Webcam',
 	rank        : 1,
 	orientation : 'Default',
-	frame       : {height: 1080, width: 720},
+	frame       : {height: FRAME_HEIGHT, width: FRAME_WIDTH, ratio: FRAME_HEIGHT / FRAME_WIDTH},
 	focus       : {setTo: '', value: ''},
 	exposure    : {setTo: '', duration: 0, iso: '', bias: ''},
 	whiteBalance: {setTo: '', temperature: '', tint: ''}
 
 };
 
-export default CAMERA;
+const PARAMS:CameraClassParams = {
+
+	SERVER,
+	OPTIONS
+
+};
+
+export default PARAMS;

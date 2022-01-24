@@ -1,4 +1,5 @@
-import {EventEngineGreenscreen, EventEngineStream} from '../@types/event-engine';
+import {Camera} from '../class/camera';
+import {EventEngineGreenscreen} from '../@types/event-engine';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
@@ -9,7 +10,7 @@ import qs from 'qs';
 
 const streamHttpGreenscreen: httpMethodsModule = {
 
-	greenscreenOn(camera: EventEngineStream, greenscreen: EventEngineGreenscreen): Promise<httpResponse>{
+	greenscreenOn(camera: Camera, greenscreen: EventEngineGreenscreen): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -39,7 +40,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 
 	},
 
-	greenscreenOff(camera: EventEngineStream): Promise<httpResponse>{
+	greenscreenOff(camera: Camera): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -60,7 +61,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 
 	},
 
-	backgroundGreenscreenArray(camera: EventEngineStream, files: string): Promise<httpResponse>{
+	backgroundGreenscreenArray(camera: Camera, files: string): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -81,7 +82,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 
 	},
 
-	updateGreenscreen(camera: EventEngineStream, file: string): Promise<httpResponse>{
+	updateGreenscreen(camera: Camera, file: string): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 

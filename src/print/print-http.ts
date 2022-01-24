@@ -1,6 +1,7 @@
-import {EventEngineMedia, EventEnginePrinter} from '../@types/event-engine';
+import {EventEngineMedia} from '../@types/event-engine';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
+import {Printer} from '../class/printer';
 
 import axios from 'axios';
 import axiosConfig from '../config/axios.config';
@@ -12,7 +13,7 @@ const PARAM_DEBUG_PRINT_SERVER = 0;
 
 const printHttp: httpMethodsModule = {
 
-	numberOfLeftPrintSheets(printer: EventEnginePrinter): Promise<httpResponse>{
+	numberOfLeftPrintSheets(printer: Printer): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -39,7 +40,7 @@ const printHttp: httpMethodsModule = {
 
 	},
 
-	morePrints(printer: EventEnginePrinter, file: EventEngineMedia, copies: number): Promise<httpResponse>{
+	morePrints(printer: Printer, file: EventEngineMedia, copies: number): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -67,7 +68,7 @@ const printHttp: httpMethodsModule = {
 
 	},
 
-	print(printer: EventEnginePrinter, file: EventEngineMedia, copies: number, simulate: boolean): Promise<httpResponse>{
+	print(printer: Printer, file: EventEngineMedia, copies: number, simulate: boolean): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 

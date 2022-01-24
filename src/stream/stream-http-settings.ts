@@ -1,4 +1,4 @@
-import {EventEngineStream} from '../@types/event-engine';
+import {Camera} from '../class/camera';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
@@ -8,7 +8,7 @@ import httpStatus from '@sharingbox/http-status/dist/browser';
 
 const streamHttpSettings: httpMethodsModule = {
 
-	changeOrientation(camera: EventEngineStream, orientation: string): Promise<httpResponse>{
+	changeOrientation(camera: Camera, orientation: string): Promise<httpResponse>{
 
 		const options = ['Default', 'Flip right', 'Flip left', 'Upside down'];
 
@@ -31,7 +31,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 	},
 
-	getAvailableIso(camera: EventEngineStream): Promise<httpResponse>{
+	getAvailableIso(camera: Camera): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -57,7 +57,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 	},
 
-	getAvailableWb(camera: EventEngineStream): Promise<httpResponse>{
+	getAvailableWb(camera: Camera): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -78,7 +78,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 	},
 
-	getAvailableTv(camera: EventEngineStream): Promise<httpResponse>{
+	getAvailableTv(camera: Camera): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -99,7 +99,7 @@ const streamHttpSettings: httpMethodsModule = {
 
 	},
 
-	getFrameSizes(camera: EventEngineStream): Promise<httpResponse>{
+	getFrameSizes(camera: Camera): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 

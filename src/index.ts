@@ -1,12 +1,10 @@
-import printHttpMethods from './print/print-http';
-import streamHttpMethods from './stream/stream-http';
-import webHttpMethods from './web/web-http';
+import {Camera} from './class/camera';
+import {Printer} from './class/printer';
 
 const httpMethods = {
 
-	printHttpMethods,
-	streamHttpMethods,
-	webHttpMethods
+	Camera,
+	Printer
 
 };
 

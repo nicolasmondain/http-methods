@@ -1,30 +1,23 @@
-import {EventEngineMedia, EventEnginePrinter} from '../@types/event-engine';
+import {EventEngineMedia, EventEnginePrinter, EventEngineServer} from '../@types/event-engine';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 import printHttpMethods from '../print/print-http';
+import {Server} from './server';
 
-export class Printer {
-
-	server  : string;
-	port    : number;
-	protocol: string;
-	url     : string;
+export class Printer extends Server{
 
 	simulate: boolean;
 	off     : boolean;
 	on      : boolean;
 	autohide: boolean;
 
-	constructor(options: EventEnginePrinter){
+	constructor(server: EventEngineServer, printer: EventEnginePrinter){
 
-		this.server   = options.server;
-		this.port     = options.port;
-		this.protocol = options.protocol;
-		this.url      = options.url;
+		super(server);
 
-		this.simulate = options.simulate;
-		this.off      = options.off;
-		this.on       = options.on;
-		this.autohide = options.autohide;
+		this.simulate = printer.simulate;
+		this.off      = printer.off;
+		this.on       = printer.on;
+		this.autohide = printer.autohide;
 
 	}
 
@@ -36,18 +29,18 @@ export class Printer {
 
 	}
 
-	morePrints(file: EventEngineMedia, copies: number): Promise<httpResponse>{
+	async morePrints(file: EventEngineMedia, copies: number): Promise<httpResponse>{
 
-		const morePrints = printHttpMethods.morePrints(this, file, copies);
+		const morePrints = await printHttpMethods.morePrints(this, file, copies);
 
 		return morePrints;
 
 
 	}
 
-	print(file: EventEngineMedia, copies: number, simulate: boolean): Promise<httpResponse>{
+	async print(file: EventEngineMedia, copies: number, simulate: boolean): Promise<httpResponse>{
 
-		const print = printHttpMethods.print(this, file, copies, simulate);
+		const print = await printHttpMethods.print(this, file, copies, simulate);
 
 		return print;
 

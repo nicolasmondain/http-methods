@@ -1,4 +1,4 @@
-import {EventEngineStream} from '../@types/event-engine';
+import {Camera} from '../class/camera';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
@@ -8,7 +8,7 @@ import httpStatus from '@sharingbox/http-status/dist/browser';
 
 const streamHttpLiveview: httpMethodsModule = {
 
-	startLiveView(camera: EventEngineStream): Promise<httpResponse>{
+	startLiveView(camera: Camera): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -29,7 +29,7 @@ const streamHttpLiveview: httpMethodsModule = {
 
 	},
 
-	stopLiveView(camera: EventEngineStream): Promise<httpResponse>{
+	stopLiveView(camera: Camera): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -50,13 +50,13 @@ const streamHttpLiveview: httpMethodsModule = {
 
 	},
 
-	getLivefeedAsImage(camera: EventEngineStream): string{
+	getLivefeedAsImage(camera: Camera): string{
 
 		return`${camera.url}/getLivefeedAsImage/byName/${camera.name}?nocache=${new Date().getTime()}`;
 
 	},
 
-	getLivefeedStatus(camera: EventEngineStream): Promise<httpResponse>{
+	getLivefeedStatus(camera: Camera): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 

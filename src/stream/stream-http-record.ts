@@ -1,4 +1,5 @@
-import {EventEngineMedia, EventEngineStream} from '../@types/event-engine';
+import {Camera} from '../class/camera';
+import {EventEngineMedia} from '../@types/event-engine';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
@@ -9,7 +10,7 @@ import qs from 'qs';
 
 const streamHttpRecord: httpMethodsModule = {
 
-	startRecording(camera: EventEngineStream, folder: string, file: EventEngineMedia): Promise<httpResponse>{
+	startRecording(camera: Camera, folder: string, file: EventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -35,7 +36,7 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	startRecordingWithPicture(camera: EventEngineStream, folder: string, file: EventEngineMedia, preview: EventEngineMedia): Promise<httpResponse>{
+	startRecordingWithPicture(camera: Camera, folder: string, file: EventEngineMedia, preview: EventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -62,7 +63,7 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	stopRecording(camera: EventEngineStream): Promise<httpResponse>{
+	stopRecording(camera: Camera): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
@@ -83,7 +84,7 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	cleanRecording(camera: EventEngineStream): Promise<httpResponse>{
+	cleanRecording(camera: Camera): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 

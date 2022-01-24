@@ -1,8 +1,8 @@
-import {EventEngineStream} from '../src/@types/event-engine';
+import {httpMethodsClassParams} from '../src/@types/http-methods';
 
 import EOS from './camera-eos.test';
 import WEBCAM from './camera-webcam.test';
 
-const CAMERAS: Record<string, EventEngineStream> = {EOS, WEBCAM};
+const CAMERAS: Record<string, httpMethodsClassParams> = {EOS, WEBCAM};
 
 export default CAMERAS;
