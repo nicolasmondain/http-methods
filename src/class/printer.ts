@@ -21,6 +21,34 @@ export class Printer extends Server{
 
 	}
 
+	async isAbleToPrint(): Promise<boolean>{
+
+		let isAbleToPrint = true;
+
+		if(this.simulate === false){
+
+			if(this.off){
+
+				isAbleToPrint = false;
+
+			}else{
+
+				const paper = await this.numberOfLeftPrintSheets();
+
+				if(!paper.data && this.autohide){
+
+					isAbleToPrint = false;
+
+				}
+
+			}
+
+		}
+
+		return isAbleToPrint;
+
+	}
+
 	async numberOfLeftPrintSheets(): Promise<httpResponse>{
 
 		const numberOfLeftPrintSheets = await printHttpMethods.numberOfLeftPrintSheets(this);
