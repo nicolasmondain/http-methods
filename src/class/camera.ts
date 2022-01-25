@@ -139,60 +139,9 @@ export class Camera extends Server{
 
 	getAvailableFileStreamCount(): Promise<httpResponse>{
 
-		return new Promise((resolve, reject) => {
+		const getAvailableFilestreamCount = streamHttpMethods.getAvailableFilestreamCount(this);
 
-			const MAX      = 100;
-			const DELAY    = 50;
-			const INIT     = 0;
-			const ASK      = 1;
-			const ANSWERED = 2;
-
-			let status   = INIT;
-			let attempts = 0;
-
-			const interval = setInterval(() => {
-
-				if(status === ANSWERED || status === INIT){
-
-					status    = ASK;
-					attempts += 1;
-
-					try{
-
-						streamHttpMethods
-						.getAvailableFilestreamCount(this)
-						.then((response: httpResponse) => {
-
-							if(response.data){
-
-								window.clearInterval(interval);
-								resolve(response);
-
-							}else{
-
-								status = ANSWERED;
-
-								if(attempts > MAX){
-
-									reject(new Error(JSON.stringify(response)));
-
-								}
-
-							}
-
-						});
-
-					}catch(error){
-
-						reject(error);
-
-					}
-
-				}
-
-			}, DELAY);
-
-		});
+		return getAvailableFilestreamCount;
 
 	}
 

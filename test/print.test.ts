@@ -19,7 +19,7 @@ describe('print', function print(){
 
 	this.slow(0); // eslint-disable-line no-invalid-this
 
-	const printer:Printer = new Printer(PRINTER);
+	const printer:Printer = new Printer(PRINTER.SERVER, PRINTER.OPTIONS);
 
 	context('standard HTTP calls with the correct parameters', () => {
 

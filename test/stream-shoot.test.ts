@@ -1,5 +1,6 @@
 /* eslint-disable max-lines-per-function */
 
+import {EventEngineServerExpectations} from '../src/@types/event-engine';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status';
 
 import * as chai from 'chai';
@@ -20,7 +21,7 @@ const CAMERA             = cameras[CAMERA_TYPE] || cameras.WEBCAM;
 
 const SECOND = 1000;
 const DELAY_BETWEEN_STARTLIVEVIEW_AND_SHOOT           = CAMERA_TYPE === 'WEBCAM' ? SECOND : 0;
-const DELAY_BETWEEN_SHOOT_AND_GETAVAILABLESTREAMCOUNT = CAMERA_TYPE === 'WEBCAM' ? 0 : SECOND;
+const DELAY_BETWEEN_SHOOT_AND_GETAVAILABLESTREAMCOUNT = CAMERA_TYPE === 'WEBCAM' ? 0 : SECOND; // eslint-disable-line
 const DELAY_MAX_FOR_COMPLETE_SHOOT_PROCESS            = 10000;
 
 describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
@@ -28,7 +29,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 	this.slow(0); // eslint-disable-line no-invalid-this
 	this.timeout(DELAY_MAX_FOR_COMPLETE_SHOOT_PROCESS); // eslint-disable-line no-invalid-this
 
-	const camera:Camera = new Camera(CAMERA);
+	const camera:Camera = new Camera(CAMERA.SERVER, CAMERA.OPTIONS);
 
 	context(`standard HTTP calls with the correct parameters ${CAMERA_TYPE}`, () => {
 
@@ -149,18 +150,33 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 				});
 
 			}))
-			.then(() => new Promise<void>((resolve) => {
+			// .then(() => new Promise<void>((resolve) => {
 
-				setTimeout(() => {
+			// 	setTimeout(() => {
 
-					resolve();
+			// 		resolve();
 
-				}, DELAY_BETWEEN_SHOOT_AND_GETAVAILABLESTREAMCOUNT);
+			// 	}, DELAY_BETWEEN_SHOOT_AND_GETAVAILABLESTREAMCOUNT);
 
-			}))
+			// }))
 			.then(() => new Promise<void>((resolve, reject) => {
 
-				camera.getAvailableFileStreamCount()
+				const expect:EventEngineServerExpectations = {
+
+					status      : 200,
+					expectations: [
+
+						{
+							method : 'toBeGreaterThan',
+							nested : '',
+							compare: 0
+						}
+
+					]
+
+				};
+
+				camera.recall(camera.getAvailableFileStreamCount, [], expect)
 				.then((response: httpResponse) => {
 
 					if(httpStatus.isOK(response.status) && typeof response.data === 'number'){
@@ -174,6 +190,21 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 						reject(new Error(JSON.stringify(response)));
 
 					}
+
+				})
+				.catch((e: AxiosError) => {
+
+					let error = e;
+
+					if(error.isAxiosError && error.response){
+
+						error = httpStatus.formatResponse(error.response.status, error.response.statusText, error.response.data);
+
+					}
+
+					console.log(error);
+
+					process.exit();
 
 				});
 
@@ -242,7 +273,9 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 
 				}
 
-				console.log(error); // eslint-disable-line no-console
+				console.log(error);
+
+				process.exit();
 
 			});
 

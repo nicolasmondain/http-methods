@@ -1,6 +1,6 @@
 {
   "name": "@sharingbox/http-methods",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "HTTP (JavaScript) methods to communicate with the eventManager by sharingbox servers",
   "main": "src/index.js",
   "directories": {
@@ -62,7 +62,7 @@
     "webpack-node-externals": "3.0.0"
   },
   "dependencies": {
-    "@sharingbox/http-status": "1.0.6",
+    "@sharingbox/http-status": "1.1.2",
     "axios": "0.24.0",
     "qs": "6.10.1"
   }

@@ -17,6 +17,21 @@ export interface EventEngineServer {
 
 }
 
+export interface EventEngineServerExpectation {
+
+	method : 'toBeEqualTo' | 'toBeGreaterThan' | 'toBeLessThan' | 'toBeTypeof' | 'toMatch' | 'toBeNull';
+	nested : string;
+	compare: number|string|boolean|undefined|null;
+
+}
+
+export interface EventEngineServerExpectations {
+
+	status       : number;
+	expectations: Array<EventEngineServerExpectation>;
+
+}
+
 export interface EventEngineStreamFrame {
 
 	height: number;

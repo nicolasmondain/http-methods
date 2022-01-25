@@ -18,7 +18,7 @@ describe(`stream-greenscreen ${CAMERA_TYPE}`, function streamGreenscreen(){
 
 	this.slow(0); // eslint-disable-line no-invalid-this
 
-	const camera:Camera = new Camera(CAMERA);
+	const camera:Camera = new Camera(CAMERA.SERVER, CAMERA.OPTIONS);
 
 	context(`standard HTTP calls with the correct parameters ${CAMERA_TYPE}`, () => {
 

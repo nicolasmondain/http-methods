@@ -23,7 +23,7 @@ describe(`stream-liveview ${CAMERA_TYPE}`, function streamLiveview(){ // eslint-
 	this.slow(0); // eslint-disable-line no-invalid-this
 	this.timeout(DELAY_MAX_FOR_LIVEFEED_ANALYSIS); // eslint-disable-line no-invalid-this
 
-	const camera:Camera = new Camera(CAMERA);
+	const camera:Camera = new Camera(CAMERA.SERVER, CAMERA.OPTIONS);
 
 	context(`standard HTTP calls with the correct parameters ${CAMERA_TYPE}`, () => {
 
@@ -164,6 +164,8 @@ describe(`stream-liveview ${CAMERA_TYPE}`, function streamLiveview(){ // eslint-
 				}
 
 				console.log(error); // eslint-disable-line no-console
+
+				process.exit();
 
 			});
 

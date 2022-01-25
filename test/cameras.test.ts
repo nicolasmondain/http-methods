@@ -1,8 +1,8 @@
-import {httpMethodsClassParams} from '../src/@types/http-methods';
+import {CameraClassParams} from '../src/@types/http-methods';
 
 import EOS from './camera-eos.test';
 import WEBCAM from './camera-webcam.test';
 
-const CAMERAS: Record<string, httpMethodsClassParams> = {EOS, WEBCAM};
+const CAMERAS: Record<string, CameraClassParams> = {EOS, WEBCAM};
 
 export default CAMERAS;
