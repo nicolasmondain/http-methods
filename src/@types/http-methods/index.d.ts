@@ -7,13 +7,19 @@ export type httpMethodsModule = Record<string, void|Promise>;
 export interface CameraClassParams {
 
 	SERVER : EventEngineServer;
-	OPTIONS: EventEngineStream
+	OPTIONS: EventEngineStream;
 
 }
 
 export interface PrinterClassParams {
 
 	SERVER : EventEngineServer;
-	OPTIONS: EventEnginePrinter
+	OPTIONS: EventEnginePrinter;
+
+}
+
+export interface PhotoboothClassParams {
+
+	SERVER : EventEngineServer;
 
 }

@@ -150,15 +150,6 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 				});
 
 			}))
-			// .then(() => new Promise<void>((resolve) => {
-
-			// 	setTimeout(() => {
-
-			// 		resolve();
-
-			// 	}, DELAY_BETWEEN_SHOOT_AND_GETAVAILABLESTREAMCOUNT);
-
-			// }))
 			.then(() => new Promise<void>((resolve, reject) => {
 
 				const expect:EventEngineServerExpectations = [

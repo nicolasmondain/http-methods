@@ -12,8 +12,8 @@ import 'mocha';
 chai.use(chaiAsPromised);
 chai.should();
 
-const PRINTER_TYPE:string = process.env.CAMERA || 'DNP';
-const PRINTER             = printers[PRINTER_TYPE] || printers.WEBCAM;
+const PRINTER_TYPE:string = process.env.PRINTER || 'DNP';
+const PRINTER             = printers[PRINTER_TYPE] || printers.DNP;
 
 describe('print', function print(){
 
