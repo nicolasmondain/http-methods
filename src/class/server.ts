@@ -19,7 +19,7 @@ export class Server {
 
 	}
 
-	recall(loop: (args: Array<any>) => Promise<httpResponse>, args: Array<any>, expect: EventEngineServerExpectations): Promise<httpResponse>{ // eslint-disable-line no-unused-vars, max-lines-per-function
+	recall(loop: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>, expect: EventEngineServerExpectations): Promise<httpResponse>{ // eslint-disable-line no-unused-vars, max-lines-per-function
 
 		const RECALL_DELAY    = 250;
 		const RECALL_MAX      = 50;
