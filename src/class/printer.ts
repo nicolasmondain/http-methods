@@ -66,9 +66,9 @@ export class Printer extends Server{
 
 	}
 
-	async print(file: EventEngineMedia, copies: number, simulate: boolean): Promise<httpResponse>{
+	async print(file: EventEngineMedia, copies: number): Promise<httpResponse>{
 
-		const print = await printHttpMethods.print(this, file, copies, simulate);
+		const print = await printHttpMethods.print(this, file, copies, this.simulate);
 
 		return print;
 
