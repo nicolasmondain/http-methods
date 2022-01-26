@@ -47,11 +47,10 @@ export class Server {
 							const checkResponseData = httpStatus.checkResponseData(response);
 
 							const expectations = expect
-																	.expectations
-																	.map((e) => checkResponseData.expect(e.nested)[e.method](e.compare))
+																	.map((e) => checkResponseData.expect(e.nested)[e.method](e.compare) && e.status === response.status)
 																	.every((e) => e === true);
 
-							if(response.status === expect.status && expectations === true){
+							if(expectations){
 
 								clearInterval(interval);
 								resolve(response);

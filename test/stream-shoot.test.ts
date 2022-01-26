@@ -161,20 +161,16 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 			// }))
 			.then(() => new Promise<void>((resolve, reject) => {
 
-				const expect:EventEngineServerExpectations = {
+				const expect:EventEngineServerExpectations = [
 
-					status      : 200,
-					expectations: [
+					{
+						status : 200,
+						method : 'toBeGreaterThan',
+						nested : '',
+						compare: 0
+					}
 
-						{
-							method : 'toBeGreaterThan',
-							nested : '',
-							compare: 0
-						}
-
-					]
-
-				};
+				];
 
 				camera.recall(camera.getAvailableFileStreamCount, [], expect)
 				.then((response: httpResponse) => {
