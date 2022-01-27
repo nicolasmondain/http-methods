@@ -235,6 +235,21 @@ export class Camera extends Server{
 
 	}
 
+	async setRecordingModeOn(): Promise<httpResponse>{
+
+		const setRecordingModeOn = await streamHttpMethods.setRecordingModeOn(this);
+
+		return setRecordingModeOn;
+
+	}
+
+	async setRecordingModeOff(): Promise<httpResponse>{
+
+		const setRecordingModeOff = await streamHttpMethods.setRecordingModeOff(this);
+
+		return setRecordingModeOff;
+
+	}
 
 	async startLiveView(): Promise<httpResponse>{
 

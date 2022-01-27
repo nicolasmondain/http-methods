@@ -9,20 +9,58 @@ import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 import qs from 'qs';
 
+import webHttpFile from './web-http-file';
+
 const webHttp: httpMethodsModule = {
 
-	retrieveImageFromUrlAndSaveIt(photobooth: Photobooth, camera: Camera, file: EventEngineMedia): Promise<httpResponse>{
+	whatMode(photobooth: Photobooth): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${photobooth.url}/retrieveImageFromUrlAndSaveIt/`, qs.stringify({
+			.get(`${photobooth.url}/areYouHere/`, axiosConfig)
+			.then((response) => {
 
-				ipWeAsktheImage: camera.url,
-				commandLine    : `getFile/${file.name}`,
-				pathFile       : file.path
+				resolve(httpStatus.formatResponse(response.status, response.data));
 
-			}), axiosConfig)
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	services(photobooth: Photobooth): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.get(`${photobooth.url}/services/`, axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	appDirectory(photobooth: Photobooth): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.get(`${photobooth.url}/appDirectory/`, axiosConfig)
 			.then((response) => {
 
 				resolve(httpStatus.formatResponse(response.status, response.data));
@@ -40,4 +78,9 @@ const webHttp: httpMethodsModule = {
 
 };
 
-export default webHttp;
+export default Object.assign(
+
+	webHttp,
+	webHttpFile
+
+);

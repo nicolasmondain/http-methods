@@ -37,6 +37,36 @@ describe(`stream-record ${CAMERA_TYPE}`, function streamRecord(){
 
 		});
 
+		it('setRecordingModeOn should be fulfilled (httpStatus.isOK)', (done) => {
+
+			camera.setRecordingModeOn()
+			.then((response: httpResponse) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					done();
+
+				}
+
+			});
+
+		});
+
+		it('setRecordingModeOn should be fulfilled (httpStatus.isOK)', (done) => {
+
+			camera.setRecordingModeOff()
+			.then((response: httpResponse) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					done();
+
+				}
+
+			});
+
+		});
+
 	});
 
 });

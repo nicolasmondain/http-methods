@@ -80,7 +80,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 
 		it('getAvailableFilestreamCount should return a number', () => {
 
-			camera.getAvailableFileStreamCount()
+			camera.getAvailableFilestreamCount()
 			.then((response: httpResponse) => {
 
 				if(httpStatus.isOK(response.status)){
@@ -163,7 +163,7 @@ describe(`stream-shoot ${CAMERA_TYPE}`, function streamShoot(){
 
 				];
 
-				camera.recall(camera.getAvailableFileStreamCount, [], expect)
+				camera.recall(camera.getAvailableFilestreamCount, [], expect)
 				.then((response: httpResponse) => {
 
 					if(httpStatus.isOK(response.status) && typeof response.data === 'number'){

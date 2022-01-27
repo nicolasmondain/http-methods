@@ -6,6 +6,7 @@ import cameras from './cameras.test';
 import chaiAsPromised from 'chai-as-promised';
 import file from './file.test';
 import httpStatus from '@sharingbox/http-status/dist/browser';
+import params from './params.test';
 import {Photobooth} from '../src/class/photobooth';
 import photobooths from './photobooths.test';
 
@@ -19,7 +20,7 @@ const PHOTOBOOTH             = photobooths[PHOTOBOOTH_TYPE] || photobooths.LOCAL
 const CAMERA_TYPE:string     = process.env.CAMERA || 'WEBCAM';
 const CAMERA                 = cameras[CAMERA_TYPE] || cameras.WEBCAM;
 
-describe('print', function print(){
+describe('web', function web(){
 
 	this.slow(0); // eslint-disable-line no-invalid-this
 
@@ -27,6 +28,51 @@ describe('print', function print(){
 	const camera:Camera         = new Camera(CAMERA.SERVER, CAMERA.OPTIONS);
 
 	context('standard HTTP calls with the correct parameters', () => {
+
+		it('whatMode should be fulfilled (httpStatus.isOK)', (done) => {
+
+			photobooth.whatMode()
+			.then((response: httpResponse) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					done();
+
+				}
+
+			});
+
+		});
+
+		it('appDirectory should be fulfilled (httpStatus.isOK)', (done) => {
+
+			photobooth.appDirectory()
+			.then((response: httpResponse) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					done();
+
+				}
+
+			});
+
+		});
+
+		it('services should be fulfilled (httpStatus.isOK)', (done) => {
+
+			photobooth.services()
+			.then((response: httpResponse) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					done();
+
+				}
+
+			});
+
+		});
 
 		it('retrieveImageFromUrlAndSaveIt should be fulfilled (httpStatus.isOK)', (done) => {
 
@@ -38,6 +84,26 @@ describe('print', function print(){
 					done();
 
 				}
+
+			});
+
+		});
+
+	});
+
+	context('initialization', () => {
+
+		it('init promises should be fulfilled (httpStatus.isOK)', (done) => {
+
+			photobooth.init(params)
+			.then(() => {
+
+				done();
+
+			})
+			.catch((error: Error) => {
+
+				console.log(error); // eslint-disable-line no-console
 
 			});
 

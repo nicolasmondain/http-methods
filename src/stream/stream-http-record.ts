@@ -10,6 +10,48 @@ import qs from 'qs';
 
 const streamHttpRecord: httpMethodsModule = {
 
+	setRecordingModeOn(camera: Camera): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.get(`${camera.url}/setRecordingModeOn/`, axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	setRecordingModeOff(camera: Camera): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.get(`${camera.url}/setRecordingModeOff/`, axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
 	startRecording(camera: Camera, folder: string, file: EventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {

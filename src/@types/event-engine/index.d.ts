@@ -46,7 +46,7 @@ export interface EventEngineStreamFocus {
 export interface EventEngineStreamExposure {
 
 	setTo   : string;
-	duration: number;
+	duration: number|null;
 	iso     : string;
 	bias    : string;
 
@@ -78,6 +78,22 @@ export interface EventEnginePrinter {
 	off     : boolean;
 	on      : boolean;
 	autohide: boolean;
+
+}
+
+export interface EventEngineURLParams {
+
+	version                : string;
+	idFTPevent             : string;
+	id                     : number;
+	license                : number;
+	width                  : number;
+	height                 : number;
+	timeDifferenceWithCloud: number;
+	configuration					 : boolean;
+	screenshot  					 : boolean;
+	contactless 					 : boolean;
+	errorInSession?        : string;
 
 }
 
