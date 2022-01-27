@@ -9,7 +9,7 @@ import {Printer} from './printer';
 import {Server} from './server';
 import webHttpMethods from '../web/web-http';
 
-const bowser = Bowser.getParser(window?.navigator.userAgent);
+const bowser = Bowser.getParser(window.navigator.userAgent);
 
 export class Photobooth extends Server{
 
