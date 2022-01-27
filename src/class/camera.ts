@@ -137,7 +137,7 @@ export class Camera extends Server{
 
 	}
 
-	getAvailableFileStreamCount(): Promise<httpResponse>{
+	getAvailableFilestreamCount(): Promise<httpResponse>{
 
 		const getAvailableFilestreamCount = streamHttpMethods.getAvailableFilestreamCount(this);
 
