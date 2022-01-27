@@ -1,3 +1,5 @@
+import 'jsdom-global/register';
+
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status';
 
 import * as chai from 'chai';
@@ -20,7 +22,7 @@ const PHOTOBOOTH             = photobooths[PHOTOBOOTH_TYPE] || photobooths.LOCAL
 const CAMERA_TYPE:string     = process.env.CAMERA || 'WEBCAM';
 const CAMERA                 = cameras[CAMERA_TYPE] || cameras.WEBCAM;
 
-describe('web', function web(){
+describe('web', function web(){ // eslint-disable-line max-lines-per-function
 
 	this.slow(0); // eslint-disable-line no-invalid-this
 
@@ -77,6 +79,21 @@ describe('web', function web(){
 		it('retrieveImageFromUrlAndSaveIt should be fulfilled (httpStatus.isOK)', (done) => {
 
 			photobooth.retrieveImageFromUrlAndSaveIt(camera, file)
+			.then((response: httpResponse) => {
+
+				if(httpStatus.isOK(response.status)){
+
+					done();
+
+				}
+
+			});
+
+		});
+
+		it('greenScreen should be fulfilled (httpStatus.isOK)', (done) => {
+
+			photobooth.greenScreen()
 			.then((response: httpResponse) => {
 
 				if(httpStatus.isOK(response.status)){

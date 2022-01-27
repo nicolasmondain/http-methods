@@ -1,5 +1,3 @@
-import {Camera} from '../class/camera';
-import {EventEngineMedia} from '../@types/event-engine';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 import {Photobooth} from '../class/photobooth';
@@ -7,9 +5,9 @@ import {Photobooth} from '../class/photobooth';
 import axios from 'axios';
 import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
-import qs from 'qs';
 
 import webHttpFile from './web-http-file';
+import webHttpSettings from './web-http-settings';
 
 const webHttp: httpMethodsModule = {
 
@@ -81,6 +79,7 @@ const webHttp: httpMethodsModule = {
 export default Object.assign(
 
 	webHttp,
-	webHttpFile
+	webHttpFile,
+	webHttpSettings
 
 );

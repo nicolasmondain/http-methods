@@ -2,11 +2,14 @@ import {EventEngineMedia, EventEnginePrinter, EventEngineServer, EventEngineStre
 import {PhotoboothEventManager, PhotoboothEventManagerScreen} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
+import * as Bowser from 'bowser';
 import {Camera} from './camera';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 import {Printer} from './printer';
 import {Server} from './server';
 import webHttpMethods from '../web/web-http';
+
+const bowser = Bowser.getParser(window?.navigator.userAgent);
 
 export class Photobooth extends Server{
 
@@ -15,6 +18,10 @@ export class Photobooth extends Server{
 	screen  : PhotoboothEventManagerScreen;
 	cameras : Array<Camera>;
 	printers: Array<Printer>;
+	browser : Bowser.Parser.BrowserDetails;
+	platform: Bowser.Parser.PlatformDetails;
+	os      : Bowser.Parser.OSDetails;
+	engine  : Bowser.Parser.EngineDetails;
 
 	constructor(server: EventEngineServer){
 
@@ -23,11 +30,12 @@ export class Photobooth extends Server{
 		this.id = 0;
 		this.em = {
 
-			version  : '',
-			license  : 0,
-			directory: '',
-			services : {},
-			modes    : {
+			version    : '',
+			license    : 0,
+			directory  : '',
+			services   : {},
+			greenscreen: {},
+			modes      : {
 
 				launch       : 'normal',
 				contactless  : false,
@@ -40,6 +48,10 @@ export class Photobooth extends Server{
 
 		};
 
+		this.platform = bowser.getPlatform();
+		this.browser  = bowser.getBrowser();
+		this.os 		  = bowser.getOS();
+		this.engine   = bowser.getEngine();
 		this.screen   = {width: 0, height: 0};
 		this.cameras  = [];
 		this.printers = [];
@@ -48,13 +60,14 @@ export class Photobooth extends Server{
 
 	async init(params: EventEngineURLParams): Promise<void>{
 
-		const responses: Array<httpResponse> = await Promise.all([this.whatMode(), this.appDirectory(), this.services()]);
+		const responses: Array<httpResponse> = await Promise.all([this.whatMode(), this.appDirectory(), this.services(), this.greenScreen()]);
 
 		if(responses.every((r) => httpStatus.isOK(r.status))){
 
 			this.em.modes.launch = responses[0].data.toLowerCase();
 			this.em.directory    = responses[1].data;
 			this.em.services     = responses[2].data;
+			this.em.greenscreen  = responses[3].data;
 
 			this.id                         = params.id;
 			this.screen                     = {width: params.width, height: params.height};
@@ -88,7 +101,7 @@ export class Photobooth extends Server{
 
 	}
 
-	addPrinters(){
+	addPrinters(): void{
 
 		const {print} = this.em.services;
 
@@ -107,6 +120,14 @@ export class Photobooth extends Server{
 			this.addPrinter(server, printer);
 
 		}
+
+	}
+
+	async callPrinters(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<unknown>>{ // eslint-disable-line no-unused-vars
+
+		const callCameras = await Promise.all(this.printers.map((e) => call.bind(e)(args)));
+
+		return callCameras;
 
 	}
 
@@ -142,6 +163,14 @@ export class Photobooth extends Server{
 
 	}
 
+	async callCameras(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<unknown>>{ // eslint-disable-line no-unused-vars
+
+		const callCameras = await Promise.all(this.cameras.map((e) => call.bind(e)(args)));
+
+		return callCameras;
+
+	}
+
 	async whatMode(): Promise<httpResponse>{
 
 		const whatMode = await webHttpMethods.whatMode(this);
@@ -163,6 +192,14 @@ export class Photobooth extends Server{
 		const services = await webHttpMethods.services(this);
 
 		return services;
+
+	}
+
+	async greenScreen(): Promise<httpResponse>{
+
+		const greenScreen = await webHttpMethods.greenScreen(this);
+
+		return greenScreen;
 
 	}
 

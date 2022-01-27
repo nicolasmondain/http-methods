@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import {EventEngineParams, EventEnginePrinter, EventEngineServer, EventEngineStream} from '../event-engine';
+import {EventEnginePrinter, EventEngineServer, EventEngineStream} from '../event-engine';
 
 export type httpMethodsModule = Record<string, void|Promise>;
 
@@ -37,6 +37,17 @@ export interface PhotoboothEventManagerScreen {
 
 	width : number;
 	height: number;
+
+}
+
+export interface PhotoboothEventManagerGreenScreen {
+
+	B?          : number;
+	G?          : number;
+	R?          : number;
+	angle?      : number;
+	background? : string;
+	noise?      : number;
 
 }
 
@@ -78,6 +89,7 @@ export interface PhotoboothEventManager {
 	license                : number;
 	directory              : string;
 	services               : PhotoboothEventManagerServices;
+	greenscreen            : PhotoboothEventManagerGreenScreen;
 	modes                  : PhotoboothEventManagerModes;
 	timeDifferenceWithCloud: number;
 
