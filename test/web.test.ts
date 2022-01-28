@@ -108,7 +108,7 @@ describe('web', function web(){ // eslint-disable-line max-lines-per-function
 
 	});
 
-	context('initialization', () => {
+	context('initialization (init())', () => {
 
 		it('init promises should be fulfilled (httpStatus.isOK)', (done) => {
 
@@ -123,6 +123,24 @@ describe('web', function web(){ // eslint-disable-line max-lines-per-function
 				console.log(error); // eslint-disable-line no-console
 
 			});
+
+		});
+
+	});
+
+	context('check utils methods', () => {
+
+		it('init promises should be fulfilled (httpStatus.isOK)', () => {
+
+			const index1 = photobooth.addCamera(CAMERA.SERVER, CAMERA.OPTIONS);
+			const index2 = photobooth.addCamera(CAMERA.SERVER, CAMERA.OPTIONS);
+			const hasCam = photobooth.hasCamera();
+
+			chai.expect(index1).to.be.a('number');
+			chai.expect(index2).to.be.a('number');
+			chai.expect(hasCam).to.be.a('boolean');
+
+			chai.expect(hasCam).to.be.equal(true);
 
 		});
 

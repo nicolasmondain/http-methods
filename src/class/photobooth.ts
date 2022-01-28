@@ -89,15 +89,12 @@ export class Photobooth extends Server{
 
 	}
 
-	addPrinter(server: EventEngineServer, printer: EventEnginePrinter): void{
+	addPrinter(server: EventEngineServer, printer: EventEnginePrinter): number{
 
-		this.printers.push(new Printer(server, printer));
+		const printersLength = this.printers.push(new Printer(server, printer));
+		const printerIndex   = printersLength - 1;
 
-	}
-
-	addCamera(server: EventEngineServer, camera: EventEngineStream): void{
-
-		this.cameras.push(new Camera(server, camera));
+		return printerIndex;
 
 	}
 
@@ -123,11 +120,28 @@ export class Photobooth extends Server{
 
 	}
 
+	hasPrinter(): boolean{
+
+		return this.printers.length > 0;
+
+	}
+
 	async callPrinters(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<unknown>>{ // eslint-disable-line no-unused-vars
 
 		const callCameras = await Promise.all(this.printers.map((e) => call.bind(e)(args)));
 
 		return callCameras;
+
+	}
+
+	addCamera(server: EventEngineServer, camera: EventEngineStream): number{
+
+		const camerasLength = this.cameras.push(new Camera(server, camera));
+		const cameraIndex   = camerasLength - 1;
+
+		this.cameras[cameraIndex].updateCameraFrame();
+
+		return cameraIndex;
 
 	}
 
@@ -160,6 +174,12 @@ export class Photobooth extends Server{
 			}
 
 		}
+
+	}
+
+	hasCamera(): boolean{
+
+		return this.cameras.length > 0;
 
 	}
 
