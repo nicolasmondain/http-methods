@@ -18,9 +18,9 @@ const webHttpFile: httpMethodsModule = {
 			axios
 			.post(`${photobooth.url}/retrieveImageFromUrlAndSaveIt/`, qs.stringify({
 
-				ipWeAsktheImage: camera.url,
-				commandLine    : `getFile/${file.name}`,
-				pathFile       : file.path
+				url    : camera.url,
+				command: `getFile/${file.name}`,
+				path   : file.path
 
 			}), axiosConfig)
 			.then((response) => {
@@ -35,6 +35,216 @@ const webHttpFile: httpMethodsModule = {
 			});
 
 		});
+
+	},
+
+	retrieveDataFileFromIP(photobooth: Photobooth, ip: string, id: string, file: EventEngineMedia): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${photobooth.url}/retrieveDataFileFromIP/`, qs.stringify({
+
+				ip,
+				session : id,
+				filename: file.name,
+				path    : file.path
+
+			}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	saveImage(photobooth: Photobooth, file: EventEngineMedia, base64: string): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${photobooth.url}/saveImage/`, qs.stringify({
+
+				file: file.path,
+				base64
+
+			}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	doesFileExist(photobooth: Photobooth, file: EventEngineMedia): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${photobooth.url}/doesFileExist/`, qs.stringify({
+
+				file: file.path
+
+			}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	writeTextFileInSession(photobooth: Photobooth, id: string, file: EventEngineMedia, text: string): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${photobooth.url}/writeTextFileInSession/`, qs.stringify({
+
+				id,
+				text,
+				name: file.name
+
+			}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	writeTextFile(photobooth: Photobooth, file: EventEngineMedia, text: string): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${photobooth.url}/writeTextFile/`, qs.stringify({
+
+				path: file.path,
+				text
+
+			}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	copyFile(photobooth: Photobooth, source: EventEngineMedia, destination: EventEngineMedia){
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${photobooth.url}/copyFile/`, qs.stringify({
+
+				source     : source.path,
+				destination: destination.path
+
+			}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	deleteSession(photobooth: Photobooth, id: string): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${photobooth.url}/deleteSession/`, qs.stringify({
+
+				session: id
+
+			}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	deleteFilesInSession(photobooth: Photobooth, id:string, files: string){
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${photobooth.url}/deleteFilesInSession/`, qs.stringify({
+
+				session: id,
+				files
+
+			}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
 
 	}
 

@@ -18,10 +18,10 @@ export class Photobooth extends Server{
 	screen  : PhotoboothEventManagerScreen;
 	cameras : Array<Camera>;
 	printers: Array<Printer>;
-	browser : Bowser.Parser.BrowserDetails;
-	platform: Bowser.Parser.PlatformDetails;
-	os      : Bowser.Parser.OSDetails;
-	engine  : Bowser.Parser.EngineDetails;
+	browser : Bowser.Parser.BrowserDetails | null;
+	platform: Bowser.Parser.PlatformDetails | null;
+	os      : Bowser.Parser.OSDetails | null;
+	engine  : Bowser.Parser.EngineDetails | null;
 
 	constructor(server: EventEngineServer){
 
@@ -48,10 +48,10 @@ export class Photobooth extends Server{
 
 		};
 
-		this.platform = bowser.getPlatform();
-		this.browser  = bowser.getBrowser();
-		this.os 		  = bowser.getOS();
-		this.engine   = bowser.getEngine();
+		this.platform = this.server === 'localhost' ? bowser.getPlatform() : null;
+		this.browser  = this.server === 'localhost' ? bowser.getBrowser() : null;
+		this.os 		  = this.server === 'localhost' ? bowser.getOS() : null;
+		this.engine   = this.server === 'localhost' ? bowser.getEngine() : null;
 		this.screen   = {width: 0, height: 0};
 		this.cameras  = [];
 		this.printers = [];
@@ -60,7 +60,7 @@ export class Photobooth extends Server{
 
 	async init(params: EventEngineURLParams): Promise<void>{
 
-		const responses: Array<httpResponse> = await Promise.all([this.whatMode(), this.appDirectory(), this.services(), this.greenScreen()]);
+		const responses: Array<httpResponse> = await Promise.all([this.whatMode(), this.appDirectory(), this.services(), this.greenScreen(), this.whatSystem()]);
 
 		if(responses.every((r) => httpStatus.isOK(r.status))){
 
@@ -68,6 +68,7 @@ export class Photobooth extends Server{
 			this.em.directory    = responses[1].data;
 			this.em.services     = responses[2].data;
 			this.em.greenscreen  = responses[3].data;
+			this.os					     = Object.assign(this.os, {name: responses[4].data});
 
 			this.id                         = params.id;
 			this.screen                     = {width: params.width, height: params.height};
@@ -139,8 +140,6 @@ export class Photobooth extends Server{
 		const camerasLength = this.cameras.push(new Camera(server, camera));
 		const cameraIndex   = camerasLength - 1;
 
-		this.cameras[cameraIndex].updateCameraFrame();
-
 		return cameraIndex;
 
 	}
@@ -191,6 +190,30 @@ export class Photobooth extends Server{
 
 	}
 
+	async appDirectory(): Promise<httpResponse>{
+
+		const appDirectory = await webHttpMethods.appDirectory(this);
+
+		return appDirectory;
+
+	}
+
+	async launchMediaServer(): Promise<httpResponse>{
+
+		const launchMediaServer = await webHttpMethods.launchMediaServer(this);
+
+		return launchMediaServer;
+
+	}
+
+	async log(string: string): Promise<httpResponse>{
+
+		const log = await webHttpMethods.log(this, string);
+
+		return log;
+
+	}
+
 	async whatMode(): Promise<httpResponse>{
 
 		const whatMode = await webHttpMethods.whatMode(this);
@@ -199,11 +222,11 @@ export class Photobooth extends Server{
 
 	}
 
-	async appDirectory(): Promise<httpResponse>{
+	async whatSystem(): Promise<httpResponse>{
 
-		const appDirectory = await webHttpMethods.appDirectory(this);
+		const whatSystem = await webHttpMethods.whatSystem(this);
 
-		return appDirectory;
+		return whatSystem;
 
 	}
 
@@ -228,6 +251,70 @@ export class Photobooth extends Server{
 		const version = await webHttpMethods.retrieveImageFromUrlAndSaveIt(this, camera, file);
 
 		return version;
+
+	}
+
+	async retrieveDataFileFromIP(ip: string, id: string, file: EventEngineMedia): Promise<httpResponse>{
+
+		const retrieveDataFileFromIP = await webHttpMethods.retrieveDataFileFromIP(this, ip, id, file);
+
+		return retrieveDataFileFromIP;
+
+	}
+
+	async saveImage(file: EventEngineMedia, base64: string): Promise<httpResponse>{
+
+		const saveImage = await webHttpMethods.saveImage(this, file, base64);
+
+		return saveImage;
+
+	}
+
+	async doesFileExist(file: EventEngineMedia): Promise<httpResponse>{
+
+		const doesFileExist = await webHttpMethods.doesFileExist(this, file);
+
+		return doesFileExist;
+
+	}
+
+	async writeTextFileInSession(id: string, file: EventEngineMedia, text: string): Promise<httpResponse>{
+
+		const writeTextFileInSession = await webHttpMethods.writeTextFileInSession(this, id, file, text);
+
+		return writeTextFileInSession;
+
+	}
+
+	async writeTextFile(file: EventEngineMedia, text: string): Promise<httpResponse>{
+
+		const writeTextFile = await webHttpMethods.writeTextFile(this, file, text);
+
+		return writeTextFile;
+
+	}
+
+	async copyFile(source: EventEngineMedia, destination: EventEngineMedia): Promise<httpResponse>{
+
+		const copyFile = await webHttpMethods.copyFile(this, source, destination);
+
+		return copyFile;
+
+	}
+
+	async deleteSession(id: string): Promise<httpResponse>{
+
+		const deleteSession = await webHttpMethods.deleteSession(this, id);
+
+		return deleteSession;
+
+	}
+
+	async deleteFilesInSession(id: string, files: string): Promise<httpResponse>{
+
+		const deleteFilesInSession = await webHttpMethods.deleteFilesInSession(this, id, files);
+
+		return deleteFilesInSession;
 
 	}
 

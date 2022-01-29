@@ -76,10 +76,18 @@ export interface PhotoboothEventManagerPrint {
 
 }
 
+export interface PhotoboothEventManagerGallery {
+
+	who  : string;
+	where: string;
+
+}
+
 export interface PhotoboothEventManagerServices {
 
-	mediasStream?: Array<PhotoboothEventManagerMediaStream>
-	print?: PhotoboothEventManagerPrint;
+	mediasStream? : Array<PhotoboothEventManagerMediaStream>
+	print?        : PhotoboothEventManagerPrint;
+	gallery?      : PhotoboothEventManagerGallery;
 
 }
 

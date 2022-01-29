@@ -11,54 +11,54 @@ import webHttpSettings from './web-http-settings';
 
 const webHttp: httpMethodsModule = {
 
-	whatMode(photobooth: Photobooth): Promise<httpResponse>{
-
-		return new Promise((resolve, reject) => {
-
-			axios
-			.get(`${photobooth.url}/areYouHere/`, axiosConfig)
-			.then((response) => {
-
-				resolve(httpStatus.formatResponse(response.status, response.data));
-
-			})
-			.catch((error) => {
-
-				reject(error);
-
-			});
-
-		});
-
-	},
-
-	services(photobooth: Photobooth): Promise<httpResponse>{
-
-		return new Promise((resolve, reject) => {
-
-			axios
-			.get(`${photobooth.url}/services/`, axiosConfig)
-			.then((response) => {
-
-				resolve(httpStatus.formatResponse(response.status, response.data));
-
-			})
-			.catch((error) => {
-
-				reject(error);
-
-			});
-
-		});
-
-	},
-
 	appDirectory(photobooth: Photobooth): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
 			.get(`${photobooth.url}/appDirectory/`, axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	launchMediaServer(photobooth: Photobooth): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.get(`${photobooth.url}/launchMediaServer/`, axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	log(photobooth: Photobooth, string: string): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.get(`${photobooth.url}/log/${string}`, axiosConfig)
 			.then((response) => {
 
 				resolve(httpStatus.formatResponse(response.status, response.data));

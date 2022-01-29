@@ -202,7 +202,6 @@ export class Camera extends Server{
 
 	}
 
-
 	async startRecording(folder: string, file: EventEngineMedia): Promise<httpResponse>{
 
 		const startRecording = await streamHttpMethods.startRecording(this, folder, file);
