@@ -91,14 +91,29 @@ export interface PhotoboothEventManagerServices {
 
 }
 
-export interface PhotoboothEventManager {
+export interface PhotoboothEventManagerDetails {
 
-	version                : string;
+	version  : string;
+	directory: string;
+
+}
+
+
+type PhotoboothEventManagerEventEngine = PhotoboothEventManagerDetails;
+interface PhotoboothEventManagerEvent extends PhotoboothEventManagerDetails{
+
+	idFTPevent: string;
+
+}
+
+export interface PhotoboothEventManager extends PhotoboothEventManagerDetails {
+
 	license                : number;
-	directory              : string;
 	services               : PhotoboothEventManagerServices;
 	greenscreen            : PhotoboothEventManagerGreenScreen;
 	modes                  : PhotoboothEventManagerModes;
 	timeDifferenceWithCloud: number;
+	ee                     : PhotoboothEventManagerEventEngine;
+	event                  : PhotoboothEventManagerEvent;
 
 }

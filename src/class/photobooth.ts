@@ -44,7 +44,22 @@ export class Photobooth extends Server{
 
 			},
 
-			timeDifferenceWithCloud: 0
+			timeDifferenceWithCloud: 0,
+
+			ee: {
+
+				version  : '',
+				directory: ''
+
+			},
+
+			event: {
+
+				version   : '',
+				directory : '',
+				idFTPevent: ''
+
+			}
 
 		};
 
@@ -71,13 +86,16 @@ export class Photobooth extends Server{
 			this.os					     = Object.assign(this.os, {name: responses[4].data});
 
 			this.id                         = params.id;
-			this.screen                     = {width: params.width, height: params.height};
+			this.screen                     = {width: Number(params.width), height: Number(params.height)};
 			this.em.version                 = params.version;
-			this.em.license                 = params.license;
+			this.em.license                 = Number(params.license);
 			this.em.modes.contactless       = params.contactless.toLowerCase() === 'true';
-			this.em.modes.configuration     = params.configuration;
-			this.em.modes.screenshot        = params.screenshot;
-			this.em.timeDifferenceWithCloud = params.timeDifferenceWithCloud;
+			this.em.modes.configuration     = params.config.toLowerCase() === 'on';
+			this.em.modes.screenshot        = params.capture.toLowerCase() === 'on';
+			this.em.timeDifferenceWithCloud = params.timeDifferenceWithCloud ? Number(params.timeDifferenceWithCloud) : 0;
+
+			this.em.event.idFTPevent = params.idEvent;
+			this.em.event.directory  = `${this.em.directory}/event/${this.em.event.idFTPevent}/`;
 
 			this.addCameras();
 			this.addPrinters();

@@ -84,14 +84,14 @@ export interface EventEnginePrinter {
 export interface EventEngineURLParams {
 
 	version                : string;
-	idFTPevent             : string;
+	idEvent                : string;
 	id                     : number;
 	license                : number;
 	width                  : number;
 	height                 : number;
 	timeDifferenceWithCloud: number;
-	configuration					 : boolean;
-	screenshot  					 : boolean;
+	config      					 : string;
+	capture     					 : string;
 	contactless 					 : string;
 	errorInSession?        : string;
 
