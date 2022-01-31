@@ -100,7 +100,7 @@ export interface PhotoboothEventManagerDetails {
 
 
 type PhotoboothEventManagerEventEngine = PhotoboothEventManagerDetails;
-interface PhotoboothEventManagerEvent extends PhotoboothEventManagerDetails{
+export interface PhotoboothEventManagerEvent extends PhotoboothEventManagerDetails{
 
 	idFTPevent: string;
 

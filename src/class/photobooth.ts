@@ -5,6 +5,7 @@ import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index
 import * as Bowser from 'bowser';
 import {Camera} from './camera';
 import httpStatus from '@sharingbox/http-status/dist/browser';
+import {PhotoboothEvent} from './event';
 import {Printer} from './printer';
 import {Server} from './server';
 import webHttpMethods from '../web/web-http';
@@ -73,29 +74,56 @@ export class Photobooth extends Server{
 
 	}
 
+	private init1(responses: Array<httpResponse>, params: EventEngineURLParams): void{
+
+		this.id     = params.id;
+		this.screen = {width: Number(params.width), height: Number(params.height)};
+		this.os     = Object.assign(this.os, {name: responses[4].data});
+
+	}
+
+	private init2(responses: Array<httpResponse>, params: EventEngineURLParams): void{
+
+		this.em.directory               = responses[1].data;
+		this.em.services                = responses[2].data;
+		this.em.greenscreen             = responses[3].data;
+		this.em.version                 = params.version;
+		this.em.license                 = Number(params.license);
+		this.em.timeDifferenceWithCloud = params.timeDifferenceWithCloud ? Number(params.timeDifferenceWithCloud) : 0;
+
+	}
+
+	private init3(responses: Array<httpResponse>, params: EventEngineURLParams): void{
+
+		this.em.modes.launch        = responses[0].data.toLowerCase();
+		this.em.modes.contactless   = params.contactless.toLowerCase() === 'true';
+		this.em.modes.configuration = params.config.toLowerCase() === 'on';
+		this.em.modes.screenshot    = params.capture.toLowerCase() === 'on';
+
+	}
+
+	private init4(responses: Array<httpResponse>, params: EventEngineURLParams): void{
+
+		this.em.event = new PhotoboothEvent({
+
+			idFTPevent: params.idEvent,
+			directory : `${this.em.directory}/event/${this.em.event.idFTPevent}/`,
+			version   : ''
+
+		});
+
+	}
+
 	async init(params: EventEngineURLParams): Promise<void>{
 
 		const responses: Array<httpResponse> = await Promise.all([this.whatMode(), this.appDirectory(), this.services(), this.greenScreen(), this.whatSystem()]);
 
 		if(responses.every((r) => httpStatus.isOK(r.status))){
 
-			this.em.modes.launch = responses[0].data.toLowerCase();
-			this.em.directory    = responses[1].data;
-			this.em.services     = responses[2].data;
-			this.em.greenscreen  = responses[3].data;
-			this.os					     = Object.assign(this.os, {name: responses[4].data});
-
-			this.id                         = params.id;
-			this.screen                     = {width: Number(params.width), height: Number(params.height)};
-			this.em.version                 = params.version;
-			this.em.license                 = Number(params.license);
-			this.em.modes.contactless       = params.contactless.toLowerCase() === 'true';
-			this.em.modes.configuration     = params.config.toLowerCase() === 'on';
-			this.em.modes.screenshot        = params.capture.toLowerCase() === 'on';
-			this.em.timeDifferenceWithCloud = params.timeDifferenceWithCloud ? Number(params.timeDifferenceWithCloud) : 0;
-
-			this.em.event.idFTPevent = params.idEvent;
-			this.em.event.directory  = `${this.em.directory}/event/${this.em.event.idFTPevent}/`;
+			this.init1(responses, params);
+			this.init2(responses, params);
+			this.init3(responses, params);
+			this.init4(responses, params);
 
 			this.addCameras();
 			this.addPrinters();
