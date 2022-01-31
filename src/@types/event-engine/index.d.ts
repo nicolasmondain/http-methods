@@ -92,7 +92,7 @@ export interface EventEngineURLParams {
 	timeDifferenceWithCloud: number;
 	configuration					 : boolean;
 	screenshot  					 : boolean;
-	contactless 					 : boolean;
+	contactless 					 : string;
 	errorInSession?        : string;
 
 }

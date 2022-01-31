@@ -74,7 +74,7 @@ export class Photobooth extends Server{
 			this.screen                     = {width: params.width, height: params.height};
 			this.em.version                 = params.version;
 			this.em.license                 = params.license;
-			this.em.modes.contactless       = params.contactless;
+			this.em.modes.contactless       = params.contactless.toLowerCase() === 'true';
 			this.em.modes.configuration     = params.configuration;
 			this.em.modes.screenshot        = params.screenshot;
 			this.em.timeDifferenceWithCloud = params.timeDifferenceWithCloud;
