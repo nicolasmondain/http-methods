@@ -76,7 +76,7 @@ export class Photobooth extends Server{
 
 	private init1(responses: Array<httpResponse>, params: EventEngineURLParams): void{
 
-		this.id     = params.id;
+		this.id     = params.idBooth;
 		this.screen = {width: Number(params.width), height: Number(params.height)};
 		this.os     = Object.assign(this.os, {name: responses[4].data});
 
@@ -130,7 +130,9 @@ export class Photobooth extends Server{
 
 		}else{
 
-			throw new Error(JSON.stringify(responses));
+			const error = responses.find((r) => !httpStatus.isOK(r.status));
+
+			throw new Error(JSON.stringify(error));
 
 		}
 

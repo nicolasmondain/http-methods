@@ -85,7 +85,7 @@ export interface EventEngineURLParams {
 
 	version                : string;
 	idEvent                : string;
-	id                     : number;
+	idBooth                : number;
 	license                : number;
 	width                  : number;
 	height                 : number;

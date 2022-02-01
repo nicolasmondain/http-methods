@@ -10,6 +10,7 @@ import qs from 'qs';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 const PARAM_DEBUG_PRINT_SERVER = 0;
+const FORMAT_RESPONSE_SOURCE   = 'PRINT';
 
 const printHttp: httpMethodsModule = {
 
@@ -26,7 +27,7 @@ const printHttp: httpMethodsModule = {
 				number = Number.parseInt(response.data, 10);
 				number = Number.isNaN(number) ? 0 : number;
 
-				resolve(httpStatus.formatResponse(response.status, number));
+				resolve(httpStatus.formatResponse(response.status, number, null, FORMAT_RESPONSE_SOURCE));
 
 
 			})
@@ -55,7 +56,7 @@ const printHttp: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -83,7 +84,7 @@ const printHttp: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {

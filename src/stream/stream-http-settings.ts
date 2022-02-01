@@ -6,6 +6,8 @@ import axios from 'axios';
 import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
+const FORMAT_RESPONSE_SOURCE = 'STREAM';
+
 const streamHttpSettings: httpMethodsModule = {
 
 	changeOrientation(camera: Camera, orientation: string): Promise<httpResponse>{
@@ -18,7 +20,7 @@ const streamHttpSettings: httpMethodsModule = {
 			.post(`${camera.url}/changeOrientation/${options.includes(orientation) ? orientation : options[0]}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -44,7 +46,7 @@ const streamHttpSettings: httpMethodsModule = {
 				iso = Number.parseInt(response.data, 10);
 				iso = Number.isNaN(iso) ? 0 : iso;
 
-				resolve(httpStatus.formatResponse(response.status, iso));
+				resolve(httpStatus.formatResponse(response.status, iso, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -65,7 +67,7 @@ const streamHttpSettings: httpMethodsModule = {
 			.get(`${camera.url}/getAvailableWb/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -86,7 +88,7 @@ const streamHttpSettings: httpMethodsModule = {
 			.get(`${camera.url}/getAvailableTv/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -107,7 +109,7 @@ const streamHttpSettings: httpMethodsModule = {
 			.get(`${camera.url}/getFrameSizes/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {

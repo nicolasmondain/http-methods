@@ -12,6 +12,8 @@ import streamHttpRecord from './stream-http-record';
 import streamHttpSettings from './stream-http-settings';
 import streamHttpShoot from './stream-http-shoot';
 
+const FORMAT_RESPONSE_SOURCE = 'STREAM';
+
 const streamHttp: httpMethodsModule = {
 
 	version(camera: Camera): Promise<httpResponse>{
@@ -22,7 +24,7 @@ const streamHttp: httpMethodsModule = {
 			.get(`${camera.url}/version/`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -54,7 +56,7 @@ const streamHttp: httpMethodsModule = {
 			.get(`${camera.url}/areYouHere/`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -75,7 +77,7 @@ const streamHttp: httpMethodsModule = {
 			.get(`${camera.url}/getCameraList/`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {

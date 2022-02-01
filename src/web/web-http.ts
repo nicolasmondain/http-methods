@@ -9,6 +9,8 @@ import httpStatus from '@sharingbox/http-status/dist/browser';
 import webHttpFile from './web-http-file';
 import webHttpSettings from './web-http-settings';
 
+const FORMAT_RESPONSE_SOURCE = 'WEB';
+
 const webHttp: httpMethodsModule = {
 
 	appDirectory(photobooth: Photobooth): Promise<httpResponse>{
@@ -19,7 +21,7 @@ const webHttp: httpMethodsModule = {
 			.get(`${photobooth.url}/appDirectory/`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -40,7 +42,7 @@ const webHttp: httpMethodsModule = {
 			.get(`${photobooth.url}/launchMediaServer/`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -61,7 +63,7 @@ const webHttp: httpMethodsModule = {
 			.get(`${photobooth.url}/log/${string}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {

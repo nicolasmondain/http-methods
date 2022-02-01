@@ -9,6 +9,8 @@ import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 import qs from 'qs';
 
+const FORMAT_RESPONSE_SOURCE = 'WEB';
+
 const webHttpFile: httpMethodsModule = {
 
 	retrieveImageFromUrlAndSaveIt(photobooth: Photobooth, camera: Camera, file: EventEngineMedia): Promise<httpResponse>{
@@ -25,7 +27,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -53,7 +55,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -79,7 +81,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -104,7 +106,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -131,7 +133,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -157,7 +159,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -183,7 +185,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -208,7 +210,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -234,7 +236,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {

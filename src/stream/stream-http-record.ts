@@ -8,6 +8,8 @@ import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 import qs from 'qs';
 
+const FORMAT_RESPONSE_SOURCE = 'STREAM';
+
 const streamHttpRecord: httpMethodsModule = {
 
 	setRecordingModeOn(camera: Camera): Promise<httpResponse>{
@@ -18,7 +20,7 @@ const streamHttpRecord: httpMethodsModule = {
 			.get(`${camera.url}/setRecordingModeOn/`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -39,7 +41,7 @@ const streamHttpRecord: httpMethodsModule = {
 			.get(`${camera.url}/setRecordingModeOff/`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -65,7 +67,7 @@ const streamHttpRecord: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -92,7 +94,7 @@ const streamHttpRecord: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -113,7 +115,7 @@ const streamHttpRecord: httpMethodsModule = {
 			.get(`${camera.url}/stopRecording/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -134,7 +136,7 @@ const streamHttpRecord: httpMethodsModule = {
 			.get(`${camera.url}/cleanRecording/`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {

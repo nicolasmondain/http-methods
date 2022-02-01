@@ -6,6 +6,8 @@ import axios from 'axios';
 import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
+const FORMAT_RESPONSE_SOURCE = 'STREAM';
+
 const streamHttpLiveview: httpMethodsModule = {
 
 	startLiveView(camera: Camera): Promise<httpResponse>{
@@ -16,7 +18,7 @@ const streamHttpLiveview: httpMethodsModule = {
 			.get(`${camera.url}/startLiveView/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -37,7 +39,7 @@ const streamHttpLiveview: httpMethodsModule = {
 			.get(`${camera.url}/stopLiveView/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -64,7 +66,7 @@ const streamHttpLiveview: httpMethodsModule = {
 			.get(`${camera.url}/getLivefeedStatus/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {

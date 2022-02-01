@@ -8,6 +8,8 @@ import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 import qs from 'qs';
 
+const FORMAT_RESPONSE_SOURCE = 'STREAM';
+
 const streamHttpGreenscreen: httpMethodsModule = {
 
 	greenscreenOn(camera: Camera, greenscreen: EventEngineGreenscreen): Promise<httpResponse>{
@@ -27,7 +29,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -48,7 +50,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			.get(`${camera.url}/greenscreen/off/`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -69,7 +71,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			.post(`${camera.url}/backgroundGreenScreenArray/`, qs.stringify({files}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
@@ -90,7 +92,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			.post(`${camera.url}/updateGreenscreen/`, qs.stringify({file}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
 
 			})
 			.catch((error) => {
