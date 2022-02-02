@@ -19,6 +19,26 @@ export class Server {
 
 	}
 
+	static httpResponseCheck(response: httpResponse): void{
+
+		if(!httpStatus.isSuccess(response.status)){
+
+			throw new Error(JSON.stringify(response));
+
+		}
+
+	}
+
+	static httpResponsesCheck(responses: Array<httpResponse>): void{
+
+		if(!responses.every((r) => httpStatus.isOK(r.status))){
+
+			throw new Error(JSON.stringify(responses.find((r) => !httpStatus.isSuccess(r.status))));
+
+		}
+
+	}
+
 	recall(loop: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>, expect: EventEngineServerExpectations): Promise<httpResponse>{ // eslint-disable-line no-unused-vars, max-lines-per-function
 
 		const RECALL_DELAY    = 250;

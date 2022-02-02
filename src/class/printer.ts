@@ -53,6 +53,8 @@ export class Printer extends Server{
 
 		const numberOfLeftPrintSheets = await printHttpMethods.numberOfLeftPrintSheets(this);
 
+		Server.httpResponseCheck(numberOfLeftPrintSheets);
+
 		return numberOfLeftPrintSheets;
 
 	}
@@ -60,6 +62,8 @@ export class Printer extends Server{
 	async morePrints(file: EventEngineMedia, copies: number): Promise<httpResponse>{
 
 		const morePrints = await printHttpMethods.morePrints(this, file, copies);
+
+		Server.httpResponseCheck(morePrints);
 
 		return morePrints;
 
@@ -69,6 +73,8 @@ export class Printer extends Server{
 	async print(file: EventEngineMedia, copies: number): Promise<httpResponse>{
 
 		const print = await printHttpMethods.print(this, file, copies, this.simulate);
+
+		Server.httpResponseCheck(print);
 
 		return print;
 

@@ -4,7 +4,6 @@ import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index
 
 import * as Bowser from 'bowser';
 import {Camera} from './camera';
-import httpStatus from '@sharingbox/http-status/dist/browser';
 import {PhotoboothEvent} from './event';
 import {Printer} from './printer';
 import {Server} from './server';
@@ -118,23 +117,15 @@ export class Photobooth extends Server{
 
 		const responses: Array<httpResponse> = await Promise.all([this.whatMode(), this.appDirectory(), this.services(), this.greenScreen(), this.whatSystem()]);
 
-		if(responses.every((r) => httpStatus.isOK(r.status))){
+		Server.httpResponsesCheck(responses);
 
-			this.init1(responses, params);
-			this.init2(responses, params);
-			this.init3(responses, params);
-			this.init4(responses, params);
+		this.init1(responses, params);
+		this.init2(responses, params);
+		this.init3(responses, params);
+		this.init4(responses, params);
 
-			this.addCameras();
-			this.addPrinters();
-
-		}else{
-
-			const error = responses.find((r) => !httpStatus.isOK(r.status));
-
-			throw new Error(JSON.stringify(error));
-
-		}
+		this.addCameras();
+		this.addPrinters();
 
 	}
 
@@ -177,9 +168,11 @@ export class Photobooth extends Server{
 
 	async callPrinters(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<unknown>>{ // eslint-disable-line no-unused-vars
 
-		const callCameras = await Promise.all(this.printers.map((e) => call.bind(e)(args)));
+		const callPrinters = await Promise.all(this.printers.map((e) => call.bind(e)(args)));
 
-		return callCameras;
+		Server.httpResponsesCheck(callPrinters);
+
+		return callPrinters;
 
 	}
 
@@ -234,6 +227,8 @@ export class Photobooth extends Server{
 
 		const callCameras = await Promise.all(this.cameras.map((e) => call.bind(e)(args)));
 
+		Server.httpResponsesCheck(callCameras);
+
 		return callCameras;
 
 	}
@@ -241,6 +236,8 @@ export class Photobooth extends Server{
 	async appDirectory(): Promise<httpResponse>{
 
 		const appDirectory = await webHttpMethods.appDirectory(this);
+
+		Server.httpResponseCheck(appDirectory);
 
 		return appDirectory;
 
@@ -250,6 +247,8 @@ export class Photobooth extends Server{
 
 		const launchMediaServer = await webHttpMethods.launchMediaServer(this);
 
+		Server.httpResponseCheck(launchMediaServer);
+
 		return launchMediaServer;
 
 	}
@@ -257,6 +256,8 @@ export class Photobooth extends Server{
 	async log(string: string): Promise<httpResponse>{
 
 		const log = await webHttpMethods.log(this, string);
+
+		Server.httpResponseCheck(log);
 
 		return log;
 
@@ -266,6 +267,8 @@ export class Photobooth extends Server{
 
 		const whatMode = await webHttpMethods.whatMode(this);
 
+		Server.httpResponseCheck(whatMode);
+
 		return whatMode;
 
 	}
@@ -273,6 +276,8 @@ export class Photobooth extends Server{
 	async whatSystem(): Promise<httpResponse>{
 
 		const whatSystem = await webHttpMethods.whatSystem(this);
+
+		Server.httpResponseCheck(whatSystem);
 
 		return whatSystem;
 
@@ -282,6 +287,8 @@ export class Photobooth extends Server{
 
 		const services = await webHttpMethods.services(this);
 
+		Server.httpResponseCheck(services);
+
 		return services;
 
 	}
@@ -289,6 +296,8 @@ export class Photobooth extends Server{
 	async greenScreen(): Promise<httpResponse>{
 
 		const greenScreen = await webHttpMethods.greenScreen(this);
+
+		Server.httpResponseCheck(greenScreen);
 
 		return greenScreen;
 
@@ -298,6 +307,8 @@ export class Photobooth extends Server{
 
 		const version = await webHttpMethods.retrieveImageFromUrlAndSaveIt(this, camera, file);
 
+		Server.httpResponseCheck(version);
+
 		return version;
 
 	}
@@ -305,6 +316,8 @@ export class Photobooth extends Server{
 	async retrieveDataFileFromIP(ip: string, id: string, file: EventEngineMedia): Promise<httpResponse>{
 
 		const retrieveDataFileFromIP = await webHttpMethods.retrieveDataFileFromIP(this, ip, id, file);
+
+		Server.httpResponseCheck(retrieveDataFileFromIP);
 
 		return retrieveDataFileFromIP;
 
@@ -314,6 +327,8 @@ export class Photobooth extends Server{
 
 		const saveImage = await webHttpMethods.saveImage(this, file, base64);
 
+		Server.httpResponseCheck(saveImage);
+
 		return saveImage;
 
 	}
@@ -321,6 +336,8 @@ export class Photobooth extends Server{
 	async doesFileExist(file: EventEngineMedia): Promise<httpResponse>{
 
 		const doesFileExist = await webHttpMethods.doesFileExist(this, file);
+
+		Server.httpResponseCheck(doesFileExist);
 
 		return doesFileExist;
 
@@ -330,6 +347,8 @@ export class Photobooth extends Server{
 
 		const writeTextFileInSession = await webHttpMethods.writeTextFileInSession(this, id, file, text);
 
+		Server.httpResponseCheck(writeTextFileInSession);
+
 		return writeTextFileInSession;
 
 	}
@@ -337,6 +356,8 @@ export class Photobooth extends Server{
 	async writeTextFile(file: EventEngineMedia, text: string): Promise<httpResponse>{
 
 		const writeTextFile = await webHttpMethods.writeTextFile(this, file, text);
+
+		Server.httpResponseCheck(writeTextFile);
 
 		return writeTextFile;
 
@@ -346,6 +367,8 @@ export class Photobooth extends Server{
 
 		const copyFile = await webHttpMethods.copyFile(this, source, destination);
 
+		Server.httpResponseCheck(copyFile);
+
 		return copyFile;
 
 	}
@@ -354,6 +377,8 @@ export class Photobooth extends Server{
 
 		const deleteSession = await webHttpMethods.deleteSession(this, id);
 
+		Server.httpResponseCheck(deleteSession);
+
 		return deleteSession;
 
 	}
@@ -361,6 +386,8 @@ export class Photobooth extends Server{
 	async deleteFilesInSession(id: string, files: string): Promise<httpResponse>{
 
 		const deleteFilesInSession = await webHttpMethods.deleteFilesInSession(this, id, files);
+
+		Server.httpResponseCheck(deleteFilesInSession);
 
 		return deleteFilesInSession;
 

@@ -77,6 +77,8 @@ export class Camera extends Server{
 
 		const version = await streamHttpMethods.version(this);
 
+		Server.httpResponseCheck(version);
+
 		return version;
 
 	}
@@ -84,6 +86,8 @@ export class Camera extends Server{
 	async quit(): Promise<httpResponse>{
 
 		const quit = await streamHttpMethods.quit(this);
+
+		Server.httpResponseCheck(quit);
 
 		return quit;
 
@@ -93,6 +97,8 @@ export class Camera extends Server{
 
 		const areYouHere = await streamHttpMethods.areYouHere(this);
 
+		Server.httpResponseCheck(areYouHere);
+
 		return areYouHere;
 
 	}
@@ -100,6 +106,8 @@ export class Camera extends Server{
 	async getCameraList(): Promise<httpResponse>{
 
 		const getCameraList = await streamHttpMethods.getCameraList(this);
+
+		Server.httpResponseCheck(getCameraList);
 
 		return getCameraList;
 
@@ -109,6 +117,8 @@ export class Camera extends Server{
 
 		const shootAndWait = await streamHttpMethods.shootAndWait(this, file);
 
+		Server.httpResponseCheck(shootAndWait);
+
 		return shootAndWait;
 
 	}
@@ -116,6 +126,8 @@ export class Camera extends Server{
 	async getLastShootErrorMessage(): Promise<httpResponse>{
 
 		const getLastShootErrorMessage = await streamHttpMethods.getLastShootErrorMessage(this);
+
+		Server.httpResponseCheck(getLastShootErrorMessage);
 
 		return getLastShootErrorMessage;
 
@@ -125,6 +137,8 @@ export class Camera extends Server{
 
 		const cancelPending = await streamHttpMethods.cancelPending(this);
 
+		Server.httpResponseCheck(cancelPending);
+
 		return cancelPending;
 
 	}
@@ -133,13 +147,17 @@ export class Camera extends Server{
 
 		const writePictureStreamToFile = await streamHttpMethods.writePictureStreamToFile(this, file);
 
+		Server.httpResponseCheck(writePictureStreamToFile);
+
 		return writePictureStreamToFile;
 
 	}
 
-	getAvailableFilestreamCount(): Promise<httpResponse>{
+	async getAvailableFilestreamCount(): Promise<httpResponse>{
 
-		const getAvailableFilestreamCount = streamHttpMethods.getAvailableFilestreamCount(this);
+		const getAvailableFilestreamCount = await streamHttpMethods.getAvailableFilestreamCount(this);
+
+		Server.httpResponseCheck(getAvailableFilestreamCount);
 
 		return getAvailableFilestreamCount;
 
@@ -149,6 +167,8 @@ export class Camera extends Server{
 
 		const deleteFile = await streamHttpMethods.deleteFile(this, file);
 
+		Server.httpResponseCheck(deleteFile);
+
 		return deleteFile;
 
 	}
@@ -157,14 +177,17 @@ export class Camera extends Server{
 
 		const getFile = await streamHttpMethods.getFile(this, file);
 
+		Server.httpResponseCheck(getFile);
+
 		return getFile;
 
 	}
 
-
 	async changeOrientation(orientation: string): Promise<httpResponse>{
 
 		const changeOrientation = await streamHttpMethods.changeOrientation(this, orientation);
+
+		Server.httpResponseCheck(changeOrientation);
 
 		return changeOrientation;
 
@@ -174,6 +197,8 @@ export class Camera extends Server{
 
 		const getAvailableIso = await streamHttpMethods.getAvailableIso(this);
 
+		Server.httpResponseCheck(getAvailableIso);
+
 		return getAvailableIso;
 
 	}
@@ -181,6 +206,8 @@ export class Camera extends Server{
 	async getAvailableWb(): Promise<httpResponse>{
 
 		const getAvailableWb = await streamHttpMethods.getAvailableWb(this);
+
+		Server.httpResponseCheck(getAvailableWb);
 
 		return getAvailableWb;
 
@@ -190,6 +217,8 @@ export class Camera extends Server{
 
 		const getAvailableTv = await streamHttpMethods.getAvailableTv(this);
 
+		Server.httpResponseCheck(getAvailableTv);
+
 		return getAvailableTv;
 
 	}
@@ -197,6 +226,8 @@ export class Camera extends Server{
 	async getFrameSizes(): Promise<httpResponse>{
 
 		const getFrameSizes = await streamHttpMethods.getFrameSizes(this);
+
+		Server.httpResponseCheck(getFrameSizes);
 
 		return getFrameSizes;
 
@@ -206,6 +237,8 @@ export class Camera extends Server{
 
 		const startRecording = await streamHttpMethods.startRecording(this, folder, file);
 
+		Server.httpResponseCheck(startRecording);
+
 		return startRecording;
 
 	}
@@ -213,6 +246,8 @@ export class Camera extends Server{
 	async startRecordingWithPicture(folder: string, file: EventEngineMedia, preview: EventEngineMedia): Promise<httpResponse>{
 
 		const startRecordingWithPicture = await streamHttpMethods.startRecordingWithPicture(this, folder, file, preview);
+
+		Server.httpResponseCheck(startRecordingWithPicture);
 
 		return startRecordingWithPicture;
 
@@ -222,6 +257,8 @@ export class Camera extends Server{
 
 		const stopRecording = await streamHttpMethods.stopRecording(this);
 
+		Server.httpResponseCheck(stopRecording);
+
 		return stopRecording;
 
 	}
@@ -229,6 +266,8 @@ export class Camera extends Server{
 	async cleanRecording(): Promise<httpResponse>{
 
 		const cleanRecording = await streamHttpMethods.cleanRecording(this);
+
+		Server.httpResponseCheck(cleanRecording);
 
 		return cleanRecording;
 
@@ -238,6 +277,8 @@ export class Camera extends Server{
 
 		const setRecordingModeOn = await streamHttpMethods.setRecordingModeOn(this);
 
+		Server.httpResponseCheck(setRecordingModeOn);
+
 		return setRecordingModeOn;
 
 	}
@@ -245,6 +286,8 @@ export class Camera extends Server{
 	async setRecordingModeOff(): Promise<httpResponse>{
 
 		const setRecordingModeOff = await streamHttpMethods.setRecordingModeOff(this);
+
+		Server.httpResponseCheck(setRecordingModeOff);
 
 		return setRecordingModeOff;
 
@@ -254,6 +297,8 @@ export class Camera extends Server{
 
 		const startLiveView = await streamHttpMethods.startLiveView(this);
 
+		Server.httpResponseCheck(startLiveView);
+
 		return startLiveView;
 
 	}
@@ -261,6 +306,8 @@ export class Camera extends Server{
 	async stopLiveView(): Promise<httpResponse>{
 
 		const stopLiveView = await streamHttpMethods.stopLiveView(this);
+
+		Server.httpResponseCheck(stopLiveView);
 
 		return stopLiveView;
 
@@ -278,6 +325,8 @@ export class Camera extends Server{
 
 		const getLivefeedStatus = await streamHttpMethods.getLivefeedStatus(this);
 
+		Server.httpResponseCheck(getLivefeedStatus);
+
 		return getLivefeedStatus;
 
 	}
@@ -285,6 +334,8 @@ export class Camera extends Server{
 	async greenscreenOn(greenscreen: EventEngineGreenscreen): Promise<httpResponse>{
 
 		const greenscreenOn = await streamHttpMethods.greenscreenOn(this, greenscreen);
+
+		Server.httpResponseCheck(greenscreenOn);
 
 		return greenscreenOn;
 
@@ -294,6 +345,8 @@ export class Camera extends Server{
 
 		const greenscreenOff = await streamHttpMethods.greenscreenOff(this);
 
+		Server.httpResponseCheck(greenscreenOff);
+
 		return greenscreenOff;
 
 	}
@@ -301,6 +354,8 @@ export class Camera extends Server{
 	async backgroundGreenscreenArray(files: string): Promise<httpResponse>{
 
 		const backgroundGreenscreenArray = await streamHttpMethods.backgroundGreenscreenArray(this, files);
+
+		Server.httpResponseCheck(backgroundGreenscreenArray);
 
 		return backgroundGreenscreenArray;
 
@@ -310,6 +365,8 @@ export class Camera extends Server{
 	async updateGreenscreen(file: string): Promise<httpResponse>{
 
 		const updateGreenscreen = await streamHttpMethods.updateGreenscreen(this, file);
+
+		Server.httpResponseCheck(updateGreenscreen);
 
 		return updateGreenscreen;
 

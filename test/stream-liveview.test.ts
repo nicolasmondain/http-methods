@@ -85,24 +85,7 @@ describe(`stream-liveview ${CAMERA_TYPE}`, function streamLiveview(){ // eslint-
 				}
 
 			}))
-			.then(() => new Promise<void>((resolve, reject) => {
-
-				camera.getLivefeedStatus()
-				.then((response: httpResponse) => {
-
-					if(httpStatus.isOK(response.status) === false){
-
-						done();
-
-					}else{
-
-						reject(new Error(JSON.stringify(response)));
-
-					}
-
-				});
-
-			}))
+			.then(() => camera.getLivefeedStatus())
 			.catch(() => {
 
 				done();
