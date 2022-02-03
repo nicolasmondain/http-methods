@@ -21,7 +21,7 @@ export class Server {
 
 	static httpResponseCheck(response: httpResponse): void{
 
-		if(!httpStatus.isSuccess(response.status)){
+		if(!httpStatus.isSuccess(response.status) && !httpStatus.isImateapot(response.status)){
 
 			throw new Error(JSON.stringify(response));
 
@@ -31,9 +31,9 @@ export class Server {
 
 	static httpResponsesCheck(responses: Array<httpResponse>): void{
 
-		if(!responses.every((r) => httpStatus.isOK(r.status))){
+		if(!responses.every((r) => httpStatus.isSuccess(r.status) || httpStatus.isImateapot(r.status))){
 
-			throw new Error(JSON.stringify(responses.find((r) => !httpStatus.isSuccess(r.status))));
+			throw new Error(JSON.stringify(responses.find((r) => !httpStatus.isSuccess(r.status) && !httpStatus.isImateapot(r.status))));
 
 		}
 
