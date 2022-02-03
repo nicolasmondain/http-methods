@@ -39,7 +39,7 @@ export class Server {
 
 	}
 
-	recall(loop: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>, expect: EventEngineServerExpectations): Promise<httpResponse>{ // eslint-disable-line no-unused-vars, max-lines-per-function
+	recall(method: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>, expect: EventEngineServerExpectations): Promise<httpResponse>{ // eslint-disable-line no-unused-vars, max-lines-per-function
 
 		const RECALL_DELAY    = 250;
 		const RECALL_MAX      = 50;
@@ -61,7 +61,7 @@ export class Server {
 
 					try{
 
-						loop.bind(this)(args)
+						method.bind(this)(args)
 						.then((response) => {
 
 							const checkResponseData = httpStatus.checkResponseData(response);
@@ -106,6 +106,16 @@ export class Server {
 			}, RECALL_DELAY);
 
 		});
+
+	}
+
+	async multiplecall(method: (args: any) => Promise<httpResponse>, args: Array<Array<unknown>>): Promise<Array<unknown>>{ // eslint-disable-line no-unused-vars
+
+		const multiplecall = await Promise.all(args.map((arg) => method.bind(this)(arg)));
+
+		Server.httpResponsesCheck(multiplecall);
+
+		return multiplecall;
 
 	}
 

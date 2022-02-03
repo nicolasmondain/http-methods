@@ -130,7 +130,7 @@ describe('web', function web(){ // eslint-disable-line max-lines-per-function
 
 	context('check utils methods', () => {
 
-		it('init promises should be fulfilled (httpStatus.isOK)', () => {
+		it('addCamera, hasCamera methods should return specific values (number, boolean)', () => {
 
 			const index1 = photobooth.addCamera(CAMERA.SERVER, CAMERA.OPTIONS);
 			const index2 = photobooth.addCamera(CAMERA.SERVER, CAMERA.OPTIONS);
@@ -141,6 +141,17 @@ describe('web', function web(){ // eslint-disable-line max-lines-per-function
 			chai.expect(hasCam).to.be.a('boolean');
 
 			chai.expect(hasCam).to.be.equal(true);
+
+		});
+
+		it('multiplecall should be fulfilled (httpStatus.isOK)', (done) => {
+
+			photobooth.multiplecall(photobooth.log, [['string1'], ['string2']])
+			.then(() => {
+
+				done();
+
+			});
 
 		});
 
