@@ -153,6 +153,13 @@ describe('web', function web(){ // eslint-disable-line max-lines-per-function
 
 			});
 
+			photobooth.multiplecall(photobooth.copyFile, [[file, file], [file, file]])
+			.then(() => {
+
+				done();
+
+			});
+
 		});
 
 	});
