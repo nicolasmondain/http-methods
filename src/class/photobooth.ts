@@ -4,6 +4,9 @@ import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index
 
 import * as Bowser from 'bowser';
 import {Camera} from './camera';
+import {CameraEos} from './camera-eos';
+import {CameraIos} from './camera-ios';
+import {CameraWebcam} from './camera-webcam';
 import {PhotoboothEvent} from './event';
 import {Printer} from './printer';
 import {Server} from './server';
@@ -77,7 +80,7 @@ export class Photobooth extends Server{
 
 		this.id     = params.idBooth;
 		this.screen = {width: Number(params.width), height: Number(params.height)};
-		this.os     = Object.assign(this.os, {name: responses[4].data});
+		this.os     = Object.assign(this.os, {name: responses[4].data.toLowerCase()});
 
 	}
 
@@ -178,7 +181,25 @@ export class Photobooth extends Server{
 
 	addCamera(server: EventEngineServer, camera: EventEngineStream): number{
 
-		const camerasLength = this.cameras.push(new Camera(server, camera));
+		let cam = {} as Camera;
+
+		const DEFAULT_PORT = 8084;
+
+		if(server.port === DEFAULT_PORT && this.os?.name === 'windows'){
+
+			cam = new CameraEos(server, camera);
+
+		}else if(server.port === DEFAULT_PORT && this.os?.name === 'ios'){
+
+			cam = new CameraIos(server, camera);
+
+		}else{
+
+			cam = new CameraWebcam(server, camera);
+
+		}
+
+		const camerasLength = this.cameras.push(cam);
 		const cameraIndex   = camerasLength - 1;
 
 		return cameraIndex;
