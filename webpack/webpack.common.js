@@ -24,7 +24,7 @@ const configuration = {
 				test   : /\.ts$/u,
 				exclude: /node_modules/u,
 				include: path.resolve(__dirname, '../src'),
-				use    : 'ts-loader'
+				use    : ['babel-loader', 'ts-loader']
 
 			}
 

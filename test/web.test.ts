@@ -149,14 +149,12 @@ describe('web', function web(){ // eslint-disable-line max-lines-per-function
 			photobooth.multiplecall(photobooth.log, [['string1'], ['string2']])
 			.then(() => {
 
-				done();
+				photobooth.multiplecall(photobooth.copyFile, [[file, file], [file, file]])
+				.then(() => {
 
-			});
+					done();
 
-			photobooth.multiplecall(photobooth.copyFile, [[file, file], [file, file]])
-			.then(() => {
-
-				done();
+				});
 
 			});
 

@@ -7,6 +7,8 @@ webpack(configuration, (error, stats) => {
 
 	if(error){
 
+		console.error(error);
+
 		return error;
 
 	}
