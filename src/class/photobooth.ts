@@ -1,5 +1,5 @@
 import {EventEngineMedia, EventEnginePrinter, EventEngineServer, EventEngineStream, EventEngineURLParams} from '../@types/event-engine';
-import {PhotoboothEventManager, PhotoboothEventManagerScreen} from '../@types/http-methods';
+import {PhotoboothEventManager, PhotoboothEventManagerMediaStream, PhotoboothEventManagerScreen} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
 import * as Bowser from 'bowser';
@@ -16,15 +16,16 @@ const bowser = Bowser.getParser(window.navigator.userAgent);
 
 export class Photobooth extends Server{
 
-	id      : number;
-	em      : PhotoboothEventManager;
-	screen  : PhotoboothEventManagerScreen;
-	cameras : Array<Camera>;
-	printers: Array<Printer>;
-	browser : Bowser.Parser.BrowserDetails | null;
-	platform: Bowser.Parser.PlatformDetails | null;
-	os      : Bowser.Parser.OSDetails | null;
-	engine  : Bowser.Parser.EngineDetails | null;
+	id       : number;
+	em       : PhotoboothEventManager;
+	screen   : PhotoboothEventManagerScreen;
+	cameras  : Array<Camera>;
+	recorders: Array<Camera>;
+	printers : Array<Printer>;
+	browser  : Bowser.Parser.BrowserDetails | null;
+	platform : Bowser.Parser.PlatformDetails | null;
+	os       : Bowser.Parser.OSDetails | null;
+	engine   : Bowser.Parser.EngineDetails | null;
 
 	constructor(server: EventEngineServer){
 
@@ -66,13 +67,58 @@ export class Photobooth extends Server{
 
 		};
 
-		this.platform = this.server === 'localhost' ? bowser.getPlatform() : null;
-		this.browser  = this.server === 'localhost' ? bowser.getBrowser() : null;
-		this.os 		  = this.server === 'localhost' ? bowser.getOS() : null;
-		this.engine   = this.server === 'localhost' ? bowser.getEngine() : null;
-		this.screen   = {width: 0, height: 0};
-		this.cameras  = [];
-		this.printers = [];
+		this.platform  = this.server === 'localhost' ? bowser.getPlatform() : null;
+		this.browser   = this.server === 'localhost' ? bowser.getBrowser() : null;
+		this.os        = this.server === 'localhost' ? bowser.getOS() : null;
+		this.engine    = this.server === 'localhost' ? bowser.getEngine() : null;
+		this.screen    = {width: 0, height: 0};
+		this.cameras   = [];
+		this.recorders = [];
+		this.printers  = [];
+
+	}
+
+	static getCameraData(stream: PhotoboothEventManagerMediaStream): {server: EventEngineServer, camera: EventEngineStream}{
+
+		const server = {server: stream.who, port: Number(stream.port), protocol: 'http'};
+		const frame  = {height: Number(stream.frameHeight || 0), width: Number(stream.frameWidth || 0)};
+		const camera = {
+
+			name        : stream.name,
+			rank        : Number(stream.rank),
+			focus       : stream.focus,
+			exposure    : stream.exposure,
+			whiteBalance: stream.whiteBalance,
+			orientation : stream.orientation,
+			frame       : {height: frame.height, width: frame.width, ratio: frame.height / frame.width}
+
+		};
+
+		return{server, camera};
+
+	}
+
+	private getCameraInstance(server: EventEngineServer, camera: EventEngineStream): Camera{
+
+		let cam = {} as Camera;
+
+		const DEFAULT_PORT = 8084;
+
+		if(server.port === DEFAULT_PORT && this.os?.name === 'windows'){
+
+			cam = new CameraEos(server, camera);
+
+		}else if(server.port === DEFAULT_PORT && this.os?.name === 'ios'){
+
+			cam = new CameraIos(server, camera);
+
+		}else{
+
+			cam = new CameraWebcam(server, camera);
+
+		}
+
+		return cam;
 
 	}
 
@@ -128,6 +174,7 @@ export class Photobooth extends Server{
 		this.init4(responses, params);
 
 		this.addCameras();
+		this.addRecorders();
 		this.addPrinters();
 
 	}
@@ -181,25 +228,7 @@ export class Photobooth extends Server{
 
 	addCamera(server: EventEngineServer, camera: EventEngineStream): number{
 
-		let cam = {} as Camera;
-
-		const DEFAULT_PORT = 8084;
-
-		if(server.port === DEFAULT_PORT && this.os?.name === 'windows'){
-
-			cam = new CameraEos(server, camera);
-
-		}else if(server.port === DEFAULT_PORT && this.os?.name === 'ios'){
-
-			cam = new CameraIos(server, camera);
-
-		}else{
-
-			cam = new CameraWebcam(server, camera);
-
-		}
-
-		const camerasLength = this.cameras.push(cam);
+		const camerasLength = this.cameras.push(this.getCameraInstance(server, camera));
 		const cameraIndex   = camerasLength - 1;
 
 		return cameraIndex;
@@ -214,21 +243,7 @@ export class Photobooth extends Server{
 
 			for(let i = 0; i < mediasStream.length; i += 1){
 
-				const c = mediasStream[i];
-
-				const server = {server: c.who, port: Number(c.port), protocol: 'http'};
-				const frame  = {height: Number(c.frameHeight), width: Number(c.frameWidth)};
-				const camera = {
-
-					name        : c.name,
-					rank        : Number(c.rank),
-					focus       : c.focus,
-					exposure    : c.exposure,
-					whiteBalance: c.whiteBalance,
-					orientation : c.orientation,
-					frame       : {height: frame.height, width: frame.width, ratio: frame.height / frame.width}
-
-				};
+				const {server, camera} = Photobooth.getCameraData(mediasStream[i]);
 
 				this.addCamera(server, camera);
 
@@ -241,6 +256,39 @@ export class Photobooth extends Server{
 	hasCamera(): boolean{
 
 		return this.cameras.length > 0;
+
+	}
+
+	addRecorder(server: EventEngineServer, camera: EventEngineStream): number{
+
+		const recordersLength = this.recorders.push(this.getCameraInstance(server, camera));
+		const recordersIndex  = recordersLength - 1;
+
+		return recordersIndex;
+
+	}
+
+	addRecorders(): void{
+
+		const {video} = this.em.services;
+
+		if(video && Array.isArray(video)){
+
+			for(let i = 0; i < video.length; i += 1){
+
+				const {server, camera} = Photobooth.getCameraData(video[i]);
+
+				this.addRecorder(server, camera);
+
+			}
+
+		}
+
+	}
+
+	hasRecorder(): boolean{
+
+		return this.recorders.length > 0;
 
 	}
 

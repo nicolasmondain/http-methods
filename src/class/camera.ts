@@ -17,13 +17,13 @@ import streamHttpMethods from '../stream/stream-http';
 
 export class Camera extends Server{
 
-	name        : string;
-	rank        : number;
-	orientation : string;
-	frame       : EventEngineStreamFrame;
-	focus       : EventEngineStreamFocus;
-	exposure    : EventEngineStreamExposure;
-	whiteBalance: EventEngineStreamWhiteBalance;
+	name         : string;
+	rank         : number;
+	orientation? : string;
+	frame        : EventEngineStreamFrame;
+	focus        : EventEngineStreamFocus;
+	exposure     : EventEngineStreamExposure;
+	whiteBalance : EventEngineStreamWhiteBalance;
 
 	constructor(server: EventEngineServer, camera: EventEngineStream){
 
@@ -31,7 +31,7 @@ export class Camera extends Server{
 
 		this.name         = camera.name;
 		this.rank         = camera.rank;
-		this.orientation  = camera.orientation;
+		this.orientation  = camera.orientation || 'Default';
 		this.frame        = camera.frame;
 		this.focus        = camera.focus;
 		this.exposure     = camera.exposure;
@@ -233,23 +233,13 @@ export class Camera extends Server{
 
 	}
 
-	async startRecording(folder: string, file: EventEngineMedia): Promise<httpResponse>{
+	async startRecording(folder: string, file: EventEngineMedia, preview?: EventEngineMedia): Promise<httpResponse>{
 
-		const startRecording = await streamHttpMethods.startRecording(this, folder, file);
+		const startRecording = await streamHttpMethods.startRecording(this, folder, file, preview);
 
 		Server.httpResponseCheck(startRecording);
 
 		return startRecording;
-
-	}
-
-	async startRecordingWithPicture(folder: string, file: EventEngineMedia, preview: EventEngineMedia): Promise<httpResponse>{
-
-		const startRecordingWithPicture = await streamHttpMethods.startRecordingWithPicture(this, folder, file, preview);
-
-		Server.httpResponseCheck(startRecordingWithPicture);
-
-		return startRecordingWithPicture;
 
 	}
 

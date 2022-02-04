@@ -54,17 +54,12 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	startRecording(camera: Camera, folder: string, file: EventEngineMedia): Promise<httpResponse>{
+	setSlowmotion(camera: Camera, fps: number): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${camera.url}/startRecording/ByName/`, qs.stringify({
-
-				folder,
-				filename: file.name
-
-			}), axiosConfig)
+			.get(`${camera.url}/setSlowmotion/${fps}/`, axiosConfig)
 			.then((response) => {
 
 				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
@@ -80,16 +75,16 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	startRecordingWithPicture(camera: Camera, folder: string, file: EventEngineMedia, preview: EventEngineMedia): Promise<httpResponse>{
+	startRecording(camera: Camera, folder: string, file: EventEngineMedia, preview?: EventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${camera.url}/startRecordingWithPicture/ByName/`, qs.stringify({
+			.post(`${camera.url}/startRecording/ByName/${camera.name}`, qs.stringify({
 
 				folder,
-				file   : file.name,
-				preview: preview.name
+				filename: file.name,
+				preview : preview?.name || ''
 
 			}), axiosConfig)
 			.then((response) => {

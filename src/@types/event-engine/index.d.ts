@@ -62,13 +62,13 @@ export interface EventEngineStreamWhiteBalance {
 
 export interface EventEngineStream {
 
-	name        : string;
-	rank        : number;
-	orientation : string;
-	frame       : EventEngineStreamFrame;
-	focus       : EventEngineStreamFocus;
-	exposure    : EventEngineStreamExposure;
-	whiteBalance: EventEngineStreamWhiteBalance;
+	name         : string;
+	rank         : number;
+	orientation? : string;
+	frame        : EventEngineStreamFrame;
+	focus        : EventEngineStreamFocus;
+	exposure     : EventEngineStreamExposure;
+	whiteBalance : EventEngineStreamWhiteBalance;
 
 }
 

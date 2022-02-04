@@ -53,16 +53,16 @@ export interface PhotoboothEventManagerGreenScreen {
 
 export interface PhotoboothEventManagerMediaStream {
 
-	who         : string;
-	name        : string;
-	port        : string;
-	rank        : string;
-	orientation : string;
-	frameWidth  : string;
-	frameHeight : string;
-	focus       : {setTo: string; value: string};
-	exposure    : {setTo: string; duration: number|null; iso: string; bias: string};
-	whiteBalance: {setTo: string; temperature: string; tint: string};
+	who          : string;
+	name         : string;
+	port         : string;
+	rank         : string;
+	orientation? : string;
+	frameWidth?  : string;
+	frameHeight? : string;
+	focus        : {setTo: string; value: string};
+	exposure     : {setTo: string; duration: number|null; iso: string; bias: string};
+	whiteBalance : {setTo: string; temperature: string; tint: string};
 
 }
 
@@ -85,7 +85,8 @@ export interface PhotoboothEventManagerGallery {
 
 export interface PhotoboothEventManagerServices {
 
-	mediasStream? : Array<PhotoboothEventManagerMediaStream>
+	mediasStream? : Array<PhotoboothEventManagerMediaStream>;
+	video?        : Array<PhotoboothEventManagerMediaStream>;
 	print?        : PhotoboothEventManagerPrint;
 	gallery?      : PhotoboothEventManagerGallery;
 
