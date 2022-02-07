@@ -83,17 +83,17 @@ export interface EventEnginePrinter {
 
 export interface EventEngineURLParams {
 
-	version                : string;
-	idEvent                : string;
-	idBooth                : number;
-	license                : number;
-	width                  : number;
-	height                 : number;
-	timeDifferenceWithCloud: number;
-	config      					 : string;
-	capture     					 : string;
-	contactless 					 : string;
-	errorInSession?        : string;
+	[version: string]                : string;
+	[idEvent: string]                : string;
+	[idBooth: string]                : number;
+	[license: string]                : number;
+	[width: string]                  : number;
+	[height: string]                 : number;
+	[timeDifferenceWithCloud: string]: number;
+	[config: string]      					 : string;
+	[capture: string]     					 : string;
+	[contactless: string] 					 : string;
+	[errorInSession?: string]        : string;
 
 }
 

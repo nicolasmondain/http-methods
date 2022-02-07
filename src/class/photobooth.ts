@@ -7,6 +7,7 @@ import {Camera} from './camera';
 import {CameraEos} from './camera-eos';
 import {CameraIos} from './camera-ios';
 import {CameraWebcam} from './camera-webcam';
+import {EventEngine} from './event-engine';
 import {PhotoboothEvent} from './event';
 import {Printer} from './printer';
 import {Server} from './server';
@@ -50,12 +51,7 @@ export class Photobooth extends Server{
 
 			timeDifferenceWithCloud: 0,
 
-			ee: {
-
-				version  : '',
-				directory: ''
-
-			},
+			ee: {} as EventEngine,
 
 			event: {
 
@@ -172,6 +168,8 @@ export class Photobooth extends Server{
 		this.init2(responses, params);
 		this.init3(responses, params);
 		this.init4(responses, params);
+
+		this.em.ee = new EventEngine(params);
 
 		this.addCameras();
 		this.addRecorders();

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import {EventEnginePrinter, EventEngineServer, EventEngineStream} from '../event-engine';
+import {EventEngine} from '../../class/event-engine';
 
 export type httpMethodsModule = Record<string, void|Promise>;
 
@@ -99,8 +100,6 @@ export interface PhotoboothEventManagerDetails {
 
 }
 
-
-type PhotoboothEventManagerEventEngine = PhotoboothEventManagerDetails;
 export interface PhotoboothEventManagerEvent extends PhotoboothEventManagerDetails{
 
 	idFTPevent: string;
@@ -114,7 +113,7 @@ export interface PhotoboothEventManager extends PhotoboothEventManagerDetails {
 	greenscreen            : PhotoboothEventManagerGreenScreen;
 	modes                  : PhotoboothEventManagerModes;
 	timeDifferenceWithCloud: number;
-	ee                     : PhotoboothEventManagerEventEngine;
+	ee                     : EventEngine;
 	event                  : PhotoboothEventManagerEvent;
 
 }
