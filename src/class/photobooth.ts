@@ -259,6 +259,16 @@ export class Photobooth extends Server{
 
 	}
 
+	async callCameras(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<unknown>>{ // eslint-disable-line no-unused-vars
+
+		const callCameras = await Promise.all(this.cameras.map((e) => call.bind(e)(args)));
+
+		Server.httpResponsesCheck(callCameras);
+
+		return callCameras;
+
+	}
+
 	addRecorder(server: EventEngineServer, camera: EventEngineStream): number{
 
 		const recordersLength = this.recorders.push(this.getCameraInstance(server, camera));
@@ -292,13 +302,13 @@ export class Photobooth extends Server{
 
 	}
 
-	async callCameras(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<unknown>>{ // eslint-disable-line no-unused-vars
+	async callRecorders(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<unknown>>{ // eslint-disable-line no-unused-vars
 
-		const callCameras = await Promise.all(this.cameras.map((e) => call.bind(e)(args)));
+		const callRecorders = await Promise.all(this.recorders.map((e) => call.bind(e)(args)));
 
-		Server.httpResponsesCheck(callCameras);
+		Server.httpResponsesCheck(callRecorders);
 
-		return callCameras;
+		return callRecorders;
 
 	}
 
