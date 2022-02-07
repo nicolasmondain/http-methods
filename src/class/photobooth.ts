@@ -120,7 +120,7 @@ export class Photobooth extends Server{
 
 	private init1(responses: Array<httpResponse>, params: EventEngineURLParams): void{
 
-		this.id     = params.idBooth;
+		this.id     = Number(params.idBooth);
 		this.screen = {width: Number(params.width), height: Number(params.height)};
 		this.os     = Object.assign(this.os, {name: responses[4].data.toLowerCase()});
 
