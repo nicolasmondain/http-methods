@@ -2,7 +2,6 @@
 HTTP (JavaScript) methods to communicate with the eventManager by sharingbox servers.
 *This package is public but remains intended for internal use (requires the servers of the eventManager by sharingbox application in order to communicate with the hardware).*
 
-[![npm downloads](https://img.shields.io/npm/dm/@sharingbox/http-methods)](https://www.npmjs.com/package/@sharingbox/http-methods)
 [![npm version](https://img.shields.io/npm/v/@sharingbox/http-methods)](https://www.npmjs.com/package/@sharingbox/http-methods)
 
 ## Installation
