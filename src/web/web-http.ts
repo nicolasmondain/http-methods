@@ -7,6 +7,7 @@ import axiosConfig from '../config/axios.config';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 import webHttpFile from './web-http-file';
+import webHttpProduction from './web-http-production';
 import webHttpSettings from './web-http-settings';
 
 const FORMAT_RESPONSE_SOURCE = 'WEB';
@@ -82,6 +83,7 @@ export default Object.assign(
 
 	webHttp,
 	webHttpFile,
+	webHttpProduction,
 	webHttpSettings
 
 );
