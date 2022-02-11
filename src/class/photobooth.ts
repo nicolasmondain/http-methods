@@ -480,4 +480,14 @@ export class Photobooth extends Server{
 
 	}
 
+	async produceVideo(data: string): Promise<httpResponse>{
+
+		const produceVideo = await webHttpMethods.produceVideo(this, data);
+
+		Server.httpResponseCheck(produceVideo);
+
+		return produceVideo;
+
+	}
+
 }

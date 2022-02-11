@@ -30,6 +30,27 @@ const webHttpProduction: httpMethodsModule = {
 
 		});
 
+	},
+
+	produceVideo(photobooth: Photobooth, data: string): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${photobooth.url}/produceVideo/`, qs.stringify({data}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
 	}
 
 };
