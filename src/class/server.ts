@@ -39,7 +39,7 @@ export class Server {
 
 	}
 
-	recall(method: (...args: any) => Promise<httpResponse>, args: Array<unknown>, expect: EventEngineServerExpectations): Promise<httpResponse>{ // eslint-disable-line no-unused-vars, max-lines-per-function
+	recall(method: (...args: any) => Promise<httpResponse>, args: Array<unknown>, expect: EventEngineServerExpectations, options?: {delay: number, max: number}): Promise<httpResponse>{ // eslint-disable-line no-unused-vars, max-lines-per-function
 
 		const RECALL_DELAY    = 250;
 		const RECALL_MAX      = 50;
@@ -75,7 +75,7 @@ export class Server {
 								clearInterval(interval);
 								resolve(response);
 
-							}else if(count >= RECALL_MAX){
+							}else if(count >= (options?.max || RECALL_MAX)){
 
 								clearInterval(interval);
 								reject(new Error(JSON.stringify(response)));
@@ -103,7 +103,7 @@ export class Server {
 
 				}
 
-			}, RECALL_DELAY);
+			}, options?.delay || RECALL_DELAY);
 
 		});
 
