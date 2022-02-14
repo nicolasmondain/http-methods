@@ -54,12 +54,12 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	setSlowmotion(camera: Camera, fps: number): Promise<httpResponse>{
+	setSlowmotion(camera: Camera, framerate: number): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/setSlowmotion/${fps}/`, axiosConfig)
+			.get(`${camera.url}/setSlowmotion/${framerate}/`, axiosConfig)
 			.then((response) => {
 
 				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
