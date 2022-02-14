@@ -16,9 +16,11 @@ export class CameraIos extends Camera{
 
 	}
 
-	async setSlowmotion(framerate: number): Promise<httpResponse>{
+	async setSlowmotion(): Promise<httpResponse>{
 
-		const setSlowmotion = await streamHttpMethods.setSlowmotion(this, framerate);
+		const SLOWMOTION_FRAMERATE = 120;
+
+		const setSlowmotion = await streamHttpMethods.setSlowmotion(this, SLOWMOTION_FRAMERATE);
 
 		Server.httpResponseCheck(setSlowmotion);
 

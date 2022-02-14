@@ -1,4 +1,4 @@
-import {EventEngineMedia, EventEnginePrinter, EventEngineServer, EventEngineStream, EventEngineURLParams} from '../@types/event-engine';
+import {EventEngineMedia, EventEngineNeedHardware, EventEnginePrinter, EventEngineServer, EventEngineStream, EventEngineURLParams} from '../@types/event-engine';
 import {PhotoboothEventManager, PhotoboothEventManagerMediaStream, PhotoboothEventManagerScreen} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
@@ -20,8 +20,8 @@ export class Photobooth extends Server{
 	id       : number;
 	em       : PhotoboothEventManager;
 	screen   : PhotoboothEventManagerScreen;
-	cameras  : Array<Camera>;
-	recorders: Array<Camera>;
+	cameras  : Array<CameraEos|CameraIos|CameraWebcam>;
+	recorders: Array<CameraEos|CameraIos|CameraWebcam>;
 	printers : Array<Printer>;
 	browser  : Bowser.Parser.BrowserDetails | null;
 	platform : Bowser.Parser.PlatformDetails | null;
@@ -94,9 +94,9 @@ export class Photobooth extends Server{
 
 	}
 
-	private getCameraInstance(server: EventEngineServer, camera: EventEngineStream): Camera{
+	private getCameraInstance(server: EventEngineServer, camera: EventEngineStream): CameraEos|CameraIos|CameraWebcam{
 
-		let cam = {} as Camera;
+		let cam = {} as CameraEos|CameraIos|CameraWebcam;
 
 		const DEFAULT_PORT = 8084;
 
@@ -257,7 +257,25 @@ export class Photobooth extends Server{
 
 	}
 
-	async callCameras(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<unknown>>{ // eslint-disable-line no-unused-vars
+	async prepareCameras(need: EventEngineNeedHardware): Promise<Array<unknown>|void>{
+
+		let startLiveView:Array<httpResponse> = [];
+
+		if(need.photo){
+
+			startLiveView = await this.callCameras(this.cameras[0].startLiveView, []);
+
+		}
+
+		const prepareCameras = startLiveView;
+
+		Server.httpResponsesCheck(prepareCameras);
+
+		return prepareCameras;
+
+	}
+
+	async callCameras(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<httpResponse>>{ // eslint-disable-line no-unused-vars
 
 		const callCameras = await Promise.all(this.cameras.map((e) => call.bind(e)(args)));
 
@@ -300,7 +318,43 @@ export class Photobooth extends Server{
 
 	}
 
-	async callRecorders(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<unknown>>{ // eslint-disable-line no-unused-vars
+	async prepareRecorders(need: EventEngineNeedHardware): Promise<Array<unknown>|void>{
+
+		let setRecordingModeOn:Array<httpResponse>  = [];
+		let setRecordingModeOff:Array<httpResponse> = [];
+		let setSlowmotion:Array<httpResponse>       = [];
+
+		if(this.os?.name === 'windows'){
+
+			if(need.video){
+
+				setRecordingModeOn = await this.callRecorders(this.recorders[0].setRecordingModeOn, []);
+
+			}else{
+
+				setRecordingModeOff = await this.callRecorders(this.recorders[0].setRecordingModeOff, []);
+
+			}
+
+		}else if(this.os?.name === 'ios'){
+
+			if(need.slowmotion && this.recorders[0] instanceof CameraIos){
+
+				setSlowmotion = await this.callRecorders(this.recorders[0].setSlowmotion, []);
+
+			}
+
+		}
+
+		const prepareRecorders = setRecordingModeOn.concat(setRecordingModeOff, setSlowmotion);
+
+		Server.httpResponsesCheck(prepareRecorders);
+
+		return prepareRecorders;
+
+	}
+
+	async callRecorders(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<httpResponse>>{ // eslint-disable-line no-unused-vars
 
 		const callRecorders = await Promise.all(this.recorders.map((e) => call.bind(e)(args)));
 

@@ -81,6 +81,14 @@ export interface EventEnginePrinter {
 
 }
 
+export interface EventEngineNeedHardware {
+
+	photo     : boolean;
+	slowmotion: boolean;
+	video     : boolean;
+
+}
+
 export interface EventEngineURLParams {
 
 	[version: string]                : string;
