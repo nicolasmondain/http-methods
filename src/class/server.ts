@@ -1,4 +1,9 @@
+
 import {EventEngineServer, EventEngineServerExpectations} from '../@types/event-engine';
+
+import {CameraEos} from './camera-eos';
+import {CameraIos} from './camera-ios';
+import {CameraWebcam} from './camera-webcam';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
 import httpStatus from '@sharingbox/http-status/dist/browser';
@@ -19,9 +24,25 @@ export class Server {
 
 	}
 
+	static httpResponseSource(source?: string): string{
+
+		let httpResponseSource = '';
+
+		if(source && (this instanceof CameraEos || this instanceof CameraIos || this instanceof CameraWebcam)){
+
+			httpResponseSource = `${source}-${this.type}`.toUpperCase();
+
+		}
+
+		return httpResponseSource;
+
+	}
+
 	static httpResponseCheck(response: httpResponse): void{
 
 		if(!httpStatus.isSuccess(response.status) && !httpStatus.isImateapot(response.status)){
+
+			response.source = Server.httpResponseSource(response.source);
 
 			throw new Error(JSON.stringify(response));
 
@@ -33,7 +54,15 @@ export class Server {
 
 		if(!responses.every((r) => httpStatus.isSuccess(r.status) || httpStatus.isImateapot(r.status))){
 
-			throw new Error(JSON.stringify(responses.find((r) => !httpStatus.isSuccess(r.status) && !httpStatus.isImateapot(r.status))));
+			const response = responses.find((r) => !httpStatus.isSuccess(r.status) && !httpStatus.isImateapot(r.status));
+
+			if(response){
+
+				response.source = Server.httpResponseSource(response.source);
+
+				throw new Error(JSON.stringify(response));
+
+			}
 
 		}
 
