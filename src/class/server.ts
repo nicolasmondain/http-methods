@@ -89,8 +89,16 @@ export class Server {
 						})
 						.catch((error) => {
 
-							clearInterval(interval);
-							reject(error);
+							if(count >= (options?.max || RECALL_MAX)){
+
+								clearInterval(interval);
+								reject(error);
+
+							}else{
+
+								status = RECALL_ANSWERED;
+
+							}
 
 						});
 
