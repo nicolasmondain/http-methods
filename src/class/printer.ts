@@ -12,7 +12,7 @@ export class Printer extends Server{
 
 	constructor(server: EventEngineServer, printer: EventEnginePrinter){
 
-		super(server);
+		super('Printer', server);
 
 		this.simulate = printer.simulate;
 		this.off      = printer.off;
@@ -53,7 +53,7 @@ export class Printer extends Server{
 
 		const numberOfLeftPrintSheets = await printHttpMethods.numberOfLeftPrintSheets(this);
 
-		Server.httpResponseCheck(numberOfLeftPrintSheets);
+		this.httpResponseCheck(numberOfLeftPrintSheets);
 
 		return numberOfLeftPrintSheets;
 
@@ -63,7 +63,7 @@ export class Printer extends Server{
 
 		const morePrints = await printHttpMethods.morePrints(this, file, copies);
 
-		Server.httpResponseCheck(morePrints);
+		this.httpResponseCheck(morePrints);
 
 		return morePrints;
 
@@ -74,7 +74,7 @@ export class Printer extends Server{
 
 		const print = await printHttpMethods.print(this, file, copies, this.simulate);
 
-		Server.httpResponseCheck(print);
+		this.httpResponseCheck(print);
 
 		return print;
 

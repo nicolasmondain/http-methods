@@ -17,6 +17,8 @@ export interface EventEngineServer {
 
 }
 
+export type EventEngineServerType = 'Photobooth' | 'CameraEos' | 'CameraIos' | 'CameraWebcam' | 'Printer';
+
 export interface EventEngineServerExpectation {
 
 	status : number;

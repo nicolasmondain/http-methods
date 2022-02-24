@@ -1,22 +1,20 @@
 
-import {EventEngineServer, EventEngineServerExpectations} from '../@types/event-engine';
-
-import {CameraEos} from './camera-eos';
-import {CameraIos} from './camera-ios';
-import {CameraWebcam} from './camera-webcam';
+import {EventEngineServer, EventEngineServerExpectations, EventEngineServerType} from '../@types/event-engine';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 export class Server {
 
+	type    : string;
 	server  : string;
 	port    : number;
 	protocol: string;
 	url     : string;
 
-	constructor(options: EventEngineServer){
+	constructor(type: EventEngineServerType, options: EventEngineServer){
 
+		this.type     = type;
 		this.server   = options.server;
 		this.port     = options.port;
 		this.protocol = options.protocol;
@@ -24,11 +22,11 @@ export class Server {
 
 	}
 
-	static httpResponseSource(source?: string): string{
+	httpResponseSource(source?: string): string{
 
 		let httpResponseSource = '';
 
-		if(source && (this instanceof CameraEos || this instanceof CameraIos || this instanceof CameraWebcam)){
+		if(source && this.type){
 
 			httpResponseSource = `${source}-${this.type}`.toUpperCase();
 
@@ -38,11 +36,11 @@ export class Server {
 
 	}
 
-	static httpResponseCheck(response: httpResponse): void{
+	httpResponseCheck(response: httpResponse): void{
 
 		if(!httpStatus.isSuccess(response.status) && !httpStatus.isImateapot(response.status)){
 
-			response.source = Server.httpResponseSource(response.source);
+			response.source = this.httpResponseSource(response.source);
 
 			throw new Error(JSON.stringify(response));
 
@@ -50,7 +48,7 @@ export class Server {
 
 	}
 
-	static httpResponsesCheck(responses: Array<httpResponse>): void{
+	httpResponsesCheck(responses: Array<httpResponse>): void{
 
 		if(!responses.every((r) => httpStatus.isSuccess(r.status) || httpStatus.isImateapot(r.status))){
 
@@ -58,7 +56,7 @@ export class Server {
 
 			if(response){
 
-				response.source = Server.httpResponseSource(response.source);
+				response.source = this.httpResponseSource(response.source);
 
 				throw new Error(JSON.stringify(response));
 
@@ -150,7 +148,7 @@ export class Server {
 
 		const multiplecall = await Promise.all(args.map((arg) => method.bind(this)(...arg)));
 
-		Server.httpResponsesCheck(multiplecall);
+		this.httpResponsesCheck(multiplecall);
 
 		return multiplecall;
 
