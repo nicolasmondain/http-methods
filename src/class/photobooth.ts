@@ -1,5 +1,5 @@
 import {EventEngineMedia, EventEngineNeedHardware, EventEnginePrinter, EventEngineServer, EventEngineStream, EventEngineURLParams} from '../@types/event-engine';
-import {PhotoboothEventManager, PhotoboothEventManagerMediaStream, PhotoboothEventManagerScreen} from '../@types/http-methods';
+import {PhotoboothEventManager, PhotoboothEventManagerEvent, PhotoboothEventManagerMediaStream, PhotoboothEventManagerScreen} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
 import * as Bowser from 'bowser';
@@ -59,7 +59,7 @@ export class Photobooth extends Server{
 				directory : '',
 				idFTPevent: ''
 
-			}
+			} as PhotoboothEventManagerEvent
 
 		};
 
@@ -151,7 +151,7 @@ export class Photobooth extends Server{
 		this.em.event = new PhotoboothEvent({
 
 			idFTPevent: params.idEvent,
-			directory : `${this.em.directory}/event/${this.em.event.idFTPevent}/`,
+			directory : `${this.em.directory}/event/${params.idEvent}/`,
 			version   : ''
 
 		});
