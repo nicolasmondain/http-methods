@@ -128,7 +128,7 @@ export class Photobooth extends Server{
 
 	private init2(responses: Array<httpResponse>, params: EventEngineURLParams): void{
 
-		this.em.directory               = responses[1].data;
+		this.em.directory               = responses[1].data.replace(/\\/gu, '/');
 		this.em.services                = responses[2].data;
 		this.em.greenscreen             = responses[3].data;
 		this.em.version                 = params.version;
