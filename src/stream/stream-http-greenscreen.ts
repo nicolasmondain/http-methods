@@ -19,12 +19,13 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			axios
 			.post(`${camera.url}/greenscreen/on/`, qs.stringify({
 
-				F: greenscreen.background,
-				R: greenscreen.R,
-				G: greenscreen.G,
-				B: greenscreen.B,
-				A: greenscreen.angle,
-				N: greenscreen.noise
+				F           : greenscreen.background,
+				R           : greenscreen.R,
+				G           : greenscreen.G,
+				B           : greenscreen.B,
+				A           : greenscreen.angle,
+				N           : greenscreen.noise,
+				livefeedOnly: greenscreen.livefeedOnly
 
 			}), axiosConfig)
 			.then((response) => {

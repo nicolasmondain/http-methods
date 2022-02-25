@@ -1,11 +1,12 @@
 export interface EventEngineGreenscreen {
 
-	background: string;
-	R         : number;
-	G         : number;
-	B         : number;
-	angle     : number;
-	noise     : number;
+	background  : string;
+	R           : number;
+	G           : number;
+	B           : number;
+	angle       : number;
+	noise       : number;
+	livefeedOnly: boolean;
 
 }
 
