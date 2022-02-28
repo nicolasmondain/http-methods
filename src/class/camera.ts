@@ -362,4 +362,14 @@ export class Camera extends Server{
 
 	}
 
+	async applyGreenscreen(source: EventEngineMedia, destination?: EventEngineMedia): Promise<httpResponse>{
+
+		const applyGreenscreen = await streamHttpMethods.applyGreenscreen(this, source, destination);
+
+		this.httpResponseCheck(applyGreenscreen);
+
+		return applyGreenscreen;
+
+	}
+
 }

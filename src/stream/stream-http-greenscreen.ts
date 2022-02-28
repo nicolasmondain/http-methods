@@ -1,5 +1,5 @@
 import {Camera} from '../class/camera';
-import {EventEngineGreenscreen} from '../@types/event-engine';
+import {EventEngineGreenscreen, EventEngineMedia} from '../@types/event-engine';
 import {httpMethodsModule} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
@@ -64,12 +64,12 @@ const streamHttpGreenscreen: httpMethodsModule = {
 
 	},
 
-	backgroundGreenscreenArray(camera: Camera, files: string): Promise<httpResponse>{
+	backgroundGreenscreenArray(camera: Camera, backgrounds: string): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${camera.url}/backgroundGreenScreenArray/`, qs.stringify({files}), axiosConfig)
+			.post(`${camera.url}/backgroundGreenScreenArray/`, qs.stringify({backgrounds}), axiosConfig)
 			.then((response) => {
 
 				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
@@ -85,12 +85,39 @@ const streamHttpGreenscreen: httpMethodsModule = {
 
 	},
 
-	updateGreenscreen(camera: Camera, file: string): Promise<httpResponse>{
+	updateGreenscreen(camera: Camera, background: string): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${camera.url}/updateGreenscreen/`, qs.stringify({file}), axiosConfig)
+			.post(`${camera.url}/updateGreenscreen/`, qs.stringify({background}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	applyGreenscreen(camera: Camera, background: string, source: EventEngineMedia, destination?: EventEngineMedia): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${camera.url}/applyGreenscreen/`, qs.stringify({
+
+				background,
+				source     : source.path,
+				destination: destination?.path || ''
+
+			}), axiosConfig)
 			.then((response) => {
 
 				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
