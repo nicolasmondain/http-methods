@@ -36,8 +36,9 @@ export interface PhotoboothEventManagerModes {
 
 export interface PhotoboothEventManagerScreen {
 
-	width : number;
-	height: number;
+	width      : number;
+	height     : number;
+	orientation: string;
 
 }
 

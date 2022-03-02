@@ -67,7 +67,7 @@ export class Photobooth extends Server{
 		this.browser   = this.server === 'localhost' ? bowser.getBrowser() : null;
 		this.os        = this.server === 'localhost' ? bowser.getOS() : null;
 		this.engine    = this.server === 'localhost' ? bowser.getEngine() : null;
-		this.screen    = {width: 0, height: 0};
+		this.screen    = {width: 0, height: 0, orientation: ''};
 		this.cameras   = [];
 		this.recorders = [];
 		this.printers  = [];
@@ -120,9 +120,12 @@ export class Photobooth extends Server{
 
 	private init1(responses: Array<httpResponse>, params: EventEngineURLParams): void{
 
-		this.id     = Number(params.idBooth);
-		this.screen = {width: Number(params.width), height: Number(params.height)};
-		this.os     = Object.assign(this.os, {name: responses[4].data.toLowerCase()});
+		this.id = Number(params.idBooth);
+		this.os = Object.assign(this.os, {name: responses[4].data.toLowerCase()});
+
+		this.screen.width       = Number(params.width);
+		this.screen.height      = Number(params.height);
+		this.screen.orientation = this.screen.width > this.screen.height ? 'landscape' : 'portrait';
 
 	}
 
