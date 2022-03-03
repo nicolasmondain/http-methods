@@ -131,7 +131,7 @@ export class Photobooth extends Server{
 
 	private init2(responses: Array<httpResponse>, params: EventEngineURLParams): void{
 
-		this.em.directory               = responses[1].data.replace(/\\/gu, '/');
+		this.em.directory               = this.formatPath(responses[1].data);
 		this.em.services                = responses[2].data;
 		this.em.greenscreen             = responses[3].data;
 		this.em.version                 = params.version;
@@ -154,7 +154,7 @@ export class Photobooth extends Server{
 		this.em.event = new PhotoboothEvent({
 
 			idFTPevent: params.idEvent,
-			directory : `${this.em.directory}/event/${params.idEvent}/`,
+			directory : this.formatPath(`${this.em.directory}/event/${params.idEvent}/`),
 			version   : ''
 
 		});
@@ -177,6 +177,25 @@ export class Photobooth extends Server{
 		this.addCameras();
 		this.addRecorders();
 		this.addPrinters();
+
+	}
+
+	formatPath(path: string): string{
+
+		let formatPath = path;
+
+		if(this.os?.name === 'windows'){
+
+			formatPath = formatPath.replace(/\//gu, '\\');
+
+		}else if(this.os?.name === 'ios'){
+
+			formatPath = formatPath.replace(/\\/gu, '/');
+
+
+		}
+
+		return formatPath;
 
 	}
 
@@ -329,11 +348,11 @@ export class Photobooth extends Server{
 
 		if(this.os?.name === 'windows'){
 
-			if(need.video){
+			if(need.video && this.recorders[0] instanceof CameraEos){
 
 				setRecordingModeOn = await this.callRecorders(this.recorders[0].setRecordingModeOn, []);
 
-			}else{
+			}else if(this.recorders[0] instanceof CameraEos){
 
 				setRecordingModeOff = await this.callRecorders(this.recorders[0].setRecordingModeOff, []);
 
