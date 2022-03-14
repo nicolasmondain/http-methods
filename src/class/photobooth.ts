@@ -192,7 +192,6 @@ export class Photobooth extends Server{
 
 			formatPath = formatPath.replace(/\\/gu, '/');
 
-
 		}
 
 		return formatPath;

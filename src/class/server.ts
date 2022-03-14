@@ -94,7 +94,7 @@ export class Server {
 							const checkResponseData = httpStatus.checkResponseData(response);
 
 							const expectations = expect
-																	.map((e) => checkResponseData.expect(e.nested)[e.method](e.compare) && e.status === response.status)
+																	.map((e) => (e.method && e.compare ? checkResponseData.expect(e.nested)[e.method](e.compare) && e.status === response.status : e.status === response.status)) // eslint-disable-line no-extra-parens, max-len
 																	.every((e) => e === true);
 
 							if(expectations){
