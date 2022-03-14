@@ -18,7 +18,7 @@ const streamHttpLiveview: httpMethodsModule = {
 			.get(`${camera.url}/startLiveView/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -39,7 +39,7 @@ const streamHttpLiveview: httpMethodsModule = {
 			.get(`${camera.url}/stopLiveView/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -66,7 +66,7 @@ const streamHttpLiveview: httpMethodsModule = {
 			.get(`${camera.url}/getLivefeedStatus/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {

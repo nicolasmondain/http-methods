@@ -22,7 +22,7 @@ const webHttp: httpMethodsModule = {
 			.get(`${photobooth.url}/appDirectory/`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -43,7 +43,7 @@ const webHttp: httpMethodsModule = {
 			.get(`${photobooth.url}/launchMediaServer/`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -64,7 +64,7 @@ const webHttp: httpMethodsModule = {
 			.get(`${photobooth.url}/log/${string}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {

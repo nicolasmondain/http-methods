@@ -40,7 +40,7 @@ export class Server {
 
 		if(!httpStatus.isSuccess(response.status) && !httpStatus.isImateapot(response.status)){
 
-			response.source = this.httpResponseSource(response.source);
+			response.config.source = this.httpResponseSource(response.config.source);
 
 			throw new Error(JSON.stringify(response));
 
@@ -56,7 +56,7 @@ export class Server {
 
 			if(response){
 
-				response.source = this.httpResponseSource(response.source);
+				response.config.source = this.httpResponseSource(response.config.source);
 
 				throw new Error(JSON.stringify(response));
 

@@ -20,7 +20,7 @@ const streamHttpSettings: httpMethodsModule = {
 			.post(`${camera.url}/changeOrientation/${options.includes(orientation) ? orientation : options[0]}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -46,7 +46,7 @@ const streamHttpSettings: httpMethodsModule = {
 				iso = Number.parseInt(response.data, 10);
 				iso = Number.isNaN(iso) ? 0 : iso;
 
-				resolve(httpStatus.formatResponse(response.status, iso, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, iso, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -67,7 +67,7 @@ const streamHttpSettings: httpMethodsModule = {
 			.get(`${camera.url}/getAvailableWb/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -88,7 +88,7 @@ const streamHttpSettings: httpMethodsModule = {
 			.get(`${camera.url}/getAvailableTv/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -109,7 +109,7 @@ const streamHttpSettings: httpMethodsModule = {
 			.get(`${camera.url}/getFrameSizes/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {

@@ -30,7 +30,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -51,7 +51,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			.get(`${camera.url}/greenscreen/off/`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -72,7 +72,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			.post(`${camera.url}/backgroundGreenScreenArray/`, qs.stringify({backgrounds}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -93,7 +93,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			.post(`${camera.url}/updateGreenscreen/`, qs.stringify({background}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -120,7 +120,7 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {

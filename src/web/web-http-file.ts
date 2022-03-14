@@ -27,7 +27,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -55,7 +55,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -81,7 +81,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -106,7 +106,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -133,7 +133,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -159,7 +159,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -185,7 +185,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -210,7 +210,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -236,7 +236,7 @@ const webHttpFile: httpMethodsModule = {
 			}), axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {

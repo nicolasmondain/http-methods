@@ -19,7 +19,7 @@ const streamHttpShoot: httpMethodsModule = {
 			.get(`${camera.url}/shootAndWait/ByName/${camera.name}/${file.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -40,7 +40,7 @@ const streamHttpShoot: httpMethodsModule = {
 			.get(`${camera.url}/getLastShootErrorMessage/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -61,7 +61,7 @@ const streamHttpShoot: httpMethodsModule = {
 			.get(`${camera.url}/cancelPending/ByName/${camera.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -82,7 +82,7 @@ const streamHttpShoot: httpMethodsModule = {
 			.get(`${camera.url}/writePictureStreamToFile/ByName/${camera.name}/${file.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -108,7 +108,7 @@ const streamHttpShoot: httpMethodsModule = {
 				count = Number.parseInt(response.data, 10);
 				count = Number.isNaN(count) ? 0 : count;
 
-				resolve(httpStatus.formatResponse(response.status, count, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, count, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -129,7 +129,7 @@ const streamHttpShoot: httpMethodsModule = {
 			.get(`${camera.url}/deleteFile/${file.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
@@ -150,7 +150,7 @@ const streamHttpShoot: httpMethodsModule = {
 			.get(`${camera.url}/getFile/${file.name}`, axiosConfig)
 			.then((response) => {
 
-				resolve(httpStatus.formatResponse(response.status, response.data, null, FORMAT_RESPONSE_SOURCE));
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {
