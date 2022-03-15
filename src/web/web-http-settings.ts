@@ -15,7 +15,7 @@ const webHttpFile: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${photobooth.url}/areYouHere/`, axiosConfig)
+			.get(`${photobooth.url}/whatMode/`, axiosConfig)
 			.then((response) => {
 
 				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
