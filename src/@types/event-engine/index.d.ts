@@ -42,7 +42,7 @@ export interface EventEngineStreamFrame {
 export interface EventEngineStreamFocus {
 
 	setTo: string;
-	value: string;
+	value: number;
 
 }
 
@@ -51,15 +51,15 @@ export interface EventEngineStreamExposure {
 	setTo   : string;
 	duration: number|null;
 	iso     : string;
-	bias    : string;
+	bias    : number;
 
 }
 
 export interface EventEngineStreamWhiteBalance {
 
 	setTo      : string;
-	temperature: string;
-	tint       : string;
+	temperature: number;
+	tint       : number;
 
 }
 

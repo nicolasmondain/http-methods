@@ -82,9 +82,9 @@ export class Photobooth extends Server{
 
 			name        : stream.name,
 			rank        : Number(stream.rank),
-			focus       : stream.focus,
-			exposure    : stream.exposure,
-			whiteBalance: stream.whiteBalance,
+			focus       : {setTo: stream.focus.setTo, value: Number(stream.focus.value)},
+			exposure    : {setTo: stream.exposure.setTo, duration: Number(stream.exposure.duration), iso: stream.exposure.iso, bias: Number(stream.exposure.bias)},
+			whiteBalance: {setTo: stream.whiteBalance.setTo, temperature: Number(stream.whiteBalance.temperature), tint: Number(stream.whiteBalance.tint)},
 			orientation : stream.orientation,
 			frame       : {height: frame.height, width: frame.width, ratio: frame.height / frame.width}
 
@@ -288,7 +288,18 @@ export class Photobooth extends Server{
 
 		}
 
-		const prepareCameras = startLiveView;
+		const eosList       = this.cameras.filter((camera) => camera.type === 'CameraEos');
+		const getCameraList = await Promise.all(eosList.map((camera) => camera.getCameraList()));
+
+		for(let i = 0; i < eosList.length; i += 1){
+
+			const exposureDuration = getCameraList[i].data?.eos?.details?.find((camera: CameraEos) => camera.name === eosList[i].name)?.properties?.Exp || 0;
+
+			eosList[i].exposure.duration = Number(exposureDuration.replace(',', '.'));
+
+		}
+
+		const prepareCameras = startLiveView.concat(getCameraList);
 
 		this.httpResponsesCheck(prepareCameras);
 
