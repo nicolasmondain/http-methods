@@ -293,9 +293,12 @@ export class Photobooth extends Server{
 
 		for(let i = 0; i < eosList.length; i += 1){
 
-			const exposureDuration = getCameraList[i].data?.eos?.details?.find((camera: CameraEos) => camera.name === eosList[i].name)?.properties?.Exp || 0;
+			let exposureDuration = getCameraList[i].data?.eos?.details?.find((camera: CameraEos) => camera.name === eosList[i].name)?.properties?.Exp || 0;
 
-			eosList[i].exposure.duration = Number(exposureDuration.replace(',', '.'));
+					exposureDuration = exposureDuration.replace(',', '.').replace(/ /gu, '');
+					exposureDuration = exposureDuration.includes('/') ? Number(exposureDuration.split('/')[0]) / Number(exposureDuration.split('/')[1]) : Number(exposureDuration);
+
+			eosList[i].exposure.duration = exposureDuration;
 
 		}
 
