@@ -120,6 +120,69 @@ const streamHttpSettings: httpMethodsModule = {
 
 		});
 
+	},
+
+	changeTv(camera: Camera, tv:number){
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.get(`${camera.url}/changetv/ByName/${camera.name}/${tv}`, axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	changeIso(camera: Camera, iso:number){
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.get(`${camera.url}/changeiso/ByName/${camera.name}/${iso}`, axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	changeWb(camera: Camera, wb:string){
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.get(`${camera.url}/changewb/ByName/${camera.name}/${wb}`, axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
+
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
 	}
 
 };

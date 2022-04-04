@@ -13,6 +13,7 @@ import {
 } from '../@types/event-engine';
 
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
+import httpStatus from '@sharingbox/http-status/dist/browser';
 import {Server} from './server';
 import streamHttpMethods from '../stream/stream-http';
 
@@ -71,6 +72,33 @@ export class Camera extends Server{
 			image.src = this.getLivefeedAsImage();
 
 		});
+
+	}
+
+	async updateExposure(): Promise<httpResponse>{
+
+		let   updateExposure = {} as httpResponse;
+		const getCameraList  = await this.getCameraList();
+
+		if(httpStatus.isOK(getCameraList.status)){
+
+			let exposureDuration = getCameraList.data?.eos?.details?.find((camera: Camera) => camera.name === this.name)?.properties?.Exp || 0;
+
+			exposureDuration = exposureDuration.replace(',', '.').replace(/ /gu, '');
+			exposureDuration = exposureDuration.includes('/') ? Number(exposureDuration.split('/')[0]) / Number(exposureDuration.split('/')[1]) : Number(exposureDuration);
+			updateExposure   = httpStatus.responseOK(exposureDuration);
+
+			this.exposure.duration = exposureDuration;
+
+		}else{
+
+			updateExposure = getCameraList;
+
+		}
+
+		this.httpResponseCheck(updateExposure);
+
+		return updateExposure;
 
 	}
 

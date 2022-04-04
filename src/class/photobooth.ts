@@ -280,29 +280,17 @@ export class Photobooth extends Server{
 
 	async prepareCameras(need: EventEngineNeedHardware): Promise<Array<unknown>|void>{
 
-		let startLiveView:Array<httpResponse> = [];
+		let startLiveView:Array<httpResponse>   = [];
+		let updateExposure: Array<httpResponse> = [];
 
 		if(need.photo){
 
-			startLiveView = await this.callCameras(this.cameras[0].startLiveView, []);
+			startLiveView  = await this.callCameras(this.cameras[0].startLiveView, []);
+			updateExposure = await this.callCameras(this.cameras[0].updateExposure, []);
 
 		}
 
-		const eosList       = this.cameras.filter((camera) => camera.type === 'CameraEos');
-		const getCameraList = await Promise.all(eosList.map((camera) => camera.getCameraList()));
-
-		for(let i = 0; i < eosList.length; i += 1){
-
-			let exposureDuration = getCameraList[i].data?.eos?.details?.find((camera: CameraEos) => camera.name === eosList[i].name)?.properties?.Exp || 0;
-
-					exposureDuration = exposureDuration.replace(',', '.').replace(/ /gu, '');
-					exposureDuration = exposureDuration.includes('/') ? Number(exposureDuration.split('/')[0]) / Number(exposureDuration.split('/')[1]) : Number(exposureDuration);
-
-			eosList[i].exposure.duration = exposureDuration;
-
-		}
-
-		const prepareCameras = startLiveView.concat(getCameraList);
+		const prepareCameras = startLiveView.concat(updateExposure);
 
 		this.httpResponsesCheck(prepareCameras);
 

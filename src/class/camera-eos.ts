@@ -32,4 +32,34 @@ export class CameraEos extends Camera{
 
 	}
 
+	async changeTv(tv:number): Promise<httpResponse>{
+
+		const changeTv = await streamHttpMethods.changeTv(this, tv);
+
+		this.httpResponseCheck(changeTv);
+
+		return changeTv;
+
+	}
+
+	async changeIso(iso:number): Promise<httpResponse>{
+
+		const changeIso = await streamHttpMethods.changeIso(this, iso);
+
+		this.httpResponseCheck(changeIso);
+
+		return changeIso;
+
+	}
+
+	async changeWb(wb:string): Promise<httpResponse>{
+
+		const changeWb = await streamHttpMethods.changeWb(this, wb);
+
+		this.httpResponseCheck(changeWb);
+
+		return changeWb;
+
+	}
+
 }
