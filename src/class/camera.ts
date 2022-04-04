@@ -84,10 +84,18 @@ export class Camera extends Server{
 			this.getCameraList()
 			.then((getCameraList) => {
 
-				let exposureDuration = getCameraList.data?.eos?.details?.find((camera: Camera) => camera.name === this.name)?.properties?.Exp || 0;
+				let exposureDuration = getCameraList.data?.eos?.details?.find((camera: Camera) => camera.name === this.name)?.properties?.Exp;
 
-				exposureDuration = exposureDuration.replace(',', '.').replace(/ /gu, '');
-				exposureDuration = exposureDuration.includes('/') ? Number(exposureDuration.split('/')[0]) / Number(exposureDuration.split('/')[1]) : Number(exposureDuration);
+				if(exposureDuration && typeof exposureDuration === 'string'){
+
+					exposureDuration = exposureDuration.replace(',', '.').replace(/ /gu, '');
+					exposureDuration = exposureDuration.includes('/') ? Number(exposureDuration.split('/')[0]) / Number(exposureDuration.split('/')[1]) : Number(exposureDuration);
+
+				}else{
+
+					exposureDuration = 0;
+
+				}
 
 				this.exposure.duration = exposureDuration;
 
