@@ -75,30 +75,34 @@ export class Camera extends Server{
 
 	}
 
-	async updateExposure(): Promise<httpResponse>{
+	updateExposure(): Promise<httpResponse>{
 
-		let   updateExposure = {} as httpResponse;
-		const getCameraList  = await this.getCameraList();
+		let updateExposure = {} as httpResponse;
 
-		if(httpStatus.isOK(getCameraList.status)){
+		return new Promise((resolve, reject) => {
 
-			let exposureDuration = getCameraList.data?.eos?.details?.find((camera: Camera) => camera.name === this.name)?.properties?.Exp || 0;
+			this.getCameraList()
+			.then((getCameraList) => {
 
-			exposureDuration = exposureDuration.replace(',', '.').replace(/ /gu, '');
-			exposureDuration = exposureDuration.includes('/') ? Number(exposureDuration.split('/')[0]) / Number(exposureDuration.split('/')[1]) : Number(exposureDuration);
-			updateExposure   = httpStatus.responseOK(exposureDuration);
+				let exposureDuration = getCameraList.data?.eos?.details?.find((camera: Camera) => camera.name === this.name)?.properties?.Exp || 0;
 
-			this.exposure.duration = exposureDuration;
+				exposureDuration = exposureDuration.replace(',', '.').replace(/ /gu, '');
+				exposureDuration = exposureDuration.includes('/') ? Number(exposureDuration.split('/')[0]) / Number(exposureDuration.split('/')[1]) : Number(exposureDuration);
 
-		}else{
+				this.exposure.duration = exposureDuration;
 
-			updateExposure = getCameraList;
+				updateExposure = httpStatus.responseOK(this.exposure);
 
-		}
+				resolve(updateExposure);
 
-		this.httpResponseCheck(updateExposure);
+			})
+			.catch((error) => {
 
-		return updateExposure;
+				reject(error);
+
+			});
+
+		});
 
 	}
 
