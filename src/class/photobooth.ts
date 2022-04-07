@@ -92,6 +92,7 @@ export class Photobooth extends Server{
 
 				height        : frame.height,
 				width         : frame.width,
+				ratio         : frame.height / frame.width,
 				originalHeight: frame.height,
 				originalWidth : frame.width
 
