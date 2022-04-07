@@ -70,8 +70,7 @@ export class Camera extends Server{
 
 	updateEosDetails(): Promise<httpResponse>{
 
-		let updateEosDetails = {} as httpResponse;
-
+		let updateEosDetails   = {} as httpResponse;
 		let exposureDuration   = '';
 		let multicamCorrection = {imageWidth: 0, imageHeight: 0};
 
@@ -89,8 +88,8 @@ export class Camera extends Server{
 					exposureDuration   = camera?.properties?.Exp;
 					multicamCorrection = camera?.multicamCorrection;
 
-					this.frame.originalHeight = multicamCorrection.imageHeight;
-					this.frame.originalWidth  = multicamCorrection.imageWidth;
+					this.frame.originalHeight = Number(multicamCorrection.imageHeight);
+					this.frame.originalWidth  = Number(multicamCorrection.imageWidth);
 
 					if(exposureDuration && typeof exposureDuration === 'string'){
 
@@ -101,7 +100,7 @@ export class Camera extends Server{
 
 				}
 
-				updateEosDetails = httpStatus.responseOK(this.exposure);
+				updateEosDetails = httpStatus.responseOK(getCameraList.data);
 
 				resolve(updateEosDetails);
 
