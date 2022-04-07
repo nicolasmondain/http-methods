@@ -23,6 +23,7 @@ export class Photobooth extends Server{
 	cameras  : Array<CameraEos|CameraIos|CameraWebcam>;
 	recorders: Array<CameraEos|CameraIos|CameraWebcam>;
 	printers : Array<Printer>;
+	use      : {camera: number, recorder: number, printer: number};
 	browser  : Bowser.Parser.BrowserDetails | null;
 	platform : Bowser.Parser.PlatformDetails | null;
 	os       : Bowser.Parser.OSDetails | null;
@@ -71,6 +72,7 @@ export class Photobooth extends Server{
 		this.cameras   = [];
 		this.recorders = [];
 		this.printers  = [];
+		this.use       = {camera: 0, recorder: 0, printer: 0};
 
 	}
 
@@ -235,6 +237,14 @@ export class Photobooth extends Server{
 
 	}
 
+	updatePrinterUse(index: number): number{
+
+		this.use.printer = index;
+
+		return index;
+
+	}
+
 	async callPrinters(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<unknown>>{ // eslint-disable-line no-unused-vars
 
 		const callPrinters = await Promise.all(this.printers.map((e) => call.bind(e)(args)));
@@ -275,6 +285,14 @@ export class Photobooth extends Server{
 	hasCamera(): boolean{
 
 		return this.cameras.length > 0;
+
+	}
+
+	updateCameraUse(index: number): number{
+
+		this.use.camera = index;
+
+		return index;
 
 	}
 
@@ -338,6 +356,14 @@ export class Photobooth extends Server{
 	hasRecorder(): boolean{
 
 		return this.recorders.length > 0;
+
+	}
+
+	updateRecorderUse(index: number): number{
+
+		this.use.recorder = index;
+
+		return index;
 
 	}
 

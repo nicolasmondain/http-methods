@@ -49,7 +49,7 @@ export interface EventEngineStreamFocus {
 export interface EventEngineStreamExposure {
 
 	setTo   : string;
-	duration: number|null;
+	duration: number;
 	iso     : string;
 	bias    : number;
 
