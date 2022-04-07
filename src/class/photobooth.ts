@@ -88,7 +88,14 @@ export class Photobooth extends Server{
 			exposure    : {setTo: stream.exposure.setTo, duration: Number(stream.exposure.duration), iso: stream.exposure.iso, bias: Number(stream.exposure.bias)},
 			whiteBalance: {setTo: stream.whiteBalance.setTo, temperature: Number(stream.whiteBalance.temperature), tint: Number(stream.whiteBalance.tint)},
 			orientation : stream.orientation,
-			frame       : {height: frame.height, width: frame.width, ratio: frame.height / frame.width}
+			frame       : {
+
+				height        : frame.height,
+				width         : frame.width,
+				originalHeight: frame.height,
+				originalWidth : frame.width
+
+			}
 
 		};
 
@@ -299,16 +306,16 @@ export class Photobooth extends Server{
 	async prepareCameras(need: EventEngineNeedHardware): Promise<Array<unknown>|void>{
 
 		let startLiveView:Array<httpResponse>   = [];
-		let updateExposure: Array<httpResponse> = [];
+		let updateEosDetails: Array<httpResponse> = [];
 
 		if(need.photo){
 
 			startLiveView  = await this.callCameras(this.cameras[0].startLiveView, []);
-			updateExposure = await this.callCameras(this.cameras[0].updateExposure, []);
+			updateEosDetails = await this.callCameras(this.cameras[0].updateEosDetails, []);
 
 		}
 
-		const prepareCameras = startLiveView.concat(updateExposure);
+		const prepareCameras = startLiveView.concat(updateEosDetails);
 
 		this.httpResponsesCheck(prepareCameras);
 

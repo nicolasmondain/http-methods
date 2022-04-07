@@ -55,17 +55,10 @@ export class Camera extends Server{
 
 			image.onload = () => {
 
-				const cameraFrame = {
+				this.frame.height = image.height;
+				this.frame.width  = image.width;
 
-					height: image.height,
-					width : image.width,
-					ratio : image.height / image.width
-
-				};
-
-				this.frame = cameraFrame;
-
-				resolve(cameraFrame);
+				resolve(this.frame);
 
 			};
 
@@ -75,33 +68,42 @@ export class Camera extends Server{
 
 	}
 
-	updateExposure(): Promise<httpResponse>{
+	updateEosDetails(): Promise<httpResponse>{
 
-		let updateExposure = {} as httpResponse;
+		let updateEosDetails = {} as httpResponse;
+
+		let exposureDuration   = '';
+		let multicamCorrection = {imageWidth: 0, imageHeight: 0};
+
+		this.exposure.duration = 0;
 
 		return new Promise((resolve, reject) => {
 
 			this.getCameraList()
 			.then((getCameraList) => {
 
-				let exposureDuration = getCameraList.data?.eos?.details?.find((camera: Camera) => camera.name === this.name)?.properties?.Exp;
+				const camera = getCameraList.data?.eos?.details?.find((c: Camera) => c.name === this.name);
 
-				if(exposureDuration && typeof exposureDuration === 'string'){
+				if(camera){
 
-					exposureDuration = exposureDuration.replace(',', '.').replace(/ /gu, '');
-					exposureDuration = exposureDuration.includes('/') ? Number(exposureDuration.split('/')[0]) / Number(exposureDuration.split('/')[1]) : Number(exposureDuration);
+					exposureDuration   = camera?.properties?.Exp;
+					multicamCorrection = camera?.multicamCorrection;
 
-				}else{
+					this.frame.originalHeight = multicamCorrection.imageHeight;
+					this.frame.originalWidth  = multicamCorrection.imageWidth;
 
-					exposureDuration = 0;
+					if(exposureDuration && typeof exposureDuration === 'string'){
+
+						exposureDuration       = exposureDuration.replace(',', '.').replace(/ /gu, '');
+						this.exposure.duration = exposureDuration.includes('/') ? Number(exposureDuration.split('/')[0]) / Number(exposureDuration.split('/')[1]) : Number(exposureDuration);
+
+					}
 
 				}
 
-				this.exposure.duration = exposureDuration;
+				updateEosDetails = httpStatus.responseOK(this.exposure);
 
-				updateExposure = httpStatus.responseOK(this.exposure);
-
-				resolve(updateExposure);
+				resolve(updateEosDetails);
 
 			})
 			.catch((error) => {

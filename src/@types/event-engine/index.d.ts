@@ -33,9 +33,10 @@ export type EventEngineServerExpectations = Array<EventEngineServerExpectation>;
 
 export interface EventEngineStreamFrame {
 
-	height: number;
-	width : number;
-	ratio : number;
+	height        : number;
+	width         : number;
+	originalHeight: number;
+	originalWidth : number;
 
 }
 
