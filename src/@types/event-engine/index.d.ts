@@ -83,6 +83,10 @@ export interface EventEnginePrinter {
 	off     : boolean;
 	on      : boolean;
 	autohide: boolean;
+	sheets  : number;
+	status  : string;
+	ok 		  : boolean;
+	able    : boolean;
 
 }
 

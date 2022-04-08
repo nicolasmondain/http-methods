@@ -229,7 +229,11 @@ export class Photobooth extends Server{
 				simulate: print.simulate,
 				off     : print.off,
 				on      : print.on,
-				autohide: print.autoHide
+				autohide: print.autoHide,
+				sheets  : 0,
+				status  : '',
+				ok      : true,
+				able    : true
 
 			};
 
@@ -250,6 +254,20 @@ export class Photobooth extends Server{
 		this.use.printer = index;
 
 		return index;
+
+	}
+
+	async preparePrinters(): Promise<Array<boolean>>{
+
+		let preparePrinters: Array<boolean> = [];
+
+		if(this.hasPrinter()){
+
+			preparePrinters = await Promise.all(this.printers.map((printer) => printer.isAbleToPrint()));
+
+		}
+
+		return preparePrinters;
 
 	}
 
@@ -311,7 +329,7 @@ export class Photobooth extends Server{
 
 		if(need.photo){
 
-			startLiveView  = await this.callCameras(this.cameras[0].startLiveView, []);
+			startLiveView    = await this.callCameras(this.cameras[0].startLiveView, []);
 			updateEosDetails = await this.callCameras(this.cameras[0].updateEosDetails, []);
 
 		}

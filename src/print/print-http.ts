@@ -29,6 +29,26 @@ const printHttp: httpMethodsModule = {
 
 				resolve(httpStatus.formatResponse(response.status, number, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
+			})
+			.catch((error) => {
+
+				reject(error);
+
+			});
+
+		});
+
+	},
+
+	dnpStatus(printer: Printer): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.get(`${printer.url}/dnpStatus/`, axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
 
 			})
 			.catch((error) => {

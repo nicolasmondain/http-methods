@@ -9,6 +9,10 @@ export class Printer extends Server{
 	off     : boolean;
 	on      : boolean;
 	autohide: boolean;
+	sheets  : number;
+	status  : string;
+	ok      : boolean;
+	able    : boolean;
 
 	constructor(server: EventEngineServer, printer: EventEnginePrinter){
 
@@ -18,6 +22,28 @@ export class Printer extends Server{
 		this.off      = printer.off;
 		this.on       = printer.on;
 		this.autohide = printer.autohide;
+		this.sheets   = printer.sheets;
+		this.status   = printer.status;
+		this.ok       = printer.ok;
+		this.able     = printer.able;
+
+	}
+
+	async isOK(): Promise<boolean>{
+
+		let isOK = false;
+
+		const status = await this.dnpStatus();
+
+		if(typeof status.data === 'string'){
+
+			this.status = status.data;
+
+			isOK = status.data.substring(0, 2).toUpperCase() === 'OK';
+
+		}
+
+		return isOK;
 
 	}
 
@@ -33,9 +59,13 @@ export class Printer extends Server{
 
 			}else{
 
-				const paper = await this.numberOfLeftPrintSheets();
+				const numberOfLeftPrintSheets = await this.numberOfLeftPrintSheets();
+				const isOK                    = await this.isOK();
 
-				if(!paper.data && this.autohide){
+				this.sheets = numberOfLeftPrintSheets.data;
+				this.ok     = isOK;
+
+				if((!numberOfLeftPrintSheets.data || !isOK) && this.autohide){
 
 					isAbleToPrint = false;
 
@@ -56,6 +86,16 @@ export class Printer extends Server{
 		this.httpResponseCheck(numberOfLeftPrintSheets);
 
 		return numberOfLeftPrintSheets;
+
+	}
+
+	async dnpStatus(): Promise<httpResponse>{
+
+		const dnpStatus = await printHttpMethods.dnpStatus(this);
+
+		this.httpResponseCheck(dnpStatus);
+
+		return dnpStatus;
 
 	}
 
