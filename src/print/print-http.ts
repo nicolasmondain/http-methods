@@ -45,7 +45,7 @@ const printHttp: httpMethodsModule = {
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${printer.url}/dnpStatus/`, axiosConfig)
+			.get(`${printer.url}/DNPStatus/`, axiosConfig)
 			.then((response) => {
 
 				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
