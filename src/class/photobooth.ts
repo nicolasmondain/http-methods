@@ -80,6 +80,7 @@ export class Photobooth extends Server{
 
 		const server = {server: stream.who, port: Number(stream.port), protocol: 'http'};
 		const frame  = {height: Number(stream.frameHeight || 0), width: Number(stream.frameWidth || 0)};
+		const flip   = stream.orientation?.includes('Flip');
 		const camera = {
 
 			name        : stream.name,
@@ -90,11 +91,11 @@ export class Photobooth extends Server{
 			orientation : stream.orientation,
 			frame       : {
 
-				height        : frame.height,
-				width         : frame.width,
-				ratio         : frame.height / frame.width,
-				originalHeight: frame.height,
-				originalWidth : frame.width
+				height        : flip ? frame.width : frame.height,
+				width         : flip ? frame.height : frame.width,
+				ratio         : flip ? frame.width / frame.height : frame.height / frame.width,
+				originalHeight: flip ? frame.width : frame.height,
+				originalWidth : flip ? frame.height : frame.width
 
 			}
 
