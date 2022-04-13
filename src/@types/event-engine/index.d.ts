@@ -93,6 +93,7 @@ export interface EventEngineNeedHardware {
 	photo     : boolean;
 	slowmotion: boolean;
 	video     : boolean;
+	printer   : boolean;
 
 }
 

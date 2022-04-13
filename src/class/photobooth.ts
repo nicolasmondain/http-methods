@@ -248,11 +248,11 @@ export class Photobooth extends Server{
 
 	}
 
-	async preparePrinters(): Promise<Array<boolean>>{
+	async preparePrinters(need: EventEngineNeedHardware): Promise<Array<boolean>>{
 
 		let preparePrinters: Array<boolean> = [];
 
-		if(this.hasPrinter()){
+		if(need.printer && this.hasPrinter()){
 
 			preparePrinters = await Promise.all(this.printers.map((printer) => printer.isAbleToPrint()));
 
@@ -318,7 +318,7 @@ export class Photobooth extends Server{
 		let startLiveView:Array<httpResponse>   = [];
 		let updateEosDetails: Array<httpResponse> = [];
 
-		if(need.photo){
+		if(need.photo && this.hasCamera()){
 
 			startLiveView    = await this.callCameras(this.cameras[0].startLiveView, []);
 			updateEosDetails = await this.callCameras(this.cameras[0].updateEosDetails, []);
@@ -392,11 +392,11 @@ export class Photobooth extends Server{
 
 		if(this.os?.name === 'windows'){
 
-			if(need.video && this.recorders[0] instanceof CameraEos){
+			if(need.video && this.hasRecorder() && this.recorders[0] instanceof CameraEos){
 
 				setRecordingModeOn = await this.callRecorders(this.recorders[0].setRecordingModeOn, []);
 
-			}else if(this.recorders[0] instanceof CameraEos){
+			}else if(this.hasRecorder() && this.recorders[0] instanceof CameraEos){
 
 				setRecordingModeOff = await this.callRecorders(this.recorders[0].setRecordingModeOff, []); // le set Recording ModeOff doit être appelé dans tous les cas en fin de session et le on en debut de session.
 
@@ -404,7 +404,7 @@ export class Photobooth extends Server{
 
 		}else if(this.os?.name === 'ios'){
 
-			if(need.slowmotion && this.recorders[0] instanceof CameraIos){
+			if(need.slowmotion && this.hasRecorder() && this.recorders[0] instanceof CameraIos){
 
 				setSlowmotion = await this.callRecorders(this.recorders[0].setSlowmotion, []);
 
