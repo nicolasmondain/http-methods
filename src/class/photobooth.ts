@@ -1,4 +1,4 @@
-import {EventEngineMedia, EventEngineNeedHardware, EventEnginePrinter, EventEngineServer, EventEngineStream, EventEngineURLParams} from '../@types/event-engine';
+import {EventEngineMedia, EventEngineNeedHardware, EventEnginePrinter, EventEngineServer, EventEngineStream, EventEngineStreamFrame, EventEngineURLParams} from '../@types/event-engine';
 import {PhotoboothEventManager, PhotoboothEventManagerEvent, PhotoboothEventManagerMediaStream, PhotoboothEventManagerScreen} from '../@types/http-methods';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
@@ -79,8 +79,6 @@ export class Photobooth extends Server{
 	static getCameraData(stream: PhotoboothEventManagerMediaStream): {server: EventEngineServer, camera: EventEngineStream}{
 
 		const server = {server: stream.who, port: Number(stream.port), protocol: 'http'};
-		const frame  = {height: Number(stream.frameHeight || 0), width: Number(stream.frameWidth || 0)};
-		const flip   = stream.orientation?.includes('Flip');
 		const camera = {
 
 			name        : stream.name,
@@ -89,15 +87,7 @@ export class Photobooth extends Server{
 			exposure    : {setTo: stream.exposure.setTo, duration: Number(stream.exposure.duration), iso: stream.exposure.iso, bias: Number(stream.exposure.bias)},
 			whiteBalance: {setTo: stream.whiteBalance.setTo, temperature: Number(stream.whiteBalance.temperature), tint: Number(stream.whiteBalance.tint)},
 			orientation : stream.orientation,
-			frame       : {
-
-				height        : flip ? frame.width : frame.height,
-				width         : flip ? frame.height : frame.width,
-				ratio         : flip ? frame.width / frame.height : frame.height / frame.width,
-				originalHeight: flip ? frame.width : frame.height,
-				originalWidth : flip ? frame.height : frame.width
-
-			}
+			frame       : {} as EventEngineStreamFrame
 
 		};
 

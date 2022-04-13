@@ -60,8 +60,6 @@ export interface PhotoboothEventManagerMediaStream {
 	port         : string;
 	rank         : string;
 	orientation? : string;
-	frameWidth?  : string;
-	frameHeight? : string;
 	focus        : {setTo: string; value: string};
 	exposure     : {setTo: string; duration: number|null; iso: string; bias: string};
 	whiteBalance : {setTo: string; temperature: string; tint: string};
