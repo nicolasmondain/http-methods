@@ -408,7 +408,7 @@ export class Photobooth extends Server{
 
 			}else if(this.recorders[0] instanceof CameraEos){
 
-				setRecordingModeOff = await this.callRecorders(this.recorders[0].setRecordingModeOff, []);
+				setRecordingModeOff = await this.callRecorders(this.recorders[0].setRecordingModeOff, []); // le set Recording ModeOff doit être appelé dans tous les cas en fin de session et le on en debut de session.
 
 			}
 

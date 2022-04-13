@@ -72,7 +72,7 @@ export class Camera extends Server{
 
 		let updateEosDetails   = {} as httpResponse;
 		let exposureDuration   = '';
-		let multicamCorrection = {imageWidth: 0, imageHeight: 0};
+		let multicamCorrection = {imageWidth: 1920, imageHeight: 1280};
 
 		this.exposure.duration = 0;
 
