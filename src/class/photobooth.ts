@@ -46,7 +46,8 @@ export class Photobooth extends Server{
 				launch       : 'normal',
 				contactless  : false,
 				configuration: false,
-				screenshot   : false
+				screenshot   : false,
+				autoplay     : false
 
 			},
 

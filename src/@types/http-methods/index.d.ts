@@ -31,6 +31,7 @@ export interface PhotoboothEventManagerModes {
 	contactless  : boolean;
 	configuration: boolean;
 	screenshot   : boolean;
+	autoplay     : boolean;
 
 }
 
