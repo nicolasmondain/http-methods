@@ -18,7 +18,7 @@ export class Server {
 		this.server   = options.server;
 		this.port     = options.port;
 		this.protocol = options.protocol;
-		this.url      = options.server === 'localhost' ? `${options.protocol}://${options.server}:${options.port}` : `${options.protocol}://${options.server}`;
+		this.url      = `${options.protocol}://${options.server}:${options.port}`;
 
 	}
 
