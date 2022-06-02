@@ -8,6 +8,7 @@ import httpStatus from '@sharingbox/http-status/dist/browser';
 import qs from 'qs';
 
 const FORMAT_RESPONSE_SOURCE = 'PRODUCTION';
+const SERVICE_UNAVAILABLE    = 503;
 
 const webHttpProduction: httpMethodsModule = {
 
@@ -24,7 +25,15 @@ const webHttpProduction: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 
@@ -45,7 +54,15 @@ const webHttpProduction: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 

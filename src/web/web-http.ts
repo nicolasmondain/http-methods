@@ -11,6 +11,7 @@ import webHttpProduction from './web-http-production';
 import webHttpSettings from './web-http-settings';
 
 const FORMAT_RESPONSE_SOURCE = 'WEB';
+const SERVICE_UNAVAILABLE    = 503;
 
 const webHttp: httpMethodsModule = {
 
@@ -27,7 +28,15 @@ const webHttp: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 
@@ -48,7 +57,15 @@ const webHttp: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 
@@ -69,7 +86,15 @@ const webHttp: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 

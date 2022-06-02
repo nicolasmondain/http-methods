@@ -59,13 +59,21 @@ export class Printer extends Server{
 
 			}else{
 
-				const numberOfLeftPrintSheets = await this.numberOfLeftPrintSheets();
-				const isOK                    = await this.isOK();
+				try{
 
-				this.sheets = numberOfLeftPrintSheets.data;
-				this.ok     = isOK;
+					const numberOfLeftPrintSheets = await this.numberOfLeftPrintSheets();
+					const isOK                    = await this.isOK();
 
-				if((!numberOfLeftPrintSheets.data || !isOK) && this.autohide){
+					this.sheets = numberOfLeftPrintSheets.data;
+					this.ok     = isOK;
+
+					if((!numberOfLeftPrintSheets.data || !isOK) && this.autohide){
+
+						isAbleToPrint = false;
+
+					}
+
+				}catch(error){
 
 					isAbleToPrint = false;
 

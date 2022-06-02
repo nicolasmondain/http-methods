@@ -2,23 +2,26 @@
 import {EventEngineServer, EventEngineServerExpectations, EventEngineServerType} from '../@types/event-engine';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
+import axios from 'axios';
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
 export class Server {
 
-	type    : string;
-	server  : string;
-	port    : number;
-	protocol: string;
-	url     : string;
+	type       : string;
+	server     : string;
+	port       : number;
+	protocol   : string;
+	url        : string;
+	unavailable: boolean;
 
 	constructor(type: EventEngineServerType, options: EventEngineServer){
 
-		this.type     = type;
-		this.server   = options.server;
-		this.port     = options.port;
-		this.protocol = options.protocol;
-		this.url      = `${options.protocol}://${options.server}:${options.port}`;
+		this.type        = type;
+		this.server      = options.server;
+		this.port        = options.port;
+		this.protocol    = options.protocol;
+		this.url         = `${options.protocol}://${options.server}:${options.port}`;
+		this.unavailable = false;
 
 	}
 
@@ -41,6 +44,12 @@ export class Server {
 		if(!httpStatus.isSuccess(response.status) && !httpStatus.isImateapot(response.status)){
 
 			response.config.source = this.httpResponseSource(response.config.source);
+
+			if(axios.isAxiosError(response.error)){
+
+				this.unavailable = true;
+
+			}
 
 			throw new Error(JSON.stringify(response));
 

@@ -11,6 +11,7 @@ import httpStatus from '@sharingbox/http-status/dist/browser';
 
 const PARAM_DEBUG_PRINT_SERVER = 0;
 const FORMAT_RESPONSE_SOURCE   = 'PRINT';
+const SERVICE_UNAVAILABLE      = 503;
 
 const printHttp: httpMethodsModule = {
 
@@ -32,7 +33,15 @@ const printHttp: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 
@@ -53,7 +62,15 @@ const printHttp: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 
@@ -81,7 +98,15 @@ const printHttp: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 
@@ -109,7 +134,15 @@ const printHttp: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 

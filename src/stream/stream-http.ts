@@ -13,6 +13,7 @@ import streamHttpSettings from './stream-http-settings';
 import streamHttpShoot from './stream-http-shoot';
 
 const FORMAT_RESPONSE_SOURCE = 'STREAM';
+const SERVICE_UNAVAILABLE    = 503;
 
 const streamHttp: httpMethodsModule = {
 
@@ -29,7 +30,15 @@ const streamHttp: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 
@@ -61,7 +70,15 @@ const streamHttp: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 
@@ -82,7 +99,15 @@ const streamHttp: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 

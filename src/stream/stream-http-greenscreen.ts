@@ -9,6 +9,7 @@ import httpStatus from '@sharingbox/http-status/dist/browser';
 import qs from 'qs';
 
 const FORMAT_RESPONSE_SOURCE = 'STREAM';
+const SERVICE_UNAVAILABLE    = 503;
 
 const streamHttpGreenscreen: httpMethodsModule = {
 
@@ -35,7 +36,15 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 
@@ -56,7 +65,15 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 
@@ -77,7 +94,15 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 
@@ -98,7 +123,15 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 
@@ -125,7 +158,15 @@ const streamHttpGreenscreen: httpMethodsModule = {
 			})
 			.catch((error) => {
 
-				reject(error);
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
 
 			});
 
