@@ -12,7 +12,6 @@ export class Printer extends Server{
 	sheets  : number;
 	status  : string;
 	ok      : boolean;
-	able    : boolean;
 
 	constructor(server: EventEngineServer, printer: EventEnginePrinter){
 
@@ -25,7 +24,6 @@ export class Printer extends Server{
 		this.sheets   = printer.sheets;
 		this.status   = printer.status;
 		this.ok       = printer.ok;
-		this.able     = printer.able;
 
 	}
 

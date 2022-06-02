@@ -2,8 +2,9 @@
 import {EventEngineServer, EventEngineServerExpectations, EventEngineServerType} from '../@types/event-engine';
 import {httpResponse} from '@sharingbox/http-status/src/@types/http-status/index';
 
-import axios from 'axios';
 import httpStatus from '@sharingbox/http-status/dist/browser';
+
+const SERVICE_UNAVAILABLE = 503;
 
 export class Server {
 
@@ -45,7 +46,7 @@ export class Server {
 
 			response.config.source = this.httpResponseSource(response.config.source);
 
-			if(axios.isAxiosError(response.error)){
+			if(response.status === SERVICE_UNAVAILABLE){
 
 				this.unavailable = true;
 
