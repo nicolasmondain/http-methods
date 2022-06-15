@@ -41,6 +41,35 @@ const webHttpProduction: httpMethodsModule = {
 
 	},
 
+	produceCustomVideo(photobooth: Photobooth, data: Record<string, any>): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${photobooth.url}/produceCustomVideo/`, qs.stringify({data}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
+
+			})
+			.catch((error) => {
+
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
+
+			});
+
+		});
+
+	},
+
 	produceVideo(photobooth: Photobooth, data: string): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
