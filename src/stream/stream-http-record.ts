@@ -135,12 +135,12 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	stopRecording(camera: Camera): Promise<httpResponse>{
+	stopRecording(camera: Camera, clear = false): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/stopRecording/ByName/${camera.name}`, axiosConfig)
+			.get(`${camera.url}/stopRecording/ByName/${camera.name}${clear ? '/delete' : ''}`, axiosConfig)
 			.then((response) => {
 
 				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
