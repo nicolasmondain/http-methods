@@ -611,4 +611,14 @@ export class Photobooth extends Server{
 
 	}
 
+	async produceCustomVideo(data: Record<string, any>): Promise<httpResponse>{
+
+		const produceCustomVideo = await webHttpMethods.produceCustomVideo(this, data);
+
+		this.httpResponseCheck(produceCustomVideo);
+
+		return produceCustomVideo;
+
+	}
+
 }
