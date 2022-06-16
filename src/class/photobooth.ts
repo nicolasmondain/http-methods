@@ -571,6 +571,16 @@ export class Photobooth extends Server{
 
 	}
 
+	async whatIsInDirectory(directory: string): Promise<httpResponse>{
+
+		const whatIsInDirectory = await webHttpMethods.whatIsInDirectory(this, directory);
+
+		this.httpResponseCheck(whatIsInDirectory);
+
+		return whatIsInDirectory;
+
+	}
+
 	async deleteSession(id: string): Promise<httpResponse>{
 
 		const deleteSession = await webHttpMethods.deleteSession(this, id);
@@ -611,7 +621,7 @@ export class Photobooth extends Server{
 
 	}
 
-	async produceCustomVideo(data: Record<string, any>): Promise<httpResponse>{
+	async produceCustomVideo(data: string): Promise<httpResponse>{
 
 		const produceCustomVideo = await webHttpMethods.produceCustomVideo(this, data);
 

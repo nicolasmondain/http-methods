@@ -41,7 +41,7 @@ const webHttpProduction: httpMethodsModule = {
 
 	},
 
-	produceCustomVideo(photobooth: Photobooth, data: Record<string, any>): Promise<httpResponse>{
+	produceCustomVideo(photobooth: Photobooth, data: string): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
