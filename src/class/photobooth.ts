@@ -571,13 +571,13 @@ export class Photobooth extends Server{
 
 	}
 
-	async whatIsInDirectory(directory: string): Promise<httpResponse>{
+	async whatIsInDirectoryJson(directory: string): Promise<httpResponse>{
 
-		const whatIsInDirectory = await webHttpMethods.whatIsInDirectory(this, directory);
+		const whatIsInDirectoryJson = await webHttpMethods.whatIsInDirectoryJson(this, directory);
 
-		this.httpResponseCheck(whatIsInDirectory);
+		this.httpResponseCheck(whatIsInDirectoryJson);
 
-		return whatIsInDirectory;
+		return whatIsInDirectoryJson;
 
 	}
 

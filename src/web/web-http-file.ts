@@ -255,12 +255,12 @@ const webHttpFile: httpMethodsModule = {
 
 	},
 
-	whatIsInDirectory(photobooth: Photobooth, directory: string): Promise<httpResponse>{
+	whatIsInDirectoryJson(photobooth: Photobooth, directory: string): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.post(`${photobooth.url}/whatIsInDirectory/`, qs.stringify({directory}), axiosConfig)
+			.post(`${photobooth.url}/whatIsInDirectoryJson/`, qs.stringify({directory}), axiosConfig)
 			.then((response) => {
 
 				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
