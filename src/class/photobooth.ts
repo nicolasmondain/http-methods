@@ -123,7 +123,7 @@ export class Photobooth extends Server{
 	private init1(responses: Array<httpResponse>, params: EventEngineURLParams): void{
 
 		this.id = Number(params.idBooth);
-		this.os = Object.assign(this.os, {name: responses[4].data.toLowerCase()});
+		this.os = Object.assign({}, this.os, {name: responses[4].data.toLowerCase()});
 
 		this.screen.width       = Number(params.width);
 		this.screen.height      = Number(params.height);
@@ -235,7 +235,7 @@ export class Photobooth extends Server{
 
 	}
 
-	hasPrinter(): boolean{
+	hasPrinter(){
 
 		return this.printers.length > 0;
 
@@ -538,6 +538,36 @@ export class Photobooth extends Server{
 		this.httpResponseCheck(doesFileExist);
 
 		return doesFileExist;
+
+	}
+
+	async rotate(file: EventEngineMedia, angle: number): Promise<httpResponse>{
+
+		const rotate = await webHttpMethods.rotate(this, file, angle);
+
+		this.httpResponseCheck(rotate);
+
+		return rotate;
+
+	}
+
+	async flip(file: EventEngineMedia): Promise<httpResponse>{
+
+		const flip = await webHttpMethods.flip(this, file);
+
+		this.httpResponseCheck(flip);
+
+		return flip;
+
+	}
+
+	async flop(file: EventEngineMedia): Promise<httpResponse>{
+
+		const flop = await webHttpMethods.flop(this, file);
+
+		this.httpResponseCheck(flop);
+
+		return flop;
 
 	}
 

@@ -152,6 +152,106 @@ const webHttpFile: httpMethodsModule = {
 
 	},
 
+	rotate(photobooth: Photobooth, file: EventEngineMedia, angle: number): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${photobooth.url}/rotate/`, qs.stringify({
+
+				file: file.path,
+				angle
+
+			}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
+
+			})
+			.catch((error) => {
+
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
+
+			});
+
+		});
+
+	},
+
+	flip(photobooth: Photobooth, file: EventEngineMedia): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${photobooth.url}/Flip/`, qs.stringify({
+
+				file: file.path
+
+			}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
+
+			})
+			.catch((error) => {
+
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
+
+			});
+
+		});
+
+	},
+
+	flop(photobooth: Photobooth, file: EventEngineMedia): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.post(`${photobooth.url}/Flop/`, qs.stringify({
+
+				file: file.path
+
+			}), axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
+
+			})
+			.catch((error) => {
+
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
+
+			});
+
+		});
+
+	},
+
 	writeTextFileInSession(photobooth: Photobooth, id: string, file: EventEngineMedia, text: string): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
