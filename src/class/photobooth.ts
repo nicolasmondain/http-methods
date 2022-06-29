@@ -263,9 +263,9 @@ export class Photobooth extends Server{
 
 	}
 
-	async callPrinters(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<unknown>>{ // eslint-disable-line no-unused-vars
+	async callPrinters(call: (args: any) => Promise<httpResponse>, args: any): Promise<Array<unknown>>{ // eslint-disable-line no-unused-vars
 
-		const callPrinters = await Promise.all(this.printers.filter(() => call).map((e) => call.bind(e)(args)));
+		const callPrinters = await Promise.all(this.printers.filter(() => call).map((e) => call.bind(e).apply(e, args)));
 
 		this.httpResponsesCheck(callPrinters);
 
@@ -334,9 +334,9 @@ export class Photobooth extends Server{
 
 	}
 
-	async callCameras(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<httpResponse>>{ // eslint-disable-line no-unused-vars
+	async callCameras(call: (args: any) => Promise<httpResponse>, args: any): Promise<Array<httpResponse>>{ // eslint-disable-line no-unused-vars
 
-		const callCameras = await Promise.all(this.cameras.filter(() => call).map((e) => call.bind(e)(args)));
+		const callCameras = await Promise.all(this.cameras.filter(() => call).map((e) => call.bind(e).apply(e, args)));
 
 		this.httpResponsesCheck(callCameras);
 
@@ -428,9 +428,9 @@ export class Photobooth extends Server{
 
 	}
 
-	async callRecorders(call: (args:any) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<httpResponse>>{ // eslint-disable-line no-unused-vars
+	async callRecorders(call: (args: any) => Promise<httpResponse>, args: any): Promise<Array<httpResponse>>{ // eslint-disable-line no-unused-vars
 
-		const callRecorders = await Promise.all(this.recorders.filter(() => call).map((e) => call.bind(e)(args)));
+		const callRecorders = await Promise.all(this.recorders.filter(() => call).map((e) => call.bind(e).apply(e, args)));
 
 		this.httpResponsesCheck(callRecorders);
 
