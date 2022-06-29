@@ -23,4 +23,14 @@ export class CameraIos extends Camera{
 
 	}
 
+	async setOrientation(orientation: string): Promise<httpResponse>{
+
+		const setOrientation = await streamHttpMethods.setOrientation(this, orientation);
+
+		this.httpResponseCheck(setOrientation);
+
+		return setOrientation;
+
+	}
+
 }

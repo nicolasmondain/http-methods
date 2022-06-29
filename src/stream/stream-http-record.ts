@@ -100,6 +100,35 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
+	setOrientation(camera: Camera, orientation: string): Promise<httpResponse>{
+
+		return new Promise((resolve, reject) => {
+
+			axios
+			.get(`${camera.url}/setOrientation/${orientation[0].toUpperCase() + orientation.slice(1).toLowerCase()}/`, axiosConfig)
+			.then((response) => {
+
+				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));
+
+			})
+			.catch((error) => {
+
+				if(axios.isAxiosError(error)){
+
+					resolve(httpStatus.formatResponse(SERVICE_UNAVAILABLE, null, error, httpStatus.formatResponseConfig(error, FORMAT_RESPONSE_SOURCE)));
+
+				}else{
+
+					reject(error);
+
+				}
+
+			});
+
+		});
+
+	},
+
 	startRecording(camera: Camera, folder: string, file: EventEngineMedia, preview?: EventEngineMedia): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {

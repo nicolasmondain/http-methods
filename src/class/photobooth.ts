@@ -390,6 +390,7 @@ export class Photobooth extends Server{
 		let setRecordingModeOn:Array<httpResponse>  = [];
 		let setRecordingModeOff:Array<httpResponse> = [];
 		let setSlowmotion:Array<httpResponse>       = [];
+		let setOrientation:Array<httpResponse>      = [];
 
 		if(this.os?.name === 'windows'){
 
@@ -399,7 +400,7 @@ export class Photobooth extends Server{
 
 			}else if(this.hasRecorder() && this.recorders[0] instanceof CameraEos){
 
-				setRecordingModeOff = await this.callRecorders(this.recorders[0].setRecordingModeOff, []); // le set Recording ModeOff doit être appelé dans tous les cas en fin de session et le on en debut de session.
+				setRecordingModeOff = await this.callRecorders(this.recorders[0].setRecordingModeOff, []);
 
 			}
 
@@ -411,9 +412,15 @@ export class Photobooth extends Server{
 
 			}
 
+			if(need.orientation && this.hasRecorder() && this.recorders[0] instanceof CameraIos){
+
+				setOrientation = await this.callRecorders(this.recorders[0].setOrientation, [need.orientation]);
+
+			}
+
 		}
 
-		const prepareRecorders = setRecordingModeOn.concat(setRecordingModeOff, setSlowmotion);
+		const prepareRecorders = setRecordingModeOn.concat(setRecordingModeOff, setSlowmotion, setOrientation);
 
 		this.httpResponsesCheck(prepareRecorders);
 
@@ -421,7 +428,7 @@ export class Photobooth extends Server{
 
 	}
 
-	async callRecorders(call: (args: Array<unknown>) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<httpResponse>>{ // eslint-disable-line no-unused-vars
+	async callRecorders(call: (args:any) => Promise<httpResponse>, args: Array<unknown>): Promise<Array<httpResponse>>{ // eslint-disable-line no-unused-vars
 
 		const callRecorders = await Promise.all(this.recorders.filter(() => call).map((e) => call.bind(e)(args)));
 
