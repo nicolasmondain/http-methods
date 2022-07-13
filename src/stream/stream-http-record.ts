@@ -164,12 +164,17 @@ const streamHttpRecord: httpMethodsModule = {
 
 	},
 
-	stopRecording(camera: Camera, clear = false): Promise<httpResponse>{
+	stopRecording(camera: Camera, folder: string, file: EventEngineMedia, clear = false): Promise<httpResponse>{
 
 		return new Promise((resolve, reject) => {
 
 			axios
-			.get(`${camera.url}/stopRecording/ByName/${camera.name}${clear ? '/delete' : ''}`, axiosConfig)
+			.post(`${camera.url}/startRecording/ByName/${camera.name}${clear ? '/delete' : ''}`, qs.stringify({
+
+				folder,
+				filename: file.name
+
+			}), axiosConfig)
 			.then((response) => {
 
 				resolve(httpStatus.formatResponse(response.status, response.data, null, httpStatus.formatResponseConfig(response, FORMAT_RESPONSE_SOURCE)));

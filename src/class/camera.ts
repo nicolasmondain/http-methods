@@ -281,9 +281,9 @@ export class Camera extends Server{
 
 	}
 
-	async stopRecording(clear = false): Promise<httpResponse>{
+	async stopRecording(folder: string, file: EventEngineMedia, clear = false): Promise<httpResponse>{
 
-		const stopRecording = await streamHttpMethods.stopRecording(this, clear);
+		const stopRecording = await streamHttpMethods.stopRecording(this, folder, file, clear);
 
 		this.httpResponseCheck(stopRecording);
 
