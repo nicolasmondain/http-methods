@@ -1,0 +1,38 @@
+image: node:14.17.3
+
+pipelines:
+  branches:
+    master:
+      - step:
+          name: Commit
+          script:
+            - pwd ls -al
+      - step:
+          name: Launch pipelines
+          caches:
+              - node
+          trigger: manual
+          script:
+            - npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+            - npm install
+      - step:
+          name: Build
+          caches:
+              - node
+          trigger: manual
+          script:
+            - npm run webpack
+      - step:
+          name: Login & Publish package (npmjs.com)
+          caches:
+            - node
+          deployment: production
+          trigger: manual
+          script:
+            - printf "//`node -p \"require('url').parse(process.env.NPM_REGISTRY_URL).host\"`/:_authToken=${NPM_TOKEN}\nregistry=${NPM_REGISTRY_URL}\n" >> ~/.npmrc
+            - npm publish
+  default:
+    - step:
+        name: Commit (default)
+        script:
+          - echo "Branch $BITBUCKET_BRANCH can not be processed."

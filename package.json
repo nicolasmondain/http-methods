@@ -1,0 +1,84 @@
+{
+  "name": "@sharingbox/http-methods",
+  "version": "1.2.95",
+  "description": "HTTP (JavaScript) methods to communicate with the eventManager by sharingbox servers",
+  "main": "dist/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "clean": "rimraf ./dist && mkdir dist",
+    "test:web:local": "env PHOTOBOOTH=LOCAL mocha -p false -r ts-node/register test/web*.test.ts",
+    "test:web": "npm run test:web:local",
+    "test:print:dnp": "env PRINTER=DNP mocha -p false  -r ts-node/register test/print.test.ts",
+    "test:print": "npm run test:print:dnp",
+    "test:stream:webcam": "env CAMERA=WEBCAM mocha -p false -r ts-node/register test/stream*.test.ts",
+    "test:stream:eos": "env CAMERA=EOS mocha -p false -r ts-node/register test/stream*.test.ts",
+    "test:stream": "npm run test:stream:webcam & npm run test:stream:eos",
+    "test": "npm run test:print & npm run test:stream & npm run test:web",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "webpack": "node webpack/build.js"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolasmondain/http-methods.git"
+  },
+  "author": "nicolasmondain",
+  "license": "MIT",
+  "keywords": [
+    "http",
+    "server",
+    "eventManager",
+    "sharingbox",
+    "hardware"
+  ],
+  "bugs": {
+    "url": "https://github.com/nicolasmondain/http-methods/issues"
+  },
+  "homepage": "https://github.com/nicolasmondain/http-methods#readme",
+  "devDependencies": {
+    "@babel/core": "7.16.0",
+    "@babel/node": "7.16.0",
+    "@babel/preset-env": "7.16.0",
+    "@sharingbox/eslint-config": "2.0.28",
+    "@types/chai": "4.2.22",
+    "@types/chai-as-promised": "7.1.4",
+    "@types/jsdom": "16.2.14",
+    "@types/mocha": "9.0.0",
+    "@types/node": "16.11.7",
+    "@types/qs": "6.9.7",
+    "@typescript-eslint/eslint-plugin": "5.3.1",
+    "@typescript-eslint/parser": "5.3.1",
+    "babel-loader": "8.2.3",
+    "chai": "4.3.4",
+    "chai-as-promised": "7.1.1",
+    "eslint": "8.2.0",
+    "eslint-plugin-import": "2.25.4",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-promise": "6.0.0",
+    "jsdom": "19.0.0",
+    "jsdom-global": "3.0.2",
+    "mocha": "9.2.0",
+    "npm-run-all": "4.1.5",
+    "ts-loader": "9.2.6",
+    "ts-node": "10.4.0",
+    "typescript": "4.4.4",
+    "webpack": "5.62.1",
+    "webpack-cli": "4.9.1",
+    "webpack-dev-server": "4.4.0",
+    "webpack-merge": "5.8.0",
+    "webpack-node-externals": "3.0.0"
+  },
+  "dependencies": {
+    "@sharingbox/http-status": "1.1.12",
+    "axios": "0.24.0",
+    "bowser": "2.11.0",
+    "http-status": "1.5.0",
+    "qs": "6.10.1"
+  }
+}
