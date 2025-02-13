@@ -1,4 +1,4 @@
-# @sharingbox/http-methods
+# http-methods
 
 HTTP (JavaScript) methods to communicate with the eventManager by sharingbox servers.
 *This package is public but remains intended for internal use (requires the servers of the eventManager by sharingbox application in order to communicate with the hardware).*
