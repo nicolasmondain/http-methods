@@ -15,11 +15,10 @@ import {Printer, Camera, Photobooth} from '@sharingbox/http-methods';
 
 const printer    = new Printer(PRINTER_SERVER, PRINTER_OPTIONS);
 const camera     = new Camera(CAMERA_SERVER, CAMERA_OPTIONS);
-const photobooth = new Printer(PHOTOBOOTH_SERVER);
+const photobooth = new Photobooth(PHOTOBOOTH_SERVER);
 
 await camera.startLiveView();
 await camera.shootAndWait(file);
-
 await printer.print(file, 1);
 
 ```
